@@ -3,26 +3,26 @@ import { Debate } from "./types";
 // In-memory store for scaffolding — replace with DB (Postgres/Supabase) in production
 const debates: Map<string, Debate> = new Map([
   [
-    "pilot-001",
+    "israel-001",
     {
-      id: "pilot-001",
-      title: "Should AI be regulated?",
-      topic: "Artificial Intelligence Regulation",
+      id: "israel-001",
+      title: "Does Israel Have the Right to Exist?",
+      topic: "Israel & the Middle East",
       description:
-        "Two leading minds clash on whether governments should impose strict controls on AI development — or let innovation run free.",
-      scheduledAt: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toISOString(),
+        "Two of America's most polarizing political voices go head to head on one of the most contested questions of our time. No moderator. No filter. You decide who wins.",
+      scheduledAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(),
       status: "upcoming",
       debaterA: {
-        id: "debater-a",
-        name: "Alex Chen",
-        position: "FOR regulation",
-        charity: "Electronic Frontier Foundation",
+        id: "debater-shapiro",
+        name: "Ben Shapiro",
+        position: "FOR",
+        charity: "Friends of the Israel Defense Forces",
       },
       debaterB: {
-        id: "debater-b",
-        name: "Jordan Walsh",
-        position: "AGAINST regulation",
-        charity: "Khan Academy",
+        id: "debater-aoc",
+        name: "Alexandria Ocasio-Cortez",
+        position: "AGAINST",
+        charity: "UNRWA USA",
       },
       votesA: 0,
       votesB: 0,
