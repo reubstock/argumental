@@ -6,7 +6,6 @@ import {
   VideoConference,
   RoomAudioRenderer,
 } from "@livekit/components-react";
-import "@livekit/components-styles";
 import { Debate } from "@/lib/types";
 
 interface Props {
