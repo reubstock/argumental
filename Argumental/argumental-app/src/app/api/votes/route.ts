@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { stripe, VOTE_PRICE_CENTS } from "@/lib/stripe";
-import { pusherServer, debateChannel, VOTE_EVENT } from "@/lib/pusher";
+import { getStripe, VOTE_PRICE_CENTS } from "@/lib/stripe";
+import { getPusherServer, debateChannel, VOTE_EVENT } from "@/lib/pusher";
 import { incrementVote } from "@/lib/debates";
 
 // Step 1: Create a Stripe PaymentIntent for a $5 vote
@@ -11,7 +11,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Invalid request" }, { status: 400 });
   }
 
-  const paymentIntent = await stripe.paymentIntents.create({
+  const paymentIntent = await getStripe().paymentIntents.create({
     amount: VOTE_PRICE_CENTS,
     currency: "usd",
     metadata: { debateId, votedFor },
@@ -28,7 +28,7 @@ export async function PUT(req: NextRequest) {
   const updated = incrementVote(debateId, votedFor as "A" | "B");
   if (!updated) return NextResponse.json({ error: "Debate not found" }, { status: 404 });
 
-  await pusherServer.trigger(debateChannel(debateId), VOTE_EVENT, {
+  await getPusherServer().trigger(debateChannel(debateId), VOTE_EVENT, {
     votesA: updated.votesA,
     votesB: updated.votesB,
     total: updated.votesA + updated.votesB,
