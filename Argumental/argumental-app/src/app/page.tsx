@@ -86,6 +86,29 @@ export default function HomePage() {
                 debaterBName={featured.debaterB.name}
                 debaterBPhoto="/aoc.jpg"
               />
+
+              {/* Summon Posse */}
+              <div className="flex items-center gap-2 px-1">
+                <span className="bg-zinc-900 text-white font-black text-sm uppercase tracking-widest px-5 py-2.5 rounded-xl">
+                  SUMMON POSSE
+                </span>
+                <a
+                  href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent("https://argumental.vercel.app")}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="bg-blue-600 hover:bg-blue-500 text-white font-black text-xs px-3 py-2.5 rounded-lg transition"
+                >
+                  Meta
+                </a>
+                <a
+                  href={`https://twitter.com/intent/tweet?text=${encodeURIComponent("Ben Shapiro vs AOC — Does Israel Have the Right to Exist? Watch live on Argumental 🥊")}&url=${encodeURIComponent("https://argumental.vercel.app")}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="bg-black hover:bg-zinc-800 text-white font-black text-xs px-3 py-2.5 rounded-lg transition border border-zinc-700"
+                >
+                  𝕏
+                </a>
+              </div>
             </div>
 
           </div>
