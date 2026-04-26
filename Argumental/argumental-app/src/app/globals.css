@@ -17,3 +17,12 @@ body {
   color: #0f0f0f;
   font-family: Arial, Helvetica, sans-serif;
 }
+
+@keyframes bell-ring {
+  0%,100% { transform: rotate(0deg); transform-origin: top center; }
+  10%,50%,90% { transform: rotate(-18deg); transform-origin: top center; }
+  30%,70% { transform: rotate(18deg); transform-origin: top center; }
+}
+.animate-bell-ring {
+  animation: bell-ring 0.5s ease-in-out infinite;
+}
