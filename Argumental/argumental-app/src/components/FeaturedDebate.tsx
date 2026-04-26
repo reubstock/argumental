@@ -105,30 +105,28 @@ export default function FeaturedDebate({ debate }: { debate: Debate }) {
         {/* Video row — thermometers stretch to exact video height */}
         <div className="flex gap-3 items-stretch">
 
-          {/* Thermometers — fill the same height as the video */}
-          <div className="flex gap-2 shrink-0">
-            {/* Shapiro — red */}
-            <div className="flex flex-col items-center gap-1.5">
-              <span className="text-red-600 font-black text-xl tabular-nums leading-none">${votesA}</span>
-              <div className="w-7 flex-1 bg-zinc-200 rounded-full overflow-hidden flex flex-col justify-end">
-                <div
-                  className="bg-red-500 w-full rounded-full transition-all duration-300 ease-out"
-                  style={{ height: `${pctA}%` }}
-                />
-              </div>
-              <span className="text-zinc-400 text-[10px] font-black uppercase">A</span>
+          {/* Thermometers — tubes fill video height, totals float above */}
+          <div className="flex gap-2 shrink-0 relative">
+            {/* Dollar totals sit above the tube area */}
+            <div className="absolute bottom-full left-0 right-0 flex gap-2 pb-1">
+              <span className="flex-1 text-center text-red-600 font-black text-xl tabular-nums leading-none">${votesA}</span>
+              <span className="flex-1 text-center text-blue-600 font-black text-xl tabular-nums leading-none">${votesB}</span>
             </div>
 
-            {/* AOC — blue */}
-            <div className="flex flex-col items-center gap-1.5">
-              <span className="text-blue-600 font-black text-xl tabular-nums leading-none">${votesB}</span>
-              <div className="w-7 flex-1 bg-zinc-200 rounded-full overflow-hidden flex flex-col justify-end">
-                <div
-                  className="bg-blue-500 w-full rounded-full transition-all duration-300 ease-out"
-                  style={{ height: `${pctB}%` }}
-                />
-              </div>
-              <span className="text-zinc-400 text-[10px] font-black uppercase">B</span>
+            {/* Shapiro — red tube */}
+            <div className="w-7 self-stretch bg-zinc-200 rounded-full overflow-hidden flex flex-col justify-end">
+              <div
+                className="bg-red-500 w-full rounded-full transition-all duration-300 ease-out"
+                style={{ height: `${pctA}%` }}
+              />
+            </div>
+
+            {/* AOC — blue tube */}
+            <div className="w-7 self-stretch bg-zinc-200 rounded-full overflow-hidden flex flex-col justify-end">
+              <div
+                className="bg-blue-500 w-full rounded-full transition-all duration-300 ease-out"
+                style={{ height: `${pctB}%` }}
+              />
             </div>
           </div>
 
