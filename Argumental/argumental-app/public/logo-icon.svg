@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 115" fill="black">
+  <!-- Left figure — body forms left leg of the A -->
+  <circle cx="30" cy="15" r="10"/>
+  <polygon points="21,25 39,25 23,102 7,102"/>
+  <!-- Right arm reaching to handshake -->
+  <polygon points="35,57 55,68 53,74 31,63"/>
+
+  <!-- Right figure — body forms right leg of the A -->
+  <circle cx="70" cy="15" r="10"/>
+  <polygon points="61,25 79,25 93,102 77,102"/>
+  <!-- Left arm reaching to handshake -->
+  <polygon points="65,57 45,68 47,74 69,63"/>
+
+  <!-- Clasped hands — crossbar of the A -->
+  <ellipse cx="50" cy="71" rx="10" ry="6"/>
+</svg>
