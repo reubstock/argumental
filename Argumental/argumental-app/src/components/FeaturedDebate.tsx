@@ -63,7 +63,8 @@ export default function FeaturedDebate({ debate }: { debate: Debate }) {
 
           {/* Call Help — just above View Debate */}
           <div className="flex items-center gap-3 mt-auto">
-            <span className="bg-zinc-900 text-white font-black text-xs uppercase tracking-widest px-3 py-2 rounded-lg">
+            {/* CALL HELP label + social icons pushed left */}
+            <span className="bg-pink-500 text-white font-black text-xs uppercase tracking-widest px-3 py-2 rounded-lg">
               CALL HELP
             </span>
             <a
@@ -88,6 +89,23 @@ export default function FeaturedDebate({ debate }: { debate: Debate }) {
                 <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.253 5.622 5.911-5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
               </svg>
             </a>
+
+            {/* Life-saver icon — ml-auto pushes it to the right */}
+            <span className="ml-auto" title="Call for help">
+              <svg width="36" height="36" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+                {/* Red base ring */}
+                <circle cx="20" cy="20" r="18" fill="#DC2626"/>
+                {/* White NE quadrant of ring */}
+                <path d="M20,2 A18,18 0 0,1 38,20 L30,20 A10,10 0 0,0 20,10 Z" fill="white"/>
+                {/* White SW quadrant of ring */}
+                <path d="M20,38 A18,18 0 0,1 2,20 L10,20 A10,10 0 0,0 20,30 Z" fill="white"/>
+                {/* White center hole */}
+                <circle cx="20" cy="20" r="10" fill="white"/>
+                {/* Subtle ring outline for definition */}
+                <circle cx="20" cy="20" r="18" fill="none" stroke="#B91C1C" strokeWidth="1"/>
+                <circle cx="20" cy="20" r="10" fill="none" stroke="#B91C1C" strokeWidth="0.75"/>
+              </svg>
+            </span>
           </div>
 
           <Link
