@@ -102,15 +102,15 @@ export default function FeaturedDebate({ debate }: { debate: Debate }) {
       {/* Right: thermometers sit left of video, bottom-aligned, protruding above */}
       <div className="flex-1 min-w-0 flex flex-col gap-4">
 
-        {/* Video row — thermometers + video, aligned at bottom */}
-        <div className="flex gap-3 items-end">
+        {/* Video row — thermometers stretch to exact video height */}
+        <div className="flex gap-3 items-stretch">
 
-          {/* Thermometers — bottom flush with video bottom, -mt pulls top above video */}
-          <div className="flex gap-2 shrink-0 -mt-14">
+          {/* Thermometers — fill the same height as the video */}
+          <div className="flex gap-2 shrink-0">
             {/* Shapiro — red */}
             <div className="flex flex-col items-center gap-1.5">
-              <span className="text-red-600 font-black text-xs tabular-nums">${votesA}</span>
-              <div className="w-7 h-80 bg-zinc-200 rounded-full overflow-hidden flex flex-col justify-end">
+              <span className="text-red-600 font-black text-xl tabular-nums leading-none">${votesA}</span>
+              <div className="w-7 flex-1 bg-zinc-200 rounded-full overflow-hidden flex flex-col justify-end">
                 <div
                   className="bg-red-500 w-full rounded-full transition-all duration-300 ease-out"
                   style={{ height: `${pctA}%` }}
@@ -121,8 +121,8 @@ export default function FeaturedDebate({ debate }: { debate: Debate }) {
 
             {/* AOC — blue */}
             <div className="flex flex-col items-center gap-1.5">
-              <span className="text-blue-600 font-black text-xs tabular-nums">${votesB}</span>
-              <div className="w-7 h-80 bg-zinc-200 rounded-full overflow-hidden flex flex-col justify-end">
+              <span className="text-blue-600 font-black text-xl tabular-nums leading-none">${votesB}</span>
+              <div className="w-7 flex-1 bg-zinc-200 rounded-full overflow-hidden flex flex-col justify-end">
                 <div
                   className="bg-blue-500 w-full rounded-full transition-all duration-300 ease-out"
                   style={{ height: `${pctB}%` }}
