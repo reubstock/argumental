@@ -135,26 +135,34 @@ export default function FeaturedDebate({ debate }: { debate: Debate }) {
           </div>
         </div>
 
-        {/* Summon Posse */}
-        <div className="flex items-center gap-2 px-1">
+        {/* Call Help */}
+        <div className="flex items-center gap-3 px-1">
           <span className="bg-zinc-900 text-white font-black text-sm uppercase tracking-widest px-5 py-2.5 rounded-xl">
-            SUMMON POSSE
+            CALL HELP
           </span>
+          {/* Meta / Facebook */}
           <a
             href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent("https://argumental.vercel.app")}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="bg-blue-600 hover:bg-blue-500 text-white font-black text-xs px-3 py-2.5 rounded-lg transition"
+            className="hover:opacity-70 transition"
+            aria-label="Share on Facebook"
           >
-            Meta
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="#1877F2" xmlns="http://www.w3.org/2000/svg">
+              <path d="M24 12.073C24 5.404 18.627 0 12 0S0 5.404 0 12.073C0 18.1 4.388 23.094 10.125 24v-8.437H7.078v-3.49h3.047V9.41c0-3.025 1.792-4.697 4.533-4.697 1.312 0 2.686.236 2.686.236v2.97h-1.513c-1.491 0-1.956.93-1.956 1.883v2.27h3.328l-.532 3.49h-2.796V24C19.612 23.094 24 18.1 24 12.073z"/>
+            </svg>
           </a>
+          {/* X / Twitter */}
           <a
             href={`https://twitter.com/intent/tweet?text=${encodeURIComponent("Ben Shapiro vs AOC — Does Israel Have the Right to Exist? Watch live on Argumental 🥊")}&url=${encodeURIComponent("https://argumental.vercel.app")}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="bg-black hover:bg-zinc-800 text-white font-black text-xs px-3 py-2.5 rounded-lg transition border border-zinc-700"
+            className="hover:opacity-70 transition"
+            aria-label="Share on X"
           >
-            𝕏
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="#000000" xmlns="http://www.w3.org/2000/svg">
+              <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.253 5.622 5.911-5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+            </svg>
           </a>
         </div>
 
