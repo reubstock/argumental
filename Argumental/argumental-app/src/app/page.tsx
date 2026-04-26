@@ -1,7 +1,7 @@
 import Link from "next/link";
-import Image from "next/image";
 import { getAllDebates } from "@/lib/debates";
 import VideoPlayer from "@/components/VideoPlayer";
+import VoteSection from "@/components/VoteSection";
 
 export default function HomePage() {
   const debates = getAllDebates();
@@ -80,28 +80,12 @@ export default function HomePage() {
                 />
               </div>
 
-              {/* Debater vote row */}
-              <div className="flex justify-between items-center px-1 gap-4">
-                {/* Shapiro — left */}
-                <div className="flex items-center gap-2">
-                  <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-red-500 shrink-0">
-                    <Image src="/shapiro.jpg" alt={featured.debaterA.name} width={48} height={48} className="w-full h-full object-cover object-top" />
-                  </div>
-                  <span className="bg-red-600 text-white font-black text-sm uppercase px-4 py-2 rounded-lg">VOTE</span>
-                  <button className="bg-yellow-400 hover:bg-yellow-300 text-black font-black text-xs uppercase px-3 py-2 rounded-lg transition">$1</button>
-                  <button className="bg-green-500 hover:bg-green-400 text-white font-black text-xs uppercase px-3 py-2 rounded-lg transition">$5</button>
-                </div>
-
-                {/* AOC — right */}
-                <div className="flex items-center gap-2">
-                  <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-blue-500 shrink-0">
-                    <Image src="/aoc.jpg" alt={featured.debaterB.name} width={48} height={48} className="w-full h-full object-cover object-top" />
-                  </div>
-                  <span className="bg-blue-600 text-white font-black text-sm uppercase px-4 py-2 rounded-lg">VOTE</span>
-                  <button className="bg-yellow-400 hover:bg-yellow-300 text-black font-black text-xs uppercase px-3 py-2 rounded-lg transition">$1</button>
-                  <button className="bg-green-500 hover:bg-green-400 text-white font-black text-xs uppercase px-3 py-2 rounded-lg transition">$5</button>
-                </div>
-              </div>
+              <VoteSection
+                debaterAName={featured.debaterA.name}
+                debaterAPhoto="/shapiro.jpg"
+                debaterBName={featured.debaterB.name}
+                debaterBPhoto="/aoc.jpg"
+              />
             </div>
 
           </div>
