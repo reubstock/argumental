@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 268 52" fill="none">
+
+  <!-- Icon: two voices curving toward a shared center point -->
+  <!-- Left arc — one voice -->
+  <path d="M 21,4 Q 3,26 21,48" stroke="black" stroke-width="8.5" stroke-linecap="round"/>
+  <!-- Right arc — other voice -->
+  <path d="M 37,4 Q 55,26 37,48" stroke="black" stroke-width="8.5" stroke-linecap="round"/>
+  <!-- Meeting bar — the common ground, yellow accent -->
+  <rect x="24.5" y="16" width="9" height="20" rx="1.5" fill="#FBBF24"/>
+
+  <!-- Wordmark -->
+  <text
+    x="67"
+    y="35"
+    font-family="'Arial Black', 'Helvetica Neue', Arial, sans-serif"
+    font-weight="900"
+    font-size="20"
+    letter-spacing="2"
+    fill="black"
+  >ARGUMENTAL</text>
+
+</svg>

@@ -18,13 +18,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className="min-h-full flex flex-col bg-white text-zinc-900">
         <nav className="border-b border-zinc-200 px-6 py-4 flex items-center justify-between">
           <Link href="/" className="flex items-center">
-            <Image
-              src="/logo.png"
+            <img
+              src="/logo.svg"
               alt="Argumental"
-              width={280}
-              height={90}
-              className="h-20 w-auto object-contain"
-              priority
+              className="h-10 w-auto"
             />
           </Link>
           <div className="flex items-center gap-3 text-sm font-medium">
