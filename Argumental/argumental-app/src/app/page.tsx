@@ -1,7 +1,5 @@
-import Link from "next/link";
 import { getAllDebates } from "@/lib/debates";
-import VideoPlayer from "@/components/VideoPlayer";
-import VoteSection from "@/components/VoteSection";
+import FeaturedDebate from "@/components/FeaturedDebate";
 
 export default function HomePage() {
   const debates = getAllDebates();
@@ -13,105 +11,7 @@ export default function HomePage() {
       {featured && (
         <section className="relative border-b border-zinc-200 px-6 pt-8 pb-10 overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-b from-yellow-400/5 to-transparent pointer-events-none" />
-          <div className="max-w-6xl mx-auto flex flex-col lg:flex-row gap-6 items-stretch">
-
-            {/* Info card — left */}
-            <div className="lg:w-72 flex flex-col gap-4 shrink-0">
-              <div className="bg-zinc-100 border border-zinc-200 rounded-2xl p-6 flex flex-col gap-4 h-full">
-                <div>
-                  <p className="text-yellow-600 text-xs uppercase tracking-widest font-semibold mb-2">
-                    Featured Bout
-                  </p>
-                  <h2 className="text-zinc-900 font-black text-xl leading-tight">
-                    {featured.title}
-                  </h2>
-                  <p className="text-zinc-600 text-sm mt-3 leading-relaxed">
-                    {featured.description}
-                  </p>
-                </div>
-
-                <div className="border-t border-zinc-200 pt-4 flex flex-col gap-2 text-sm">
-                  <div className="flex justify-between text-zinc-500">
-                    <span>Format</span>
-                    <span className="text-zinc-700">4 phases · 25 min</span>
-                  </div>
-                  <div className="flex justify-between text-zinc-500">
-                    <span>Vote cost</span>
-                    <span className="text-zinc-700">$5 per vote</span>
-                  </div>
-                  <div className="flex justify-between text-zinc-500">
-                    <span>Charity cut</span>
-                    <span className="text-zinc-700">10% to winner&apos;s pick</span>
-                  </div>
-                  <div className="flex justify-between text-zinc-500">
-                    <span>Date</span>
-                    <span className="text-zinc-700">
-                      {new Date(featured.scheduledAt).toLocaleDateString("en-US", {
-                        month: "short",
-                        day: "numeric",
-                        year: "numeric",
-                      })}
-                    </span>
-                  </div>
-                </div>
-
-                <Link
-                  href={`/debates/${featured.id}`}
-                  className="mt-auto bg-yellow-400 hover:bg-yellow-300 text-black font-bold py-3 rounded-xl text-center transition"
-                >
-                  {featured.status === "live" ? "Watch & Vote Now" : "View Debate"}
-                </Link>
-              </div>
-            </div>
-
-            {/* Video + vote buttons — right */}
-            <div className="flex-1 min-w-0 flex flex-col gap-4">
-              {/* Video window */}
-              <div className="relative">
-                <VideoPlayer
-                  youtubeId="YQ7IudJBpf0"
-                  debaterAName={featured.debaterA.name}
-                  debaterAPhoto="/shapiro.jpg"
-                  debaterAPosition={featured.debaterA.position}
-                  debaterBName={featured.debaterB.name}
-                  debaterBPhoto="/aoc.jpg"
-                  debaterBPosition={featured.debaterB.position}
-                  isLive={featured.status === "live"}
-                />
-              </div>
-
-              <VoteSection
-                debaterAName={featured.debaterA.name}
-                debaterAPhoto="/shapiro.jpg"
-                debaterBName={featured.debaterB.name}
-                debaterBPhoto="/aoc.jpg"
-              />
-
-              {/* Summon Posse */}
-              <div className="flex items-center gap-2 px-1">
-                <span className="bg-zinc-900 text-white font-black text-sm uppercase tracking-widest px-5 py-2.5 rounded-xl">
-                  SUMMON POSSE
-                </span>
-                <a
-                  href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent("https://argumental.vercel.app")}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="bg-blue-600 hover:bg-blue-500 text-white font-black text-xs px-3 py-2.5 rounded-lg transition"
-                >
-                  Meta
-                </a>
-                <a
-                  href={`https://twitter.com/intent/tweet?text=${encodeURIComponent("Ben Shapiro vs AOC — Does Israel Have the Right to Exist? Watch live on Argumental 🥊")}&url=${encodeURIComponent("https://argumental.vercel.app")}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="bg-black hover:bg-zinc-800 text-white font-black text-xs px-3 py-2.5 rounded-lg transition border border-zinc-700"
-                >
-                  𝕏
-                </a>
-              </div>
-            </div>
-
-          </div>
+          <FeaturedDebate debate={featured} />
         </section>
       )}
 
@@ -135,7 +35,7 @@ export default function HomePage() {
             </div>
           ))}
         </div>
-        <p className="text-center text-zinc-500 mt-6 text-sm" >
+        <p className="text-center text-zinc-500 mt-6 text-sm">
           Each phase is timed. Total bout: 25 minutes.
         </p>
       </section>
