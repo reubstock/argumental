@@ -89,7 +89,7 @@ export default function HomePage() {
                   </div>
                   <span className="bg-red-600 text-white font-black text-sm uppercase px-4 py-2 rounded-lg">VOTE</span>
                   <button className="bg-yellow-400 hover:bg-yellow-300 text-black font-black text-xs uppercase px-3 py-2 rounded-lg transition">$1</button>
-                  <button className="bg-yellow-400 hover:bg-yellow-300 text-black font-black text-xs uppercase px-3 py-2 rounded-lg transition">$5</button>
+                  <button className="bg-green-500 hover:bg-green-400 text-white font-black text-xs uppercase px-3 py-2 rounded-lg transition">$5</button>
                 </div>
 
                 {/* AOC — right */}
@@ -99,7 +99,7 @@ export default function HomePage() {
                   </div>
                   <span className="bg-blue-600 text-white font-black text-sm uppercase px-4 py-2 rounded-lg">VOTE</span>
                   <button className="bg-yellow-400 hover:bg-yellow-300 text-black font-black text-xs uppercase px-3 py-2 rounded-lg transition">$1</button>
-                  <button className="bg-yellow-400 hover:bg-yellow-300 text-black font-black text-xs uppercase px-3 py-2 rounded-lg transition">$5</button>
+                  <button className="bg-green-500 hover:bg-green-400 text-white font-black text-xs uppercase px-3 py-2 rounded-lg transition">$5</button>
                 </div>
               </div>
             </div>
