@@ -16,14 +16,17 @@ function getTimeLeft() {
 }
 
 export default function Countdown() {
-  const [t, setT] = useState(getTimeLeft());
+  const [t, setT] = useState<ReturnType<typeof getTimeLeft> | null>(null);
 
   useEffect(() => {
+    setT(getTimeLeft());
     const id = setInterval(() => setT(getTimeLeft()), 1000);
     return () => clearInterval(id);
   }, []);
 
   const pad = (n: number) => String(n).padStart(2, "0");
+
+  if (!t) return null;
 
   return (
     <div className="absolute top-0 left-0 right-0 z-30 flex flex-col items-center pt-4 pointer-events-none">

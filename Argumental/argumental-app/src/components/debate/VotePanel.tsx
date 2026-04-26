@@ -113,12 +113,12 @@ export default function VotePanel({ debate }: Props) {
       {/* Live vote bar */}
       <div className="flex flex-col gap-1">
         <div className="flex justify-between text-sm font-semibold">
-          <span className="text-blue-400">{debate.debaterA.name} {pctA}%</span>
-          <span className="text-red-400">{pctB}% {debate.debaterB.name}</span>
+          <span className="text-red-400">{debate.debaterA.name} {pctA}%</span>
+          <span className="text-blue-400">{pctB}% {debate.debaterB.name}</span>
         </div>
-        <div className="w-full h-3 rounded-full overflow-hidden bg-red-500">
+        <div className="w-full h-3 rounded-full overflow-hidden bg-blue-500">
           <div
-            className="h-full bg-blue-500 transition-all duration-700"
+            className="h-full bg-red-500 transition-all duration-700"
             style={{ width: `${pctA}%` }}
           />
         </div>
@@ -129,13 +129,13 @@ export default function VotePanel({ debate }: Props) {
         <div className="flex gap-3">
           <button
             onClick={() => handleSelectSide("A")}
-            className="flex-1 bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 rounded-xl transition"
+            className="flex-1 bg-red-600 hover:bg-red-500 text-white font-bold py-3 rounded-xl transition"
           >
             {debate.debaterA.name}
           </button>
           <button
             onClick={() => handleSelectSide("B")}
-            className="flex-1 bg-red-600 hover:bg-red-500 text-white font-bold py-3 rounded-xl transition"
+            className="flex-1 bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 rounded-xl transition"
           >
             {debate.debaterB.name}
           </button>
