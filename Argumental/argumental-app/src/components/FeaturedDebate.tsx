@@ -146,24 +146,28 @@ export default function FeaturedDebate({ debate }: { debate: Debate }) {
           {/* Thermometer column: brass bell at top, totals, tubes */}
           <div className="flex flex-col shrink-0 gap-2">
 
-            {/* Bell cell — matches clock bar bg/rounding; rings when either side hits max */}
-            <div className="bg-zinc-900 rounded-xl flex items-center justify-center px-2 py-3">
+            {/* Bell cell — rings when either side hits max */}
+            <div className="flex items-center justify-center py-1">
               <svg
-                width="28" height="34" viewBox="0 0 28 34"
+                width="44" height="54" viewBox="0 0 44 54"
                 className={votesA >= MAX || votesB >= MAX ? "animate-bell-ring" : ""}
               >
                 {/* Hanger knob */}
-                <rect x="11" y="0" width="6" height="5" rx="3" fill="#8B6914"/>
-                {/* Bell body */}
-                <path d="M14,4 C8,4 4,9 3,16 L2,25 L26,25 L25,16 C24,9 20,4 14,4 Z" fill="#DAA520"/>
-                {/* Shine highlight */}
-                <path d="M9,9 C7,12 6,16 7,20" stroke="#F5D060" strokeWidth="1.8" strokeLinecap="round" opacity="0.7"/>
-                {/* Rim shadow */}
-                <path d="M2,25 Q2,29 14,29 Q26,29 26,25 Z" fill="#B8860B"/>
+                <rect x="18" y="0" width="8" height="7" rx="4" fill="#8B6914"/>
+                {/* Bell body — narrow neck, dramatic wide flare at bottom */}
+                <path d="M22,6 C18,6 14,10 12,15 C10,20 9,25 6,32 C4,37 2,40 0,43 L44,43 C42,40 40,37 38,32 C35,25 34,20 32,15 C30,10 26,6 22,6 Z" fill="#DAA520"/>
+                {/* Inner shading — depth on right side */}
+                <path d="M22,6 C26,6 30,10 32,15 C34,20 35,25 38,32 C40,37 42,40 44,43 L36,43 C34,40 33,37 31,32 C29,26 28,21 27,16 C26,11 24,8 22,6 Z" fill="#C8961A" opacity="0.5"/>
+                {/* Highlight shine — left curve */}
+                <path d="M14,12 C12,17 11,23 12,30" stroke="#F7DF6E" strokeWidth="2.5" strokeLinecap="round" opacity="0.65"/>
+                {/* Flared rim */}
+                <path d="M0,43 Q0,49 22,49 Q44,49 44,43 Z" fill="#B8860B"/>
+                {/* Rim highlight line */}
+                <line x1="4" y1="46" x2="40" y2="46" stroke="#D4A820" strokeWidth="1" opacity="0.5"/>
                 {/* Clapper stem */}
-                <line x1="14" y1="25" x2="14" y2="31" stroke="#8B6914" strokeWidth="2"/>
+                <line x1="22" y1="43" x2="22" y2="50" stroke="#7A5A0A" strokeWidth="2.5"/>
                 {/* Clapper ball */}
-                <circle cx="14" cy="33" r="2.5" fill="#8B6914"/>
+                <circle cx="22" cy="53" r="4" fill="#7A5A0A"/>
               </svg>
             </div>
 
@@ -193,23 +197,23 @@ export default function FeaturedDebate({ debate }: { debate: Debate }) {
           {/* Video + clock column */}
           <div className="flex-1 flex flex-col gap-3">
 
-            {/* Debate clock — aligned with video left edge; activates on play */}
-            <div className="flex items-center bg-zinc-900 rounded-xl px-5 py-3 gap-4">
+            {/* Debate clock — no background; activates on play */}
+            <div className="flex items-center px-2 py-1 gap-4">
               <div className="flex-1 flex flex-col items-start">
-                <span className="text-red-400 text-[10px] font-bold uppercase tracking-widest leading-none mb-1">
+                <span className="text-red-500 text-[10px] font-bold uppercase tracking-widest leading-none mb-1">
                   {debate.debaterA.name.split(" ").pop()}
                 </span>
-                <span className={`font-black text-2xl tabular-nums leading-none ${debateStarted ? "text-white" : "text-zinc-600"}`}>{fmt(timeA)}</span>
+                <span className={`font-black text-3xl tabular-nums leading-none ${debateStarted ? "text-zinc-900" : "text-zinc-300"}`}>{fmt(timeA)}</span>
               </div>
               <div className="flex flex-col items-center">
-                <span className="text-yellow-400 text-[10px] font-bold uppercase tracking-widest leading-none mb-1">Debate</span>
-                <span className={`font-black text-3xl tabular-nums leading-none ${debateStarted ? "text-white" : "text-zinc-600"}`}>{fmt(mainTime)}</span>
+                <span className="text-yellow-500 text-[10px] font-bold uppercase tracking-widest leading-none mb-1">Debate</span>
+                <span className={`font-black text-4xl tabular-nums leading-none ${debateStarted ? "text-zinc-900" : "text-zinc-300"}`}>{fmt(mainTime)}</span>
               </div>
               <div className="flex-1 flex flex-col items-end">
-                <span className="text-blue-400 text-[10px] font-bold uppercase tracking-widest leading-none mb-1">
+                <span className="text-blue-500 text-[10px] font-bold uppercase tracking-widest leading-none mb-1">
                   {debate.debaterB.name.split(" ").pop()}
                 </span>
-                <span className="text-zinc-600 font-black text-2xl tabular-nums leading-none">{fmt(timeB)}</span>
+                <span className="text-zinc-300 font-black text-3xl tabular-nums leading-none">{fmt(timeB)}</span>
               </div>
             </div>
 
