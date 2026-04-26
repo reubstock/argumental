@@ -44,7 +44,57 @@ export default function FeaturedDebate({ debate }: { debate: Debate }) {
   }, [debateStarted]);
 
   return (
-    <div className="max-w-6xl mx-auto flex flex-col lg:flex-row gap-6">
+    <div className="max-w-6xl mx-auto flex flex-col gap-3">
+
+      {/* ── Bell row — the only element above the info card / video line ── */}
+      <div className="hidden lg:flex gap-6">
+        {/* Invisible spacer matching info card width */}
+        <div className="w-72 shrink-0" />
+        {/* Bell sits above the thermometer column (w-16 = two w-7 tubes + gap-2) */}
+        <div className="w-16 flex items-center justify-center">
+          <svg
+            width="38" height="42" viewBox="0 0 100 110"
+            xmlns="http://www.w3.org/2000/svg"
+            className={votesA >= MAX || votesB >= MAX ? "animate-bell-ring" : ""}
+          >
+            <defs>
+              <radialGradient id="bellBody" cx="38%" cy="30%" r="65%">
+                <stop offset="0%"   stopColor="#FEF3C7"/>
+                <stop offset="22%"  stopColor="#FCD34D"/>
+                <stop offset="52%"  stopColor="#D97706"/>
+                <stop offset="82%"  stopColor="#B45309"/>
+                <stop offset="100%" stopColor="#78350F"/>
+              </radialGradient>
+              <radialGradient id="bellClapper" cx="38%" cy="35%" r="65%">
+                <stop offset="0%"   stopColor="#FDE68A"/>
+                <stop offset="55%"  stopColor="#D97706"/>
+                <stop offset="100%" stopColor="#78350F"/>
+              </radialGradient>
+              <linearGradient id="bellRing" x1="20%" y1="20%" x2="80%" y2="80%">
+                <stop offset="0%"   stopColor="#FDE68A"/>
+                <stop offset="50%"  stopColor="#D97706"/>
+                <stop offset="100%" stopColor="#78350F"/>
+              </linearGradient>
+            </defs>
+            <circle cx="50" cy="10" r="7" fill="none" stroke="url(#bellRing)" strokeWidth="4.5"/>
+            <path d="M38,16 Q50,14 62,16 L64,28 Q50,26 36,28 Z" fill="url(#bellBody)"/>
+            <path d="M38,20 Q50,18 62,20" stroke="#FEF3C7" strokeWidth="1.2" fill="none" opacity="0.55"/>
+            <path d="M36,25 Q50,23 64,25" stroke="#FEF3C7" strokeWidth="1.2" fill="none" opacity="0.45"/>
+            <path d="M36,28 C27,32 18,42 14,54 C11,63 10,70 9,75 L91,75 C90,70 89,63 86,54 C82,42 73,32 64,28 Z" fill="url(#bellBody)"/>
+            <path d="M9,75 C5,79 3,82 1,86 L99,86 C97,82 95,79 91,75 Z" fill="url(#bellBody)"/>
+            <ellipse cx="50" cy="86" rx="49" ry="5.5" fill="#92400E"/>
+            <ellipse cx="50" cy="84" rx="42" ry="4" fill="#5C2206"/>
+            <path d="M33,30 C29,43 28,56 30,68" stroke="white" strokeWidth="5" strokeLinecap="round" opacity="0.18"/>
+            <path d="M34,30 C31,43 30,56 32,68" stroke="#FEF3C7" strokeWidth="2.5" strokeLinecap="round" opacity="0.28"/>
+            <line x1="50" y1="75" x2="50" y2="88" stroke="#92400E" strokeWidth="3"/>
+            <circle cx="50" cy="97" r="8.5" fill="url(#bellClapper)"/>
+            <circle cx="46" cy="93" r="3" fill="white" opacity="0.2"/>
+          </svg>
+        </div>
+      </div>
+
+      {/* ── Main content row ── */}
+      <div className="flex flex-col lg:flex-row gap-6">
 
       {/* Info card — left */}
       <div className="lg:w-72 flex flex-col gap-4 shrink-0">
@@ -137,139 +187,68 @@ export default function FeaturedDebate({ debate }: { debate: Debate }) {
         </div>
       </div>
 
-      {/* Right: [thermometer col | video+clock col] then vote row */}
+      {/* Right section */}
       <div className="flex-1 min-w-0 flex flex-col gap-3">
 
-        {/* Main row — thermometers left, clock+video right, both stretch to same height */}
+        {/* Thermo + video row — items-stretch so tubes match video height */}
         <div className="flex gap-3 items-stretch">
 
-          {/* Thermometer column: brass bell at top, totals, tubes */}
-          <div className="flex flex-col shrink-0 gap-2">
-
-            {/* Bell cell — rings when either side hits max */}
-            <div className="flex items-center justify-center py-1">
-              <svg
-                width="38" height="42" viewBox="0 0 100 110"
-                xmlns="http://www.w3.org/2000/svg"
-                className={votesA >= MAX || votesB >= MAX ? "animate-bell-ring" : ""}
-              >
-                <defs>
-                  <radialGradient id="bellBody" cx="38%" cy="30%" r="65%">
-                    <stop offset="0%"   stopColor="#FEF3C7"/>
-                    <stop offset="22%"  stopColor="#FCD34D"/>
-                    <stop offset="52%"  stopColor="#D97706"/>
-                    <stop offset="82%"  stopColor="#B45309"/>
-                    <stop offset="100%" stopColor="#78350F"/>
-                  </radialGradient>
-                  <radialGradient id="bellClapper" cx="38%" cy="35%" r="65%">
-                    <stop offset="0%"   stopColor="#FDE68A"/>
-                    <stop offset="55%"  stopColor="#D97706"/>
-                    <stop offset="100%" stopColor="#78350F"/>
-                  </radialGradient>
-                  <linearGradient id="bellRing" x1="20%" y1="20%" x2="80%" y2="80%">
-                    <stop offset="0%"   stopColor="#FDE68A"/>
-                    <stop offset="50%"  stopColor="#D97706"/>
-                    <stop offset="100%" stopColor="#78350F"/>
-                  </linearGradient>
-                </defs>
-
-                {/* Hanging ring */}
-                <circle cx="50" cy="10" r="7" fill="none" stroke="url(#bellRing)" strokeWidth="4.5"/>
-
-                {/* Collar / neck */}
-                <path d="M38,16 Q50,14 62,16 L64,28 Q50,26 36,28 Z" fill="url(#bellBody)"/>
-                {/* Collar ridge lines */}
-                <path d="M38,20 Q50,18 62,20" stroke="#FEF3C7" strokeWidth="1.2" fill="none" opacity="0.55"/>
-                <path d="M36,25 Q50,23 64,25" stroke="#FEF3C7" strokeWidth="1.2" fill="none" opacity="0.45"/>
-
-                {/* Main bell body */}
-                <path d="M36,28 C27,32 18,42 14,54 C11,63 10,70 9,75 L91,75 C90,70 89,63 86,54 C82,42 73,32 64,28 Z" fill="url(#bellBody)"/>
-
-                {/* Skirt flare */}
-                <path d="M9,75 C5,79 3,82 1,86 L99,86 C97,82 95,79 91,75 Z" fill="url(#bellBody)"/>
-
-                {/* Rim — dark ellipse */}
-                <ellipse cx="50" cy="86" rx="49" ry="5.5" fill="#92400E"/>
-                {/* Interior shadow under rim */}
-                <ellipse cx="50" cy="84" rx="42" ry="4" fill="#5C2206"/>
-
-                {/* Highlight streak */}
-                <path d="M33,30 C29,43 28,56 30,68" stroke="white" strokeWidth="5" strokeLinecap="round" opacity="0.18"/>
-                <path d="M34,30 C31,43 30,56 32,68" stroke="#FEF3C7" strokeWidth="2.5" strokeLinecap="round" opacity="0.28"/>
-
-                {/* Clapper stem */}
-                <line x1="50" y1="75" x2="50" y2="88" stroke="#92400E" strokeWidth="3"/>
-                {/* Clapper ball */}
-                <circle cx="50" cy="97" r="8.5" fill="url(#bellClapper)"/>
-                {/* Clapper ball highlight */}
-                <circle cx="46" cy="93" r="3" fill="white" opacity="0.2"/>
-              </svg>
-            </div>
-
-            {/* Dollar totals */}
+          {/* Thermometer column: dollar totals + tubes only (bell moved to row above) */}
+          <div className="flex flex-col shrink-0 gap-2 w-16">
             <div className="flex gap-2">
               <span className="w-7 text-center text-red-600 font-black text-xl tabular-nums leading-none">${votesA}</span>
               <span className="w-7 text-center text-blue-600 font-black text-xl tabular-nums leading-none">${votesB}</span>
             </div>
-
-            {/* Tubes — fill remaining height */}
             <div className="flex gap-2 flex-1">
               <div className="w-7 bg-zinc-200 rounded-full overflow-hidden flex flex-col justify-end">
-                <div
-                  className="bg-red-500 w-full rounded-full transition-all duration-300 ease-out"
-                  style={{ height: `${pctA}%` }}
-                />
+                <div className="bg-red-500 w-full rounded-full transition-all duration-300 ease-out" style={{ height: `${pctA}%` }}/>
               </div>
               <div className="w-7 bg-zinc-200 rounded-full overflow-hidden flex flex-col justify-end">
-                <div
-                  className="bg-blue-500 w-full rounded-full transition-all duration-300 ease-out"
-                  style={{ height: `${pctB}%` }}
-                />
+                <div className="bg-blue-500 w-full rounded-full transition-all duration-300 ease-out" style={{ height: `${pctB}%` }}/>
               </div>
             </div>
           </div>
 
-          {/* Video only — clock moved below */}
-          <div className="flex-1">
-            <VideoPlayer
-              youtubeId="YQ7IudJBpf0"
-              debaterAName={debate.debaterA.name}
-              debaterAPhoto="/shapiro.jpg"
-              debaterAPosition={debate.debaterA.position}
-              debaterBName={debate.debaterB.name}
-              debaterBPhoto="/aoc.jpg"
-              debaterBPosition={debate.debaterB.position}
-              isLive={debate.status === "live"}
-              onPlay={() => setDebateStarted(true)}
-            />
+          {/* Clock bar + video — clock spans exactly the video width */}
+          <div className="flex-1 flex flex-col gap-3">
+            <div className="flex items-center bg-zinc-900 rounded-xl px-5 py-3 gap-4">
+              <div className="flex-1 flex flex-col items-start">
+                <span className="text-red-400 text-[10px] font-bold uppercase tracking-widest leading-none mb-1">
+                  {debate.debaterA.name.split(" ").pop()}
+                </span>
+                <span className={`font-black text-2xl tabular-nums leading-none ${debateStarted ? "text-white" : "text-zinc-600"}`}>{fmt(timeA)}</span>
+              </div>
+              <div className="flex flex-col items-center">
+                <span className="text-yellow-400 text-[10px] font-bold uppercase tracking-widest leading-none mb-1">Debate</span>
+                <span className={`font-black text-3xl tabular-nums leading-none ${debateStarted ? "text-white" : "text-zinc-600"}`}>{fmt(mainTime)}</span>
+              </div>
+              <div className="flex-1 flex flex-col items-end">
+                <span className="text-blue-400 text-[10px] font-bold uppercase tracking-widest leading-none mb-1">
+                  {debate.debaterB.name.split(" ").pop()}
+                </span>
+                <span className="text-zinc-600 font-black text-2xl tabular-nums leading-none">{fmt(timeB)}</span>
+              </div>
+            </div>
+            <div className="flex-1">
+              <VideoPlayer
+                youtubeId="YQ7IudJBpf0"
+                debaterAName={debate.debaterA.name}
+                debaterAPhoto="/shapiro.jpg"
+                debaterAPosition={debate.debaterA.position}
+                debaterBName={debate.debaterB.name}
+                debaterBPhoto="/aoc.jpg"
+                debaterBPosition={debate.debaterB.position}
+                isLive={debate.status === "live"}
+                onPlay={() => setDebateStarted(true)}
+              />
+            </div>
           </div>
-        </div>{/* end main row */}
+        </div>{/* end thermo+video row */}
 
-        {/* Debate clock — below video, activates on play */}
-        <div className="flex items-center bg-zinc-900 rounded-xl px-5 py-3 gap-4">
-          <div className="flex-1 flex flex-col items-start">
-            <span className="text-red-400 text-[10px] font-bold uppercase tracking-widest leading-none mb-1">
-              {debate.debaterA.name.split(" ").pop()}
-            </span>
-            <span className={`font-black text-2xl tabular-nums leading-none ${debateStarted ? "text-white" : "text-zinc-600"}`}>{fmt(timeA)}</span>
-          </div>
-          <div className="flex flex-col items-center">
-            <span className="text-yellow-400 text-[10px] font-bold uppercase tracking-widest leading-none mb-1">Debate</span>
-            <span className={`font-black text-3xl tabular-nums leading-none ${debateStarted ? "text-white" : "text-zinc-600"}`}>{fmt(mainTime)}</span>
-          </div>
-          <div className="flex-1 flex flex-col items-end">
-            <span className="text-blue-400 text-[10px] font-bold uppercase tracking-widest leading-none mb-1">
-              {debate.debaterB.name.split(" ").pop()}
-            </span>
-            <span className="text-zinc-600 font-black text-2xl tabular-nums leading-none">{fmt(timeB)}</span>
-          </div>
-        </div>
-
-        {/* Vote row — invisible spacer aligns buttons with video left edge */}
+        {/* Vote row — w-16 spacer aligns buttons with video left edge */}
         <div className="flex gap-3 items-center">
-          <div className="shrink-0 invisible" aria-hidden="true" style={{ width: "4rem" }} />
+          <div className="w-16 shrink-0 invisible" aria-hidden="true" />
           <div className="flex-1 flex justify-between items-center">
-            {/* Shapiro */}
             <div className="flex items-center gap-2">
               <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-red-500 shrink-0">
                 <Image src="/shapiro.jpg" alt={debate.debaterA.name} width={48} height={48} className="w-full h-full object-cover object-top" />
@@ -278,7 +257,6 @@ export default function FeaturedDebate({ debate }: { debate: Debate }) {
               <button onClick={() => addA(1)} className="bg-yellow-400 hover:bg-yellow-300 text-black font-black text-xs uppercase px-3 py-2 rounded-lg transition">$1</button>
               <button onClick={() => addA(5)} className="bg-green-500 hover:bg-green-400 text-white font-black text-xs uppercase px-3 py-2 rounded-lg transition">$5</button>
             </div>
-            {/* AOC */}
             <div className="flex items-center gap-2">
               <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-blue-500 shrink-0">
                 <Image src="/aoc.jpg" alt={debate.debaterB.name} width={48} height={48} className="w-full h-full object-cover object-top" />
@@ -288,9 +266,10 @@ export default function FeaturedDebate({ debate }: { debate: Debate }) {
               <button onClick={() => addB(5)} className="bg-green-500 hover:bg-green-400 text-white font-black text-xs uppercase px-3 py-2 rounded-lg transition">$5</button>
             </div>
           </div>
-        </div>{/* end vote row */}
+        </div>
 
       </div>
-    </div>
+      </div>{/* end main content row */}
+    </div>{/* end outer flex-col */}
   );
 }
