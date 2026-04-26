@@ -132,8 +132,8 @@ export default function FeaturedDebate({ debate }: { debate: Debate }) {
             </div>
           </div>
 
-          {/* Video */}
-          <div className="flex-1">
+          {/* Video + vote row share the same column so they left-align */}
+          <div className="flex-1 flex flex-col gap-4">
             <VideoPlayer
               youtubeId="YQ7IudJBpf0"
               debaterAName={debate.debaterA.name}
@@ -144,11 +144,9 @@ export default function FeaturedDebate({ debate }: { debate: Debate }) {
               debaterBPosition={debate.debaterB.position}
               isLive={debate.status === "live"}
             />
-          </div>
-        </div>
 
         {/* Vote row */}
-        <div className="flex justify-between items-center px-1 gap-4">
+        <div className="flex justify-between items-center gap-4">
           {/* Shapiro */}
           <div className="flex items-center gap-2">
             <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-red-500 shrink-0">
@@ -169,6 +167,9 @@ export default function FeaturedDebate({ debate }: { debate: Debate }) {
             <button onClick={() => addB(5)} className="bg-green-500 hover:bg-green-400 text-white font-black text-xs uppercase px-3 py-2 rounded-lg transition">$5</button>
           </div>
         </div>
+
+          </div>{/* end video+vote column */}
+        </div>{/* end thermometers+video row */}
 
       </div>
     </div>
