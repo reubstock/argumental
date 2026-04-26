@@ -1,7 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
 import { getAllDebates } from "@/lib/debates";
-import Countdown from "@/components/Countdown";
 import VideoPlayer from "@/components/VideoPlayer";
 
 export default function HomePage() {
@@ -79,9 +78,6 @@ export default function HomePage() {
                   debaterBPosition={featured.debaterB.position}
                   isLive={featured.status === "live"}
                 />
-                <div className="absolute top-0 left-0 right-0 z-30 pointer-events-none">
-                  <Countdown />
-                </div>
               </div>
 
               {/* Debater vote row */}
