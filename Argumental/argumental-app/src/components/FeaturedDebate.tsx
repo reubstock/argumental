@@ -229,45 +229,41 @@ export default function FeaturedDebate({ debate }: { debate: Debate }) {
             </div>
           </div>
 
-          {/* Video + clock column */}
-          <div className="flex-1 flex flex-col gap-3">
-
-            {/* Debate clock — dark bar; activates on play */}
-            <div className="flex items-center bg-zinc-900 rounded-xl px-5 py-3 gap-4">
-              <div className="flex-1 flex flex-col items-start">
-                <span className="text-red-400 text-[10px] font-bold uppercase tracking-widest leading-none mb-1">
-                  {debate.debaterA.name.split(" ").pop()}
-                </span>
-                <span className={`font-black text-2xl tabular-nums leading-none ${debateStarted ? "text-white" : "text-zinc-600"}`}>{fmt(timeA)}</span>
-              </div>
-              <div className="flex flex-col items-center">
-                <span className="text-yellow-400 text-[10px] font-bold uppercase tracking-widest leading-none mb-1">Debate</span>
-                <span className={`font-black text-3xl tabular-nums leading-none ${debateStarted ? "text-white" : "text-zinc-600"}`}>{fmt(mainTime)}</span>
-              </div>
-              <div className="flex-1 flex flex-col items-end">
-                <span className="text-blue-400 text-[10px] font-bold uppercase tracking-widest leading-none mb-1">
-                  {debate.debaterB.name.split(" ").pop()}
-                </span>
-                <span className="text-zinc-600 font-black text-2xl tabular-nums leading-none">{fmt(timeB)}</span>
-              </div>
-            </div>
-
-            {/* Video */}
-            <div className="flex-1">
-              <VideoPlayer
-                youtubeId="YQ7IudJBpf0"
-                debaterAName={debate.debaterA.name}
-                debaterAPhoto="/shapiro.jpg"
-                debaterAPosition={debate.debaterA.position}
-                debaterBName={debate.debaterB.name}
-                debaterBPhoto="/aoc.jpg"
-                debaterBPosition={debate.debaterB.position}
-                isLive={debate.status === "live"}
-                onPlay={() => setDebateStarted(true)}
-              />
-            </div>
+          {/* Video only — clock moved below */}
+          <div className="flex-1">
+            <VideoPlayer
+              youtubeId="YQ7IudJBpf0"
+              debaterAName={debate.debaterA.name}
+              debaterAPhoto="/shapiro.jpg"
+              debaterAPosition={debate.debaterA.position}
+              debaterBName={debate.debaterB.name}
+              debaterBPhoto="/aoc.jpg"
+              debaterBPosition={debate.debaterB.position}
+              isLive={debate.status === "live"}
+              onPlay={() => setDebateStarted(true)}
+            />
           </div>
         </div>{/* end main row */}
+
+        {/* Debate clock — below video, activates on play */}
+        <div className="flex items-center bg-zinc-900 rounded-xl px-5 py-3 gap-4">
+          <div className="flex-1 flex flex-col items-start">
+            <span className="text-red-400 text-[10px] font-bold uppercase tracking-widest leading-none mb-1">
+              {debate.debaterA.name.split(" ").pop()}
+            </span>
+            <span className={`font-black text-2xl tabular-nums leading-none ${debateStarted ? "text-white" : "text-zinc-600"}`}>{fmt(timeA)}</span>
+          </div>
+          <div className="flex flex-col items-center">
+            <span className="text-yellow-400 text-[10px] font-bold uppercase tracking-widest leading-none mb-1">Debate</span>
+            <span className={`font-black text-3xl tabular-nums leading-none ${debateStarted ? "text-white" : "text-zinc-600"}`}>{fmt(mainTime)}</span>
+          </div>
+          <div className="flex-1 flex flex-col items-end">
+            <span className="text-blue-400 text-[10px] font-bold uppercase tracking-widest leading-none mb-1">
+              {debate.debaterB.name.split(" ").pop()}
+            </span>
+            <span className="text-zinc-600 font-black text-2xl tabular-nums leading-none">{fmt(timeB)}</span>
+          </div>
+        </div>
 
         {/* Vote row — invisible spacer aligns buttons with video left edge */}
         <div className="flex gap-3 items-center">
