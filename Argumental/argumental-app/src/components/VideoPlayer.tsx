@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState } from "react";
 import Image from "next/image";
 
 interface Props {
@@ -12,14 +12,7 @@ interface Props {
   debaterBPhoto: string;
   debaterBPosition: string;
   isLive?: boolean;
-}
-
-const DEBATE_SECONDS = 25 * 60;
-
-function formatTime(seconds: number) {
-  const m = Math.floor(seconds / 60);
-  const s = seconds % 60;
-  return `${m}:${s.toString().padStart(2, "0")}`;
+  onPlay?: () => void;
 }
 
 export default function VideoPlayer({
@@ -31,24 +24,14 @@ export default function VideoPlayer({
   debaterBPhoto,
   debaterBPosition,
   isLive = false,
+  onPlay,
 }: Props) {
   const [playing, setPlaying] = useState(false);
-  const [timeLeft, setTimeLeft] = useState(DEBATE_SECONDS);
-  const startedAtRef = useRef<number | null>(null);
 
-  useEffect(() => {
-    if (!playing) return;
-    startedAtRef.current = Date.now();
-
-    const interval = setInterval(() => {
-      const elapsed = Math.floor((Date.now() - startedAtRef.current!) / 1000);
-      const remaining = Math.max(0, DEBATE_SECONDS - elapsed);
-      setTimeLeft(remaining);
-      if (remaining === 0) clearInterval(interval);
-    }, 500);
-
-    return () => clearInterval(interval);
-  }, [playing]);
+  const handlePlay = () => {
+    setPlaying(true);
+    onPlay?.();
+  };
 
   if (playing) {
     return (
@@ -59,18 +42,6 @@ export default function VideoPlayer({
           allowFullScreen
           className="absolute inset-0 w-full h-full"
         />
-
-        {/* 25-minute countdown overlay */}
-        <div className="absolute top-0 left-0 right-0 z-30 flex justify-center pt-3 pointer-events-none">
-          <div className="bg-black/70 backdrop-blur-sm rounded-xl px-5 py-2 text-center">
-            <p className="text-yellow-400 text-[10px] uppercase tracking-widest font-bold leading-none mb-1">
-              Debate Timer
-            </p>
-            <p className="text-white font-black text-2xl leading-none tabular-nums">
-              {formatTime(timeLeft)}
-            </p>
-          </div>
-        </div>
       </div>
     );
   }
@@ -78,7 +49,7 @@ export default function VideoPlayer({
   return (
     <div
       className="relative bg-zinc-950 border border-zinc-800 rounded-2xl overflow-hidden aspect-video flex items-center justify-center cursor-pointer group"
-      onClick={() => setPlaying(true)}
+      onClick={handlePlay}
     >
       {/* Promotional cover image */}
       <div className="absolute inset-0">

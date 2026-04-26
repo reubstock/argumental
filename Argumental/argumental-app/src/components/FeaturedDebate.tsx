@@ -1,12 +1,20 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import VideoPlayer from "@/components/VideoPlayer";
 import type { Debate } from "@/lib/types";
 
 const MAX = 100;
+const MAIN_SECS = 24 * 60;
+const PHASE_SECS = 6 * 60;
+
+function fmt(s: number) {
+  const m = Math.floor(s / 60);
+  const sec = s % 60;
+  return `${m}:${String(sec).padStart(2, "0")}`;
+}
 
 export default function FeaturedDebate({ debate }: { debate: Debate }) {
   const [votesA, setVotesA] = useState(0);
@@ -17,6 +25,23 @@ export default function FeaturedDebate({ debate }: { debate: Debate }) {
 
   const pctA = (votesA / MAX) * 100;
   const pctB = (votesB / MAX) * 100;
+
+  // Debate clock
+  const [debateStarted, setDebateStarted] = useState(false);
+  const [mainTime, setMainTime] = useState(MAIN_SECS);
+  const [timeA, setTimeA] = useState(PHASE_SECS);
+  const [timeB, setTimeB] = useState(PHASE_SECS);
+  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  useEffect(() => {
+    if (!debateStarted) return;
+    intervalRef.current = setInterval(() => {
+      setMainTime(t => Math.max(0, t - 1));
+      setTimeA(t => (t <= 1 ? PHASE_SECS : t - 1));
+      setTimeB(t => (t <= 1 ? PHASE_SECS : t - 1));
+    }, 1000);
+    return () => { if (intervalRef.current) clearInterval(intervalRef.current); };
+  }, [debateStarted]);
 
   return (
     <div className="max-w-6xl mx-auto flex flex-col lg:flex-row gap-6">
@@ -113,7 +138,34 @@ export default function FeaturedDebate({ debate }: { debate: Debate }) {
       </div>
 
       {/* Right: thermometers sit left of video, bottom-aligned, protruding above */}
-      <div className="flex-1 min-w-0 flex flex-col gap-4">
+      <div className="flex-1 min-w-0 flex flex-col gap-3">
+
+        {/* Debate clock — appears above video when play is pressed */}
+        {debateStarted && (
+          <div className="flex items-center bg-zinc-900 rounded-xl px-5 py-3 gap-4">
+            {/* Shapiro phase timer */}
+            <div className="flex-1 flex flex-col items-start">
+              <span className="text-red-400 text-[10px] font-bold uppercase tracking-widest leading-none mb-1">
+                {debate.debaterA.name.split(" ").pop()}
+              </span>
+              <span className="text-white font-black text-2xl tabular-nums leading-none">{fmt(timeA)}</span>
+            </div>
+
+            {/* Main 24-min countdown — center */}
+            <div className="flex flex-col items-center">
+              <span className="text-yellow-400 text-[10px] font-bold uppercase tracking-widest leading-none mb-1">Debate</span>
+              <span className="text-white font-black text-3xl tabular-nums leading-none">{fmt(mainTime)}</span>
+            </div>
+
+            {/* AOC phase timer */}
+            <div className="flex-1 flex flex-col items-end">
+              <span className="text-blue-400 text-[10px] font-bold uppercase tracking-widest leading-none mb-1">
+                {debate.debaterB.name.split(" ").pop()}
+              </span>
+              <span className="text-white font-black text-2xl tabular-nums leading-none">{fmt(timeB)}</span>
+            </div>
+          </div>
+        )}
 
         {/* Video row — thermometers stretch to exact video height */}
         <div className="flex gap-3 items-stretch">
@@ -154,6 +206,7 @@ export default function FeaturedDebate({ debate }: { debate: Debate }) {
               debaterBPhoto="/aoc.jpg"
               debaterBPosition={debate.debaterB.position}
               isLive={debate.status === "live"}
+              onPlay={() => setDebateStarted(true)}
             />
           </div>
         </div>{/* end thermometers+video row */}
