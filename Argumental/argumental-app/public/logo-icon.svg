@@ -1,16 +1,33 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 115" fill="black">
-  <!-- Left figure — body forms left leg of the A -->
-  <circle cx="30" cy="15" r="10"/>
-  <polygon points="21,25 39,25 23,102 7,102"/>
-  <!-- Right arm reaching to handshake -->
-  <polygon points="35,57 55,68 53,74 31,63"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 130 100" fill="none">
 
-  <!-- Right figure — body forms right leg of the A -->
-  <circle cx="70" cy="15" r="10"/>
-  <polygon points="61,25 79,25 93,102 77,102"/>
-  <!-- Left arm reaching to handshake -->
-  <polygon points="65,57 45,68 47,74 69,63"/>
+  <!-- Bold capital A (left side) -->
+  <line x1="30" y1="5"  x2="5"  y2="95" stroke="black" stroke-width="13" stroke-linecap="round"/>
+  <line x1="30" y1="5"  x2="55" y2="95" stroke="black" stroke-width="13" stroke-linecap="round"/>
+  <line x1="12" y1="58" x2="48" y2="58" stroke="black" stroke-width="9"  stroke-linecap="round"/>
 
-  <!-- Clasped hands — crossbar of the A -->
-  <ellipse cx="50" cy="71" rx="10" ry="6"/>
+  <!-- Figure 1 — left person, leaning right -->
+  <circle cx="80" cy="20" r="9" fill="black"/>
+  <!-- torso -->
+  <line x1="80" y1="29" x2="80" y2="60" stroke="black" stroke-width="5" stroke-linecap="round"/>
+  <!-- left leg -->
+  <line x1="80" y1="60" x2="70" y2="90" stroke="black" stroke-width="4" stroke-linecap="round"/>
+  <!-- right leg -->
+  <line x1="80" y1="60" x2="87" y2="90" stroke="black" stroke-width="4" stroke-linecap="round"/>
+  <!-- right arm reaching forward to handshake -->
+  <line x1="80" y1="40" x2="103" y2="52" stroke="black" stroke-width="4" stroke-linecap="round"/>
+
+  <!-- Figure 2 — right person, leaning left -->
+  <circle cx="118" cy="20" r="9" fill="black"/>
+  <!-- torso -->
+  <line x1="118" y1="29" x2="118" y2="60" stroke="black" stroke-width="5" stroke-linecap="round"/>
+  <!-- left leg -->
+  <line x1="118" y1="60" x2="111" y2="90" stroke="black" stroke-width="4" stroke-linecap="round"/>
+  <!-- right leg -->
+  <line x1="118" y1="60" x2="128" y2="90" stroke="black" stroke-width="4" stroke-linecap="round"/>
+  <!-- left arm reaching forward to handshake -->
+  <line x1="118" y1="40" x2="103" y2="52" stroke="black" stroke-width="4" stroke-linecap="round"/>
+
+  <!-- Clasped hands -->
+  <circle cx="103" cy="52" r="6" fill="black"/>
+
 </svg>
