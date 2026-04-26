@@ -148,8 +148,8 @@ export default function FeaturedDebate({ debate }: { debate: Debate }) {
             </div>
           </div>
 
-          {/* Video + vote row share the same column so they left-align */}
-          <div className="flex-1 flex flex-col gap-4">
+          {/* Video only — items-stretch makes tubes match this height */}
+          <div className="flex-1">
             <VideoPlayer
               youtubeId="YQ7IudJBpf0"
               debaterAName={debate.debaterA.name}
@@ -160,32 +160,35 @@ export default function FeaturedDebate({ debate }: { debate: Debate }) {
               debaterBPosition={debate.debaterB.position}
               isLive={debate.status === "live"}
             />
-
-        {/* Vote row */}
-        <div className="flex justify-between items-center gap-4">
-          {/* Shapiro */}
-          <div className="flex items-center gap-2">
-            <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-red-500 shrink-0">
-              <Image src="/shapiro.jpg" alt={debate.debaterA.name} width={48} height={48} className="w-full h-full object-cover object-top" />
-            </div>
-            <span className="bg-red-600 text-white font-black text-sm uppercase px-4 py-2 rounded-lg select-none">VOTE</span>
-            <button onClick={() => addA(1)} className="bg-yellow-400 hover:bg-yellow-300 text-black font-black text-xs uppercase px-3 py-2 rounded-lg transition">$1</button>
-            <button onClick={() => addA(5)} className="bg-green-500 hover:bg-green-400 text-white font-black text-xs uppercase px-3 py-2 rounded-lg transition">$5</button>
           </div>
-
-          {/* AOC */}
-          <div className="flex items-center gap-2">
-            <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-blue-500 shrink-0">
-              <Image src="/aoc.jpg" alt={debate.debaterB.name} width={48} height={48} className="w-full h-full object-cover object-top" />
-            </div>
-            <span className="bg-blue-600 text-white font-black text-sm uppercase px-4 py-2 rounded-lg select-none">VOTE</span>
-            <button onClick={() => addB(1)} className="bg-yellow-400 hover:bg-yellow-300 text-black font-black text-xs uppercase px-3 py-2 rounded-lg transition">$1</button>
-            <button onClick={() => addB(5)} className="bg-green-500 hover:bg-green-400 text-white font-black text-xs uppercase px-3 py-2 rounded-lg transition">$5</button>
-          </div>
-        </div>
-
-          </div>{/* end video+vote column */}
         </div>{/* end thermometers+video row */}
+
+        {/* Vote row — invisible spacer mirrors thermometer width to left-align with video */}
+        <div className="flex gap-3 items-center">
+          <div className="flex gap-2 shrink-0 invisible" aria-hidden="true">
+            <div className="w-7" /><div className="w-7" />
+          </div>
+          <div className="flex-1 flex justify-between items-center">
+            {/* Shapiro */}
+            <div className="flex items-center gap-2">
+              <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-red-500 shrink-0">
+                <Image src="/shapiro.jpg" alt={debate.debaterA.name} width={48} height={48} className="w-full h-full object-cover object-top" />
+              </div>
+              <span className="bg-red-600 text-white font-black text-sm uppercase px-4 py-2 rounded-lg select-none">VOTE</span>
+              <button onClick={() => addA(1)} className="bg-yellow-400 hover:bg-yellow-300 text-black font-black text-xs uppercase px-3 py-2 rounded-lg transition">$1</button>
+              <button onClick={() => addA(5)} className="bg-green-500 hover:bg-green-400 text-white font-black text-xs uppercase px-3 py-2 rounded-lg transition">$5</button>
+            </div>
+            {/* AOC */}
+            <div className="flex items-center gap-2">
+              <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-blue-500 shrink-0">
+                <Image src="/aoc.jpg" alt={debate.debaterB.name} width={48} height={48} className="w-full h-full object-cover object-top" />
+              </div>
+              <span className="bg-blue-600 text-white font-black text-sm uppercase px-4 py-2 rounded-lg select-none">VOTE</span>
+              <button onClick={() => addB(1)} className="bg-yellow-400 hover:bg-yellow-300 text-black font-black text-xs uppercase px-3 py-2 rounded-lg transition">$1</button>
+              <button onClick={() => addB(5)} className="bg-green-500 hover:bg-green-400 text-white font-black text-xs uppercase px-3 py-2 rounded-lg transition">$5</button>
+            </div>
+          </div>
+        </div>{/* end vote row */}
 
       </div>
     </div>
