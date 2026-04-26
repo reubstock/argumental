@@ -149,27 +149,60 @@ export default function FeaturedDebate({ debate }: { debate: Debate }) {
             {/* Bell cell — rings when either side hits max */}
             <div className="flex items-center justify-center py-1">
               <svg
-                width="40" height="34" viewBox="0 0 80 68"
+                width="38" height="42" viewBox="0 0 100 110"
+                xmlns="http://www.w3.org/2000/svg"
                 className={votesA >= MAX || votesB >= MAX ? "animate-bell-ring" : ""}
               >
-                {/* Handle loop */}
-                <path d="M34,7 A6,5 0 0,1 46,7" stroke="#F0A500" strokeWidth="4" fill="none" strokeLinecap="round"/>
-                {/* Bell body — rounded dome, sides gently flaring outward */}
-                <path d="M40,7 C31,7 21,14 19,25 C17,33 17,40 16,45 L64,45 C63,40 63,33 61,25 C59,14 49,7 40,7 Z" fill="#F0A500"/>
-                {/* Flared rim — wider than body */}
-                <path d="M12,45 Q12,53 40,53 Q68,53 68,45 Z" fill="#F0A500"/>
+                <defs>
+                  <radialGradient id="bellBody" cx="38%" cy="30%" r="65%">
+                    <stop offset="0%"   stopColor="#FEF3C7"/>
+                    <stop offset="22%"  stopColor="#FCD34D"/>
+                    <stop offset="52%"  stopColor="#D97706"/>
+                    <stop offset="82%"  stopColor="#B45309"/>
+                    <stop offset="100%" stopColor="#78350F"/>
+                  </radialGradient>
+                  <radialGradient id="bellClapper" cx="38%" cy="35%" r="65%">
+                    <stop offset="0%"   stopColor="#FDE68A"/>
+                    <stop offset="55%"  stopColor="#D97706"/>
+                    <stop offset="100%" stopColor="#78350F"/>
+                  </radialGradient>
+                  <linearGradient id="bellRing" x1="20%" y1="20%" x2="80%" y2="80%">
+                    <stop offset="0%"   stopColor="#FDE68A"/>
+                    <stop offset="50%"  stopColor="#D97706"/>
+                    <stop offset="100%" stopColor="#78350F"/>
+                  </linearGradient>
+                </defs>
+
+                {/* Hanging ring */}
+                <circle cx="50" cy="10" r="7" fill="none" stroke="url(#bellRing)" strokeWidth="4.5"/>
+
+                {/* Collar / neck */}
+                <path d="M38,16 Q50,14 62,16 L64,28 Q50,26 36,28 Z" fill="url(#bellBody)"/>
+                {/* Collar ridge lines */}
+                <path d="M38,20 Q50,18 62,20" stroke="#FEF3C7" strokeWidth="1.2" fill="none" opacity="0.55"/>
+                <path d="M36,25 Q50,23 64,25" stroke="#FEF3C7" strokeWidth="1.2" fill="none" opacity="0.45"/>
+
+                {/* Main bell body */}
+                <path d="M36,28 C27,32 18,42 14,54 C11,63 10,70 9,75 L91,75 C90,70 89,63 86,54 C82,42 73,32 64,28 Z" fill="url(#bellBody)"/>
+
+                {/* Skirt flare */}
+                <path d="M9,75 C5,79 3,82 1,86 L99,86 C97,82 95,79 91,75 Z" fill="url(#bellBody)"/>
+
+                {/* Rim — dark ellipse */}
+                <ellipse cx="50" cy="86" rx="49" ry="5.5" fill="#92400E"/>
+                {/* Interior shadow under rim */}
+                <ellipse cx="50" cy="84" rx="42" ry="4" fill="#5C2206"/>
+
+                {/* Highlight streak */}
+                <path d="M33,30 C29,43 28,56 30,68" stroke="white" strokeWidth="5" strokeLinecap="round" opacity="0.18"/>
+                <path d="M34,30 C31,43 30,56 32,68" stroke="#FEF3C7" strokeWidth="2.5" strokeLinecap="round" opacity="0.28"/>
+
                 {/* Clapper stem */}
-                <line x1="40" y1="53" x2="40" y2="59" stroke="#C87800" strokeWidth="3"/>
+                <line x1="50" y1="75" x2="50" y2="88" stroke="#92400E" strokeWidth="3"/>
                 {/* Clapper ball */}
-                <circle cx="40" cy="64" r="4.5" fill="#C87800"/>
-                {/* Left inner wave */}
-                <path d="M13,31 C10,35 10,41 13,45" stroke="#F0A500" strokeWidth="3" fill="none" strokeLinecap="round"/>
-                {/* Left outer wave */}
-                <path d="M6,26 C2,33 2,43 6,50" stroke="#F0A500" strokeWidth="3" fill="none" strokeLinecap="round"/>
-                {/* Right inner wave */}
-                <path d="M67,31 C70,35 70,41 67,45" stroke="#F0A500" strokeWidth="3" fill="none" strokeLinecap="round"/>
-                {/* Right outer wave */}
-                <path d="M74,26 C78,33 78,43 74,50" stroke="#F0A500" strokeWidth="3" fill="none" strokeLinecap="round"/>
+                <circle cx="50" cy="97" r="8.5" fill="url(#bellClapper)"/>
+                {/* Clapper ball highlight */}
+                <circle cx="46" cy="93" r="3" fill="white" opacity="0.2"/>
               </svg>
             </div>
 
@@ -199,23 +232,23 @@ export default function FeaturedDebate({ debate }: { debate: Debate }) {
           {/* Video + clock column */}
           <div className="flex-1 flex flex-col gap-3">
 
-            {/* Debate clock — no background; activates on play */}
-            <div className="flex items-center px-2 py-1 gap-4">
+            {/* Debate clock — dark bar; activates on play */}
+            <div className="flex items-center bg-zinc-900 rounded-xl px-5 py-3 gap-4">
               <div className="flex-1 flex flex-col items-start">
-                <span className="text-red-500 text-[10px] font-bold uppercase tracking-widest leading-none mb-1">
+                <span className="text-red-400 text-[10px] font-bold uppercase tracking-widest leading-none mb-1">
                   {debate.debaterA.name.split(" ").pop()}
                 </span>
-                <span className={`font-black text-3xl tabular-nums leading-none ${debateStarted ? "text-zinc-900" : "text-zinc-300"}`}>{fmt(timeA)}</span>
+                <span className={`font-black text-2xl tabular-nums leading-none ${debateStarted ? "text-white" : "text-zinc-600"}`}>{fmt(timeA)}</span>
               </div>
               <div className="flex flex-col items-center">
-                <span className="text-yellow-500 text-[10px] font-bold uppercase tracking-widest leading-none mb-1">Debate</span>
-                <span className={`font-black text-4xl tabular-nums leading-none ${debateStarted ? "text-zinc-900" : "text-zinc-300"}`}>{fmt(mainTime)}</span>
+                <span className="text-yellow-400 text-[10px] font-bold uppercase tracking-widest leading-none mb-1">Debate</span>
+                <span className={`font-black text-3xl tabular-nums leading-none ${debateStarted ? "text-white" : "text-zinc-600"}`}>{fmt(mainTime)}</span>
               </div>
               <div className="flex-1 flex flex-col items-end">
-                <span className="text-blue-500 text-[10px] font-bold uppercase tracking-widest leading-none mb-1">
+                <span className="text-blue-400 text-[10px] font-bold uppercase tracking-widest leading-none mb-1">
                   {debate.debaterB.name.split(" ").pop()}
                 </span>
-                <span className="text-zinc-300 font-black text-3xl tabular-nums leading-none">{fmt(timeB)}</span>
+                <span className="text-zinc-600 font-black text-2xl tabular-nums leading-none">{fmt(timeB)}</span>
               </div>
             </div>
 
