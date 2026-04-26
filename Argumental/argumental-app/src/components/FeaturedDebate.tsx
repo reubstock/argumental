@@ -137,31 +137,7 @@ export default function FeaturedDebate({ debate }: { debate: Debate }) {
         </div>
       </div>
 
-      {/* Thermometers — center column, stretches to info card height */}
-      <div className="flex flex-col shrink-0">
-        {/* Dollar totals — pushed down so they sit below the video top */}
-        <div className="flex gap-2 justify-center pt-10 pb-2">
-          <span className="w-7 text-center text-red-600 font-black text-xl tabular-nums leading-none">${votesA}</span>
-          <span className="w-7 text-center text-blue-600 font-black text-xl tabular-nums leading-none">${votesB}</span>
-        </div>
-        {/* Tubes fill remaining height */}
-        <div className="flex gap-2 flex-1">
-          <div className="w-7 bg-zinc-200 rounded-full overflow-hidden flex flex-col justify-end">
-            <div
-              className="bg-red-500 w-full rounded-full transition-all duration-300 ease-out"
-              style={{ height: `${pctA}%` }}
-            />
-          </div>
-          <div className="w-7 bg-zinc-200 rounded-full overflow-hidden flex flex-col justify-end">
-            <div
-              className="bg-blue-500 w-full rounded-full transition-all duration-300 ease-out"
-              style={{ height: `${pctB}%` }}
-            />
-          </div>
-        </div>
-      </div>
-
-      {/* Right: video + clock + vote row */}
+      {/* Right: clock + video row (with thermometers) + vote row */}
       <div className="flex-1 min-w-0 flex flex-col gap-3">
 
         {/* Debate clock — always visible; activates when video plays */}
@@ -189,38 +165,71 @@ export default function FeaturedDebate({ debate }: { debate: Debate }) {
           </div>
         </div>
 
-        {/* Video */}
-        <VideoPlayer
-          youtubeId="YQ7IudJBpf0"
-          debaterAName={debate.debaterA.name}
-          debaterAPhoto="/shapiro.jpg"
-          debaterAPosition={debate.debaterA.position}
-          debaterBName={debate.debaterB.name}
-          debaterBPhoto="/aoc.jpg"
-          debaterBPosition={debate.debaterB.position}
-          isLive={debate.status === "live"}
-          onPlay={() => setDebateStarted(true)}
-        />
+        {/* Video row — thermometers stretch to exact video height via items-stretch */}
+        <div className="flex gap-3 items-stretch">
 
-        {/* Vote row */}
-        <div className="flex justify-between items-center">
-          {/* Shapiro */}
-          <div className="flex items-center gap-2">
-            <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-red-500 shrink-0">
-              <Image src="/shapiro.jpg" alt={debate.debaterA.name} width={48} height={48} className="w-full h-full object-cover object-top" />
+          {/* Thermometers: totals at top (aligned with video top), tubes fill to bottom */}
+          <div className="flex flex-col shrink-0">
+            <div className="flex gap-2 pb-1">
+              <span className="w-7 text-center text-red-600 font-black text-xl tabular-nums leading-none">${votesA}</span>
+              <span className="w-7 text-center text-blue-600 font-black text-xl tabular-nums leading-none">${votesB}</span>
             </div>
-            <span className="bg-red-600 text-white font-black text-sm uppercase px-4 py-2 rounded-lg select-none">VOTE</span>
-            <button onClick={() => addA(1)} className="bg-yellow-400 hover:bg-yellow-300 text-black font-black text-xs uppercase px-3 py-2 rounded-lg transition">$1</button>
-            <button onClick={() => addA(5)} className="bg-green-500 hover:bg-green-400 text-white font-black text-xs uppercase px-3 py-2 rounded-lg transition">$5</button>
+            <div className="flex gap-2 flex-1">
+              <div className="w-7 bg-zinc-200 rounded-full overflow-hidden flex flex-col justify-end">
+                <div
+                  className="bg-red-500 w-full rounded-full transition-all duration-300 ease-out"
+                  style={{ height: `${pctA}%` }}
+                />
+              </div>
+              <div className="w-7 bg-zinc-200 rounded-full overflow-hidden flex flex-col justify-end">
+                <div
+                  className="bg-blue-500 w-full rounded-full transition-all duration-300 ease-out"
+                  style={{ height: `${pctB}%` }}
+                />
+              </div>
+            </div>
           </div>
-          {/* AOC */}
-          <div className="flex items-center gap-2">
-            <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-blue-500 shrink-0">
-              <Image src="/aoc.jpg" alt={debate.debaterB.name} width={48} height={48} className="w-full h-full object-cover object-top" />
+
+          {/* Video */}
+          <div className="flex-1">
+            <VideoPlayer
+              youtubeId="YQ7IudJBpf0"
+              debaterAName={debate.debaterA.name}
+              debaterAPhoto="/shapiro.jpg"
+              debaterAPosition={debate.debaterA.position}
+              debaterBName={debate.debaterB.name}
+              debaterBPhoto="/aoc.jpg"
+              debaterBPosition={debate.debaterB.position}
+              isLive={debate.status === "live"}
+              onPlay={() => setDebateStarted(true)}
+            />
+          </div>
+        </div>{/* end video row */}
+
+        {/* Vote row — invisible spacer aligns buttons with video left edge */}
+        <div className="flex gap-3 items-center">
+          <div className="flex gap-2 shrink-0 invisible" aria-hidden="true">
+            <div className="w-7" /><div className="w-7" />
+          </div>
+          <div className="flex-1 flex justify-between items-center">
+            {/* Shapiro */}
+            <div className="flex items-center gap-2">
+              <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-red-500 shrink-0">
+                <Image src="/shapiro.jpg" alt={debate.debaterA.name} width={48} height={48} className="w-full h-full object-cover object-top" />
+              </div>
+              <span className="bg-red-600 text-white font-black text-sm uppercase px-4 py-2 rounded-lg select-none">VOTE</span>
+              <button onClick={() => addA(1)} className="bg-yellow-400 hover:bg-yellow-300 text-black font-black text-xs uppercase px-3 py-2 rounded-lg transition">$1</button>
+              <button onClick={() => addA(5)} className="bg-green-500 hover:bg-green-400 text-white font-black text-xs uppercase px-3 py-2 rounded-lg transition">$5</button>
             </div>
-            <span className="bg-blue-600 text-white font-black text-sm uppercase px-4 py-2 rounded-lg select-none">VOTE</span>
-            <button onClick={() => addB(1)} className="bg-yellow-400 hover:bg-yellow-300 text-black font-black text-xs uppercase px-3 py-2 rounded-lg transition">$1</button>
-            <button onClick={() => addB(5)} className="bg-green-500 hover:bg-green-400 text-white font-black text-xs uppercase px-3 py-2 rounded-lg transition">$5</button>
+            {/* AOC */}
+            <div className="flex items-center gap-2">
+              <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-blue-500 shrink-0">
+                <Image src="/aoc.jpg" alt={debate.debaterB.name} width={48} height={48} className="w-full h-full object-cover object-top" />
+              </div>
+              <span className="bg-blue-600 text-white font-black text-sm uppercase px-4 py-2 rounded-lg select-none">VOTE</span>
+              <button onClick={() => addB(1)} className="bg-yellow-400 hover:bg-yellow-300 text-black font-black text-xs uppercase px-3 py-2 rounded-lg transition">$1</button>
+              <button onClick={() => addB(5)} className="bg-green-500 hover:bg-green-400 text-white font-black text-xs uppercase px-3 py-2 rounded-lg transition">$5</button>
+            </div>
           </div>
         </div>{/* end vote row */}
 
