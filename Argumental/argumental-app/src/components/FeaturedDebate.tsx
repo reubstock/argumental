@@ -19,7 +19,7 @@ export default function FeaturedDebate({ debate }: { debate: Debate }) {
   const pctB = (votesB / MAX) * 100;
 
   return (
-    <div className="max-w-6xl mx-auto flex flex-col lg:flex-row gap-6 items-stretch">
+    <div className="max-w-6xl mx-auto flex flex-col lg:flex-row gap-6">
 
       {/* Info card — left */}
       <div className="lg:w-72 flex flex-col gap-4 shrink-0">
@@ -61,56 +61,91 @@ export default function FeaturedDebate({ debate }: { debate: Debate }) {
             </div>
           </div>
 
+          {/* Call Help — just above View Debate */}
+          <div className="flex items-center gap-3 mt-auto">
+            <span className="bg-zinc-900 text-white font-black text-xs uppercase tracking-widest px-3 py-2 rounded-lg">
+              CALL HELP
+            </span>
+            <a
+              href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent("https://argumental.vercel.app")}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:opacity-70 transition"
+              aria-label="Share on Facebook"
+            >
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="#1877F2" xmlns="http://www.w3.org/2000/svg">
+                <path d="M24 12.073C24 5.404 18.627 0 12 0S0 5.404 0 12.073C0 18.1 4.388 23.094 10.125 24v-8.437H7.078v-3.49h3.047V9.41c0-3.025 1.792-4.697 4.533-4.697 1.312 0 2.686.236 2.686.236v2.97h-1.513c-1.491 0-1.956.93-1.956 1.883v2.27h3.328l-.532 3.49h-2.796V24C19.612 23.094 24 18.1 24 12.073z"/>
+              </svg>
+            </a>
+            <a
+              href={`https://twitter.com/intent/tweet?text=${encodeURIComponent("Ben Shapiro vs AOC — Does Israel Have the Right to Exist? Watch live on Argumental 🥊")}&url=${encodeURIComponent("https://argumental.vercel.app")}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:opacity-70 transition"
+              aria-label="Share on X"
+            >
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="#000000" xmlns="http://www.w3.org/2000/svg">
+                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.253 5.622 5.911-5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+              </svg>
+            </a>
+          </div>
+
           <Link
             href={`/debates/${debate.id}`}
-            className="mt-auto bg-yellow-400 hover:bg-yellow-300 text-black font-bold py-3 rounded-xl text-center transition"
+            className="bg-yellow-400 hover:bg-yellow-300 text-black font-bold py-3 rounded-xl text-center transition"
           >
             {debate.status === "live" ? "Watch & Vote Now" : "View Debate"}
           </Link>
         </div>
       </div>
 
-      {/* Thermometers — center column */}
-      <div className="flex gap-3 justify-center items-stretch shrink-0 py-2">
-        {/* Shapiro — red */}
-        <div className="flex flex-col items-center gap-2">
-          <span className="text-red-600 font-black text-sm tabular-nums">${votesA}</span>
-          <div className="w-8 flex-1 min-h-[220px] bg-zinc-200 rounded-full overflow-hidden flex flex-col justify-end">
-            <div
-              className="bg-red-500 w-full rounded-full transition-all duration-300 ease-out"
-              style={{ height: `${pctA}%` }}
-            />
-          </div>
-          <span className="text-zinc-400 text-xs font-black uppercase">A</span>
-        </div>
-
-        {/* AOC — blue */}
-        <div className="flex flex-col items-center gap-2">
-          <span className="text-blue-600 font-black text-sm tabular-nums">${votesB}</span>
-          <div className="w-8 flex-1 min-h-[220px] bg-zinc-200 rounded-full overflow-hidden flex flex-col justify-end">
-            <div
-              className="bg-blue-500 w-full rounded-full transition-all duration-300 ease-out"
-              style={{ height: `${pctB}%` }}
-            />
-          </div>
-          <span className="text-zinc-400 text-xs font-black uppercase">B</span>
-        </div>
-      </div>
-
-      {/* Video + vote row + summon posse — right */}
+      {/* Right: thermometers sit left of video, bottom-aligned, protruding above */}
       <div className="flex-1 min-w-0 flex flex-col gap-4">
 
-        {/* Video */}
-        <VideoPlayer
-          youtubeId="YQ7IudJBpf0"
-          debaterAName={debate.debaterA.name}
-          debaterAPhoto="/shapiro.jpg"
-          debaterAPosition={debate.debaterA.position}
-          debaterBName={debate.debaterB.name}
-          debaterBPhoto="/aoc.jpg"
-          debaterBPosition={debate.debaterB.position}
-          isLive={debate.status === "live"}
-        />
+        {/* Video row — thermometers + video, aligned at bottom */}
+        <div className="flex gap-3 items-end">
+
+          {/* Thermometers — bottom flush with video bottom, -mt pulls top above video */}
+          <div className="flex gap-2 shrink-0 -mt-14">
+            {/* Shapiro — red */}
+            <div className="flex flex-col items-center gap-1.5">
+              <span className="text-red-600 font-black text-xs tabular-nums">${votesA}</span>
+              <div className="w-7 h-80 bg-zinc-200 rounded-full overflow-hidden flex flex-col justify-end">
+                <div
+                  className="bg-red-500 w-full rounded-full transition-all duration-300 ease-out"
+                  style={{ height: `${pctA}%` }}
+                />
+              </div>
+              <span className="text-zinc-400 text-[10px] font-black uppercase">A</span>
+            </div>
+
+            {/* AOC — blue */}
+            <div className="flex flex-col items-center gap-1.5">
+              <span className="text-blue-600 font-black text-xs tabular-nums">${votesB}</span>
+              <div className="w-7 h-80 bg-zinc-200 rounded-full overflow-hidden flex flex-col justify-end">
+                <div
+                  className="bg-blue-500 w-full rounded-full transition-all duration-300 ease-out"
+                  style={{ height: `${pctB}%` }}
+                />
+              </div>
+              <span className="text-zinc-400 text-[10px] font-black uppercase">B</span>
+            </div>
+          </div>
+
+          {/* Video */}
+          <div className="flex-1">
+            <VideoPlayer
+              youtubeId="YQ7IudJBpf0"
+              debaterAName={debate.debaterA.name}
+              debaterAPhoto="/shapiro.jpg"
+              debaterAPosition={debate.debaterA.position}
+              debaterBName={debate.debaterB.name}
+              debaterBPhoto="/aoc.jpg"
+              debaterBPosition={debate.debaterB.position}
+              isLive={debate.status === "live"}
+            />
+          </div>
+        </div>
 
         {/* Vote row */}
         <div className="flex justify-between items-center px-1 gap-4">
@@ -133,37 +168,6 @@ export default function FeaturedDebate({ debate }: { debate: Debate }) {
             <button onClick={() => addB(1)} className="bg-yellow-400 hover:bg-yellow-300 text-black font-black text-xs uppercase px-3 py-2 rounded-lg transition">$1</button>
             <button onClick={() => addB(5)} className="bg-green-500 hover:bg-green-400 text-white font-black text-xs uppercase px-3 py-2 rounded-lg transition">$5</button>
           </div>
-        </div>
-
-        {/* Call Help */}
-        <div className="flex items-center gap-3 px-1">
-          <span className="bg-zinc-900 text-white font-black text-sm uppercase tracking-widest px-5 py-2.5 rounded-xl">
-            CALL HELP
-          </span>
-          {/* Meta / Facebook */}
-          <a
-            href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent("https://argumental.vercel.app")}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hover:opacity-70 transition"
-            aria-label="Share on Facebook"
-          >
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="#1877F2" xmlns="http://www.w3.org/2000/svg">
-              <path d="M24 12.073C24 5.404 18.627 0 12 0S0 5.404 0 12.073C0 18.1 4.388 23.094 10.125 24v-8.437H7.078v-3.49h3.047V9.41c0-3.025 1.792-4.697 4.533-4.697 1.312 0 2.686.236 2.686.236v2.97h-1.513c-1.491 0-1.956.93-1.956 1.883v2.27h3.328l-.532 3.49h-2.796V24C19.612 23.094 24 18.1 24 12.073z"/>
-            </svg>
-          </a>
-          {/* X / Twitter */}
-          <a
-            href={`https://twitter.com/intent/tweet?text=${encodeURIComponent("Ben Shapiro vs AOC — Does Israel Have the Right to Exist? Watch live on Argumental 🥊")}&url=${encodeURIComponent("https://argumental.vercel.app")}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hover:opacity-70 transition"
-            aria-label="Share on X"
-          >
-            <svg width="26" height="26" viewBox="0 0 24 24" fill="#000000" xmlns="http://www.w3.org/2000/svg">
-              <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.253 5.622 5.911-5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-            </svg>
-          </a>
         </div>
 
       </div>
