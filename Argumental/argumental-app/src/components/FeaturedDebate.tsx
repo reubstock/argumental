@@ -149,25 +149,27 @@ export default function FeaturedDebate({ debate }: { debate: Debate }) {
             {/* Bell cell — rings when either side hits max */}
             <div className="flex items-center justify-center py-1">
               <svg
-                width="44" height="54" viewBox="0 0 44 54"
+                width="40" height="34" viewBox="0 0 80 68"
                 className={votesA >= MAX || votesB >= MAX ? "animate-bell-ring" : ""}
               >
-                {/* Hanger knob */}
-                <rect x="18" y="0" width="8" height="7" rx="4" fill="#8B6914"/>
-                {/* Bell body — narrow neck, dramatic wide flare at bottom */}
-                <path d="M22,6 C18,6 14,10 12,15 C10,20 9,25 6,32 C4,37 2,40 0,43 L44,43 C42,40 40,37 38,32 C35,25 34,20 32,15 C30,10 26,6 22,6 Z" fill="#DAA520"/>
-                {/* Inner shading — depth on right side */}
-                <path d="M22,6 C26,6 30,10 32,15 C34,20 35,25 38,32 C40,37 42,40 44,43 L36,43 C34,40 33,37 31,32 C29,26 28,21 27,16 C26,11 24,8 22,6 Z" fill="#C8961A" opacity="0.5"/>
-                {/* Highlight shine — left curve */}
-                <path d="M14,12 C12,17 11,23 12,30" stroke="#F7DF6E" strokeWidth="2.5" strokeLinecap="round" opacity="0.65"/>
-                {/* Flared rim */}
-                <path d="M0,43 Q0,49 22,49 Q44,49 44,43 Z" fill="#B8860B"/>
-                {/* Rim highlight line */}
-                <line x1="4" y1="46" x2="40" y2="46" stroke="#D4A820" strokeWidth="1" opacity="0.5"/>
+                {/* Handle loop */}
+                <path d="M34,7 A6,5 0 0,1 46,7" stroke="#F0A500" strokeWidth="4" fill="none" strokeLinecap="round"/>
+                {/* Bell body — rounded dome, sides gently flaring outward */}
+                <path d="M40,7 C31,7 21,14 19,25 C17,33 17,40 16,45 L64,45 C63,40 63,33 61,25 C59,14 49,7 40,7 Z" fill="#F0A500"/>
+                {/* Flared rim — wider than body */}
+                <path d="M12,45 Q12,53 40,53 Q68,53 68,45 Z" fill="#F0A500"/>
                 {/* Clapper stem */}
-                <line x1="22" y1="43" x2="22" y2="50" stroke="#7A5A0A" strokeWidth="2.5"/>
+                <line x1="40" y1="53" x2="40" y2="59" stroke="#C87800" strokeWidth="3"/>
                 {/* Clapper ball */}
-                <circle cx="22" cy="53" r="4" fill="#7A5A0A"/>
+                <circle cx="40" cy="64" r="4.5" fill="#C87800"/>
+                {/* Left inner wave */}
+                <path d="M13,31 C10,35 10,41 13,45" stroke="#F0A500" strokeWidth="3" fill="none" strokeLinecap="round"/>
+                {/* Left outer wave */}
+                <path d="M6,26 C2,33 2,43 6,50" stroke="#F0A500" strokeWidth="3" fill="none" strokeLinecap="round"/>
+                {/* Right inner wave */}
+                <path d="M67,31 C70,35 70,41 67,45" stroke="#F0A500" strokeWidth="3" fill="none" strokeLinecap="round"/>
+                {/* Right outer wave */}
+                <path d="M74,26 C78,33 78,43 74,50" stroke="#F0A500" strokeWidth="3" fill="none" strokeLinecap="round"/>
               </svg>
             </div>
 
