@@ -125,57 +125,61 @@ export default function FeaturedDebate({ debate }: { debate: Debate }) {
         </div>
       </div>
 
-      {/* ── MIDDLE: Dollar totals (top) + Bell (lower) + thermometer tubes ── */}
-      <div className="flex flex-col gap-2 shrink-0 w-20">
-        {/* Dollar totals — above the bell */}
-        <div className="flex gap-2 justify-center">
-          <span className="w-7 text-center text-red-600 font-black text-xl tabular-nums leading-none">${votesA}</span>
-          <span className="w-7 text-center text-blue-600 font-black text-xl tabular-nums leading-none">${votesB}</span>
-        </div>
-        {/* Bell — larger, pushed down toward tube area */}
-        <div className="flex justify-center pt-2 pb-1">{BellIcon}</div>
-        {/* Tubes — fill remaining height */}
-        <div className="flex gap-2 flex-1">
-          <div className="w-5 bg-zinc-200 rounded-full overflow-hidden flex flex-col justify-end">
-            <div className="bg-red-500 w-full rounded-full transition-all duration-300 ease-out" style={{height:`${pctA}%`}}/>
-          </div>
-          <div className="w-5 bg-zinc-200 rounded-full overflow-hidden flex flex-col justify-end">
-            <div className="bg-blue-500 w-full rounded-full transition-all duration-300 ease-out" style={{height:`${pctB}%`}}/>
-          </div>
-        </div>
-      </div>
-
-      {/* ── RIGHT: Clock bar (top) + video + vote row ── */}
+      {/* ── MIDDLE + RIGHT combined into a flex-col so rows share the same width context ── */}
       <div className="flex-1 min-w-0 flex flex-col gap-3">
 
-        {/* Clock bar — same width as video, above it */}
-        <div className="flex items-center bg-zinc-900 rounded-xl px-5 py-3 gap-4">
-          <div className="flex-1 flex flex-col items-start">
-            <span className="text-red-400 text-[10px] font-bold uppercase tracking-widest leading-none mb-1">{debate.debaterA.name.split(" ").pop()}</span>
-            <span className={`font-black text-2xl tabular-nums leading-none ${debateStarted ? "text-white" : "text-zinc-600"}`}>{fmt(timeA)}</span>
+        {/* Row 1: dollar totals | clock bar — both above their respective columns */}
+        <div className="flex gap-3 items-center">
+          <div className="w-20 shrink-0 flex gap-3 justify-center">
+            <span className="text-red-600 font-black text-xl tabular-nums leading-none">${votesA}</span>
+            <span className="text-blue-600 font-black text-xl tabular-nums leading-none">${votesB}</span>
           </div>
-          <div className="flex flex-col items-center">
-            <span className="text-yellow-400 text-[10px] font-bold uppercase tracking-widest leading-none mb-1">Debate</span>
-            <span className={`font-black text-3xl tabular-nums leading-none ${debateStarted ? "text-white" : "text-zinc-600"}`}>{fmt(mainTime)}</span>
-          </div>
-          <div className="flex-1 flex flex-col items-end">
-            <span className="text-blue-400 text-[10px] font-bold uppercase tracking-widest leading-none mb-1">{debate.debaterB.name.split(" ").pop()}</span>
-            <span className="text-zinc-600 font-black text-2xl tabular-nums leading-none">{fmt(timeB)}</span>
+          <div className="flex-1 flex items-center bg-zinc-900 rounded-xl px-5 py-3 gap-4">
+            <div className="flex-1 flex flex-col items-start">
+              <span className="text-red-400 text-[10px] font-bold uppercase tracking-widest leading-none mb-1">{debate.debaterA.name.split(" ").pop()}</span>
+              <span className={`font-black text-2xl tabular-nums leading-none ${debateStarted ? "text-white" : "text-zinc-600"}`}>{fmt(timeA)}</span>
+            </div>
+            <div className="flex flex-col items-center">
+              <span className="text-yellow-400 text-[10px] font-bold uppercase tracking-widest leading-none mb-1">Debate</span>
+              <span className={`font-black text-3xl tabular-nums leading-none ${debateStarted ? "text-white" : "text-zinc-600"}`}>{fmt(mainTime)}</span>
+            </div>
+            <div className="flex-1 flex flex-col items-end">
+              <span className="text-blue-400 text-[10px] font-bold uppercase tracking-widest leading-none mb-1">{debate.debaterB.name.split(" ").pop()}</span>
+              <span className="text-zinc-600 font-black text-2xl tabular-nums leading-none">{fmt(timeB)}</span>
+            </div>
           </div>
         </div>
 
-        {/* Video */}
-        <VideoPlayer
-          youtubeId="YQ7IudJBpf0"
-          debaterAName={debate.debaterA.name}
-          debaterAPhoto="/shapiro.jpg"
-          debaterAPosition={debate.debaterA.position}
-          debaterBName={debate.debaterB.name}
-          debaterBPhoto="/aoc.jpg"
-          debaterBPosition={debate.debaterB.position}
-          isLive={debate.status === "live"}
-          onPlay={() => setDebateStarted(true)}
-        />
+        {/* Row 2: bell+tubes | video — items-stretch guarantees tube bottom = video bottom */}
+        <div className="flex gap-3 items-stretch">
+          {/* Bell above tubes, both centered in the w-20 column */}
+          <div className="w-20 shrink-0 flex flex-col items-center gap-2">
+            {BellIcon}
+            {/* Tubes — centered, fill to video bottom */}
+            <div className="flex-1 flex justify-center gap-2">
+              <div className="w-5 bg-zinc-200 rounded-full overflow-hidden flex flex-col justify-end">
+                <div className="bg-red-500 w-full rounded-full transition-all duration-300 ease-out" style={{height:`${pctA}%`}}/>
+              </div>
+              <div className="w-5 bg-zinc-200 rounded-full overflow-hidden flex flex-col justify-end">
+                <div className="bg-blue-500 w-full rounded-full transition-all duration-300 ease-out" style={{height:`${pctB}%`}}/>
+              </div>
+            </div>
+          </div>
+          {/* Video */}
+          <div className="flex-1">
+            <VideoPlayer
+              youtubeId="YQ7IudJBpf0"
+              debaterAName={debate.debaterA.name}
+              debaterAPhoto="/shapiro.jpg"
+              debaterAPosition={debate.debaterA.position}
+              debaterBName={debate.debaterB.name}
+              debaterBPhoto="/aoc.jpg"
+              debaterBPosition={debate.debaterB.position}
+              isLive={debate.status === "live"}
+              onPlay={() => setDebateStarted(true)}
+            />
+          </div>
+        </div>
 
         {/* Vote row */}
         <div className="flex justify-between items-center bg-zinc-100 rounded-xl px-4 py-3">
