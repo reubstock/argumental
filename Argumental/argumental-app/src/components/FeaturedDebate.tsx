@@ -27,6 +27,7 @@ export default function FeaturedDebate({ debate }: { debate: Debate }) {
   const pctB = (votesB / MAX) * 100;
 
   // Debate clock
+  const [showHelpPopup, setShowHelpPopup] = useState(false);
   const [debateStarted, setDebateStarted] = useState(false);
   const [mainTime, setMainTime] = useState(MAIN_SECS);
   const [timeA, setTimeA] = useState(PHASE_SECS);
@@ -103,30 +104,54 @@ export default function FeaturedDebate({ debate }: { debate: Debate }) {
             </div>
           </div>
           <div className="flex items-end gap-3 mt-auto">
-            {/* Life preserver stacked above CALL FOR HELP, both centered together */}
-            <div className="flex flex-col items-center gap-1">
-              {/* Classic desk telephone — handset on top, rotary dial below */}
-              <svg width="44" height="44" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
-                {/* Phone body */}
-                <rect x="4" y="17" width="32" height="20" rx="4" fill="#DC2626"/>
-                {/* Handset: two earpiece cups + curved bridge, sitting on top of body */}
-                <ellipse cx="9"  cy="15" rx="5.5" ry="4.5" fill="#DC2626" stroke="#991B1B" strokeWidth="1"/>
-                <ellipse cx="31" cy="15" rx="5.5" ry="4.5" fill="#DC2626" stroke="#991B1B" strokeWidth="1"/>
-                <path d="M9,11 C14,5 26,5 31,11 L31,19 C26,15 14,15 9,19 Z" fill="#B91C1C"/>
-                {/* Rotary dial — outer ring, inner stop, finger holes */}
-                <circle cx="20" cy="28" r="8.5" fill="#B91C1C"/>
-                <circle cx="20" cy="28" r="3.5" fill="#7F1D1D"/>
-                {/* 8 finger holes evenly spaced at r=6 */}
-                <circle cx="20.0" cy="22.0" r="1.3" fill="#7F1D1D"/>
-                <circle cx="24.2" cy="23.2" r="1.3" fill="#7F1D1D"/>
-                <circle cx="26.0" cy="28.0" r="1.3" fill="#7F1D1D"/>
-                <circle cx="24.2" cy="32.8" r="1.3" fill="#7F1D1D"/>
-                <circle cx="20.0" cy="34.0" r="1.3" fill="#7F1D1D"/>
-                <circle cx="15.8" cy="32.8" r="1.3" fill="#7F1D1D"/>
-                <circle cx="14.0" cy="28.0" r="1.3" fill="#7F1D1D"/>
-                <circle cx="15.8" cy="23.2" r="1.3" fill="#7F1D1D"/>
-              </svg>
-              <span className="bg-zinc-500 text-white font-black text-xs uppercase tracking-widest px-3 py-2 rounded-lg whitespace-nowrap">CALL FOR HELP</span>
+            {/* Telephone icon + CALL FOR HELP — clickable, opens share popup */}
+            <div className="relative flex flex-col items-center gap-1">
+              {showHelpPopup && (
+                <>
+                  {/* Backdrop to close on outside click */}
+                  <div className="fixed inset-0 z-40" onClick={() => setShowHelpPopup(false)}/>
+                  {/* Popup */}
+                  <div className="absolute bottom-full mb-3 left-1/2 -translate-x-1/2 z-50 bg-white border border-zinc-200 rounded-2xl shadow-2xl p-4 flex flex-col gap-3 min-w-[180px]">
+                    <p className="text-zinc-400 text-[10px] font-bold uppercase tracking-widest text-center">Share this debate</p>
+                    <a href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent("https://argumental.vercel.app")}`} target="_blank" rel="noopener noreferrer"
+                      className="flex items-center gap-3 px-3 py-2 rounded-xl bg-zinc-50 hover:bg-blue-50 transition"
+                      onClick={() => setShowHelpPopup(false)}>
+                      <svg width="22" height="22" viewBox="0 0 24 24" fill="#1877F2"><path d="M24 12.073C24 5.404 18.627 0 12 0S0 5.404 0 12.073C0 18.1 4.388 23.094 10.125 24v-8.437H7.078v-3.49h3.047V9.41c0-3.025 1.792-4.697 4.533-4.697 1.312 0 2.686.236 2.686.236v2.97h-1.513c-1.491 0-1.956.93-1.956 1.883v2.27h3.328l-.532 3.49h-2.796V24C19.612 23.094 24 18.1 24 12.073z"/></svg>
+                      <span className="text-sm font-semibold text-zinc-700">Facebook</span>
+                    </a>
+                    <a href={`https://twitter.com/intent/tweet?text=${encodeURIComponent("Ben Shapiro vs AOC — Does Israel Have the Right to Exist? Watch live on Argumental 🥊")}&url=${encodeURIComponent("https://argumental.vercel.app")}`} target="_blank" rel="noopener noreferrer"
+                      className="flex items-center gap-3 px-3 py-2 rounded-xl bg-zinc-50 hover:bg-zinc-100 transition"
+                      onClick={() => setShowHelpPopup(false)}>
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="#000000"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.253 5.622 5.911-5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                      <span className="text-sm font-semibold text-zinc-700">X / Twitter</span>
+                    </a>
+                  </div>
+                </>
+              )}
+              <button onClick={() => setShowHelpPopup(v => !v)} className="flex flex-col items-center gap-1 hover:opacity-80 transition cursor-pointer">
+                {/* Classic desk telephone — handset on top, rotary dial below */}
+                <svg width="44" height="44" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+                  {/* Phone body */}
+                  <rect x="4" y="17" width="32" height="20" rx="4" fill="#DC2626"/>
+                  {/* Handset: two earpiece cups + curved bridge, sitting on top of body */}
+                  <ellipse cx="9"  cy="15" rx="5.5" ry="4.5" fill="#DC2626" stroke="#991B1B" strokeWidth="1"/>
+                  <ellipse cx="31" cy="15" rx="5.5" ry="4.5" fill="#DC2626" stroke="#991B1B" strokeWidth="1"/>
+                  <path d="M9,11 C14,5 26,5 31,11 L31,19 C26,15 14,15 9,19 Z" fill="#B91C1C"/>
+                  {/* Rotary dial — outer ring, inner stop, finger holes */}
+                  <circle cx="20" cy="28" r="8.5" fill="#B91C1C"/>
+                  <circle cx="20" cy="28" r="3.5" fill="#7F1D1D"/>
+                  {/* 8 finger holes evenly spaced at r=6 */}
+                  <circle cx="20.0" cy="22.0" r="1.3" fill="#7F1D1D"/>
+                  <circle cx="24.2" cy="23.2" r="1.3" fill="#7F1D1D"/>
+                  <circle cx="26.0" cy="28.0" r="1.3" fill="#7F1D1D"/>
+                  <circle cx="24.2" cy="32.8" r="1.3" fill="#7F1D1D"/>
+                  <circle cx="20.0" cy="34.0" r="1.3" fill="#7F1D1D"/>
+                  <circle cx="15.8" cy="32.8" r="1.3" fill="#7F1D1D"/>
+                  <circle cx="14.0" cy="28.0" r="1.3" fill="#7F1D1D"/>
+                  <circle cx="15.8" cy="23.2" r="1.3" fill="#7F1D1D"/>
+                </svg>
+                <span className="bg-zinc-500 text-white font-black text-xs uppercase tracking-widest px-3 py-2 rounded-lg whitespace-nowrap">CALL FOR HELP</span>
+              </button>
             </div>
             <a href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent("https://argumental.vercel.app")}`} target="_blank" rel="noopener noreferrer" className="hover:opacity-70 transition" aria-label="Share on Facebook">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="#1877F2"><path d="M24 12.073C24 5.404 18.627 0 12 0S0 5.404 0 12.073C0 18.1 4.388 23.094 10.125 24v-8.437H7.078v-3.49h3.047V9.41c0-3.025 1.792-4.697 4.533-4.697 1.312 0 2.686.236 2.686.236v2.97h-1.513c-1.491 0-1.956.93-1.956 1.883v2.27h3.328l-.532 3.49h-2.796V24C19.612 23.094 24 18.1 24 12.073z"/></svg>
