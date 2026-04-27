@@ -178,7 +178,7 @@ export default function FeaturedDebate({ debate }: { debate: Debate }) {
         />
 
         {/* Vote row */}
-        <div className="flex justify-between items-center">
+        <div className="flex justify-between items-center bg-zinc-100 rounded-xl px-4 py-3">
           <div className="flex items-center gap-2">
             <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-red-500 shrink-0">
               <Image src="/shapiro.jpg" alt={debate.debaterA.name} width={48} height={48} className="w-full h-full object-cover object-top"/>
