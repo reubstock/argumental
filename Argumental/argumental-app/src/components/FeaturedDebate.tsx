@@ -45,7 +45,7 @@ export default function FeaturedDebate({ debate }: { debate: Debate }) {
 
   // Bell SVG shared between rows
   const BellIcon = (
-    <svg width="38" height="42" viewBox="0 0 100 110" xmlns="http://www.w3.org/2000/svg"
+    <svg width="54" height="60" viewBox="0 0 100 110" xmlns="http://www.w3.org/2000/svg"
       className={votesA >= MAX || votesB >= MAX ? "animate-bell-ring" : ""}>
       <defs>
         <radialGradient id="bellBody" cx="38%" cy="30%" r="65%">
@@ -125,16 +125,16 @@ export default function FeaturedDebate({ debate }: { debate: Debate }) {
         </div>
       </div>
 
-      {/* ── MIDDLE: Bell (top) + thermometer tubes ── */}
-      <div className="flex flex-col gap-2 shrink-0 w-16">
-        {/* Bell — sole element above the video/info line */}
-        <div className="flex justify-center pb-1">{BellIcon}</div>
-        {/* Dollar totals */}
-        <div className="flex gap-2">
+      {/* ── MIDDLE: Dollar totals (top) + Bell (lower) + thermometer tubes ── */}
+      <div className="flex flex-col gap-2 shrink-0 w-20">
+        {/* Dollar totals — above the bell */}
+        <div className="flex gap-2 justify-center">
           <span className="w-7 text-center text-red-600 font-black text-xl tabular-nums leading-none">${votesA}</span>
           <span className="w-7 text-center text-blue-600 font-black text-xl tabular-nums leading-none">${votesB}</span>
         </div>
-        {/* Tubes — stretch to video height via the outer items-stretch */}
+        {/* Bell — larger, pushed down toward tube area */}
+        <div className="flex justify-center pt-2 pb-1">{BellIcon}</div>
+        {/* Tubes — fill remaining height */}
         <div className="flex gap-2 flex-1">
           <div className="w-7 bg-zinc-200 rounded-full overflow-hidden flex flex-col justify-end">
             <div className="bg-red-500 w-full rounded-full transition-all duration-300 ease-out" style={{height:`${pctA}%`}}/>
