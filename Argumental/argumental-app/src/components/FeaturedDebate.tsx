@@ -105,19 +105,9 @@ export default function FeaturedDebate({ debate }: { debate: Debate }) {
           <div className="flex items-end gap-3 mt-auto">
             {/* Life preserver stacked above CALL FOR HELP, both centered together */}
             <div className="flex flex-col items-center gap-1">
-              <svg width="42" height="42" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
-                {/* Outer red ring — thick body */}
-                <circle cx="20" cy="20" r="19" fill="#DC2626" stroke="#991B1B" strokeWidth="2"/>
-                {/* White panels — top-right and bottom-left */}
-                <path d="M20,1 A19,19 0 0,1 39,20 L28,20 A8,8 0 0,0 20,12 Z" fill="white"/>
-                <path d="M20,39 A19,19 0 0,1 1,20 L12,20 A8,8 0 0,0 20,28 Z" fill="white"/>
-                {/* Centre hole — smaller = chunkier ring */}
-                <circle cx="20" cy="20" r="8" fill="white" stroke="#991B1B" strokeWidth="2"/>
-                {/* Cross dividers */}
-                <line x1="20" y1="1"  x2="20" y2="12" stroke="#991B1B" strokeWidth="2"/>
-                <line x1="20" y1="28" x2="20" y2="39" stroke="#991B1B" strokeWidth="2"/>
-                <line x1="1"  y1="20" x2="12" y2="20" stroke="#991B1B" strokeWidth="2"/>
-                <line x1="28" y1="20" x2="39" y2="20" stroke="#991B1B" strokeWidth="2"/>
+              {/* Red telephone handset */}
+              <svg width="42" height="42" viewBox="0 0 24 24" fill="#DC2626" xmlns="http://www.w3.org/2000/svg">
+                <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
               </svg>
               <span className="bg-zinc-500 text-white font-black text-xs uppercase tracking-widest px-3 py-2 rounded-lg whitespace-nowrap">CALL FOR HELP</span>
             </div>
