@@ -129,11 +129,10 @@ export default function FeaturedDebate({ debate }: { debate: Debate }) {
                 </>
               )}
               <button onClick={() => setShowHelpPopup(v => !v)} className="flex flex-col items-center gap-1 hover:opacity-80 transition cursor-pointer">
-                {/* Red circle, white handset centred with padding */}
-                <svg width="44" height="44" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style={{overflow:"hidden"}}>
+                {/* Red circle, white handset — scaled to 65 % so it sits well inside */}
+                <svg width="40" height="40" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                   <circle cx="12" cy="12" r="12" fill="#DC2626"/>
-                  {/* Bootstrap telephone-fill scaled to ~60 % of circle, centred */}
-                  <g transform="translate(4.8,4.8) scale(0.9)">
+                  <g transform="translate(5.5,5.5) scale(0.82)">
                     <path fill="white" d="M1.885.511a1.745 1.745 0 0 1 2.61.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.678.678 0 0 0 .178.643l2.457 2.457a.678.678 0 0 0 .644.178l2.189-.547a1.745 1.745 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.634 18.634 0 0 1-7.01-4.42 18.634 18.634 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877L1.885.511z"/>
                   </g>
                 </svg>
@@ -158,13 +157,13 @@ export default function FeaturedDebate({ debate }: { debate: Debate }) {
           </Link>
         </div>
 
-        {/* Action boxes */}
-        <button className="w-full bg-white hover:bg-yellow-50 border-2 border-zinc-300 hover:border-yellow-400 rounded-xl py-3.5 text-center font-black text-xs uppercase tracking-widest text-zinc-800 transition">
+        {/* Action boxes — link to /upcoming forms */}
+        <Link href="/upcoming#topic" className="block w-full bg-white hover:bg-yellow-50 border-2 border-zinc-300 hover:border-yellow-400 rounded-xl py-3.5 text-center font-black text-xs uppercase tracking-widest text-zinc-800 transition">
           Suggest New Topic
-        </button>
-        <button className="w-full bg-white hover:bg-yellow-50 border-2 border-zinc-300 hover:border-yellow-400 rounded-xl py-3.5 text-center font-black text-xs uppercase tracking-widest text-zinc-800 transition">
-          Nominate Debator
-        </button>
+        </Link>
+        <Link href="/upcoming#nominate" className="block w-full bg-white hover:bg-yellow-50 border-2 border-zinc-300 hover:border-yellow-400 rounded-xl py-3.5 text-center font-black text-xs uppercase tracking-widest text-zinc-800 transition">
+          Nominate Debater
+        </Link>
       </div>
 
       {/* ── MIDDLE + RIGHT: single items-stretch row so left column spans clock + video height ── */}

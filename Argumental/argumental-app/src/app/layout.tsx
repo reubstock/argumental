@@ -25,6 +25,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             />
           </Link>
           <div className="flex items-center text-sm font-medium">
+            <Link href="/upcoming"  className="text-zinc-500 hover:text-zinc-900 hover:bg-zinc-100 transition rounded-lg px-3 py-1.5">Upcoming</Link>
             <Link href="/debates"   className="text-zinc-500 hover:text-zinc-900 hover:bg-zinc-100 transition rounded-lg px-3 py-1.5">Debates</Link>
             <Link href="/charities" className="text-zinc-500 hover:text-zinc-900 hover:bg-zinc-100 transition rounded-lg px-3 py-1.5">Charities</Link>
             <Link href="/outcomes"  className="text-zinc-500 hover:text-zinc-900 hover:bg-zinc-100 transition rounded-lg px-3 py-1.5">Outcomes</Link>
