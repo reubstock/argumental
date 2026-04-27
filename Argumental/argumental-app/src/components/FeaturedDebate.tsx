@@ -129,30 +129,11 @@ export default function FeaturedDebate({ debate }: { debate: Debate }) {
                 </>
               )}
               <button onClick={() => setShowHelpPopup(v => !v)} className="flex flex-col items-center gap-1 hover:opacity-80 transition cursor-pointer">
-                {/* Desk telephone — white handset arch on red body, clear dial */}
+                {/* Red circle + white phone handset silhouette */}
                 <svg width="44" height="44" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
-                  {/* Phone body */}
-                  <rect x="4" y="15" width="32" height="23" rx="5" fill="#DC2626"/>
-                  {/* Handset — white arch so it reads as a separate physical piece */}
-                  <path d="M9,15 C9,3 31,3 31,15"
-                        fill="none" stroke="white" strokeWidth="7" strokeLinecap="round"/>
-                  {/* Cradle groove — thin red line down the middle of the arch */}
-                  <path d="M9,15 C9,3 31,3 31,15"
-                        fill="none" stroke="#DC2626" strokeWidth="2" strokeLinecap="round"/>
-                  {/* Rotary dial — dark surround ring for contrast, then face */}
-                  <circle cx="20" cy="27.5" r="10"  fill="#7F1D1D"/>
-                  <circle cx="20" cy="27.5" r="8.5" fill="#B91C1C"/>
-                  {/* Finger stop (centre hub) */}
-                  <circle cx="20" cy="27.5" r="3.5" fill="#7F1D1D"/>
-                  {/* 8 finger holes — white for maximum contrast */}
-                  <circle cx="20.0" cy="20.5" r="1.5" fill="white"/>
-                  <circle cx="25.0" cy="22.5" r="1.5" fill="white"/>
-                  <circle cx="27.0" cy="27.5" r="1.5" fill="white"/>
-                  <circle cx="25.0" cy="32.5" r="1.5" fill="white"/>
-                  <circle cx="20.0" cy="34.5" r="1.5" fill="white"/>
-                  <circle cx="15.0" cy="32.5" r="1.5" fill="white"/>
-                  <circle cx="13.0" cy="27.5" r="1.5" fill="white"/>
-                  <circle cx="15.0" cy="22.5" r="1.5" fill="white"/>
+                  <circle cx="20" cy="20" r="20" fill="#DC2626"/>
+                  <path transform="translate(5,5) scale(1.25)" fill="white"
+                    d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
                 </svg>
                 <span className="bg-zinc-500 text-white font-black text-xs uppercase tracking-widest px-3 py-2 rounded-lg whitespace-nowrap">CALL FOR HELP</span>
               </button>
