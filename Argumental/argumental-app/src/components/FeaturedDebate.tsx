@@ -86,15 +86,15 @@ export default function FeaturedDebate({ debate }: { debate: Debate }) {
   return (
     <div className="max-w-6xl mx-auto flex gap-6">
 
-      {/* ── LEFT: Info card ── */}
-      <div className="w-72 shrink-0 flex flex-col gap-4">
-        <div className="bg-zinc-100 border border-zinc-200 rounded-2xl p-6 flex flex-col gap-4 h-full">
+      {/* ── LEFT: Info card + action boxes ── */}
+      <div className="w-72 shrink-0 flex flex-col gap-3">
+        <div className="bg-zinc-100 border border-zinc-200 rounded-2xl p-4 flex flex-col gap-3">
           <div>
-            <p className="text-yellow-600 text-xs uppercase tracking-widest font-semibold mb-2">Featured Bout</p>
-            <h2 className="text-zinc-900 font-black text-xl leading-tight">{debate.title}</h2>
-            <p className="text-zinc-600 text-sm mt-3 leading-relaxed">{debate.description}</p>
+            <p className="text-yellow-600 text-xs uppercase tracking-widest font-semibold mb-1">Featured Bout</p>
+            <h2 className="text-zinc-900 font-black text-lg leading-tight">{debate.title}</h2>
+            <p className="text-zinc-600 text-sm mt-2 leading-snug">{debate.description}</p>
           </div>
-          <div className="border-t border-zinc-200 pt-4 flex flex-col gap-2 text-sm">
+          <div className="border-t border-zinc-200 pt-3 flex flex-col gap-1.5 text-sm">
             <div className="flex justify-between text-zinc-500"><span>Format</span><span className="text-zinc-700">4 phases · 25 min</span></div>
             <div className="flex justify-between text-zinc-500"><span>Vote cost</span><span className="text-zinc-700">$5 per vote</span></div>
             <div className="flex justify-between text-zinc-500"><span>Charity cut</span><span className="text-zinc-700">10% to winner&apos;s pick</span></div>
@@ -150,10 +150,18 @@ export default function FeaturedDebate({ debate }: { debate: Debate }) {
               </div>
             </div>
           </div>
-          <Link href={`/debates/${debate.id}`} className="bg-yellow-400 hover:bg-yellow-300 text-black font-bold py-3 rounded-xl text-center transition">
+          <Link href={`/debates/${debate.id}`} className="bg-yellow-400 hover:bg-yellow-300 text-black font-bold py-2.5 rounded-xl text-center text-sm transition">
             {debate.status === "live" ? "Watch & Vote Now" : "View Debate"}
           </Link>
         </div>
+
+        {/* Action boxes */}
+        <button className="w-full bg-zinc-100 hover:bg-zinc-200 border border-zinc-200 rounded-xl py-3 text-center font-black text-xs uppercase tracking-widest text-zinc-700 transition cursor-pointer">
+          Suggest New Topic
+        </button>
+        <button className="w-full bg-zinc-100 hover:bg-zinc-200 border border-zinc-200 rounded-xl py-3 text-center font-black text-xs uppercase tracking-widest text-zinc-700 transition cursor-pointer">
+          Nominate Debator
+        </button>
       </div>
 
       {/* ── MIDDLE + RIGHT: single items-stretch row so left column spans clock + video height ── */}
