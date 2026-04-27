@@ -103,7 +103,7 @@ export default function FeaturedDebate({ debate }: { debate: Debate }) {
               <span className="text-zinc-700">{new Date(debate.scheduledAt).toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"})}</span>
             </div>
           </div>
-          <div className="flex items-end justify-between mt-auto">
+          <div className="flex items-end justify-between">
             {/* Telephone icon + CALL FOR HELP — clickable, opens share popup */}
             <div className="relative flex flex-col items-center gap-1">
               {showHelpPopup && (
@@ -129,10 +129,13 @@ export default function FeaturedDebate({ debate }: { debate: Debate }) {
                 </>
               )}
               <button onClick={() => setShowHelpPopup(v => !v)} className="flex flex-col items-center gap-1 hover:opacity-80 transition cursor-pointer">
-                {/* Red circle + white telephone handset — Bootstrap telephone-fill, native coords */}
-                <svg width="44" height="44" viewBox="-1 -1 18 18" xmlns="http://www.w3.org/2000/svg">
-                  <circle cx="8" cy="8" r="9" fill="#DC2626"/>
-                  <path fill="white" d="M1.885.511a1.745 1.745 0 0 1 2.61.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.678.678 0 0 0 .178.643l2.457 2.457a.678.678 0 0 0 .644.178l2.189-.547a1.745 1.745 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.634 18.634 0 0 1-7.01-4.42 18.634 18.634 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877L1.885.511z"/>
+                {/* Red circle, white handset centred with padding */}
+                <svg width="44" height="44" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style={{overflow:"hidden"}}>
+                  <circle cx="12" cy="12" r="12" fill="#DC2626"/>
+                  {/* Bootstrap telephone-fill scaled to ~60 % of circle, centred */}
+                  <g transform="translate(4.8,4.8) scale(0.9)">
+                    <path fill="white" d="M1.885.511a1.745 1.745 0 0 1 2.61.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.678.678 0 0 0 .178.643l2.457 2.457a.678.678 0 0 0 .644.178l2.189-.547a1.745 1.745 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.634 18.634 0 0 1-7.01-4.42 18.634 18.634 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877L1.885.511z"/>
+                  </g>
                 </svg>
                 <span className="bg-zinc-500 text-white font-black text-xs uppercase tracking-widest px-3 py-2 rounded-lg whitespace-nowrap">CALL FOR HELP</span>
               </button>
@@ -156,10 +159,10 @@ export default function FeaturedDebate({ debate }: { debate: Debate }) {
         </div>
 
         {/* Action boxes */}
-        <button className="w-full bg-zinc-100 hover:bg-zinc-200 border border-zinc-200 rounded-xl py-3 text-center font-black text-xs uppercase tracking-widest text-zinc-700 transition cursor-pointer">
+        <button className="w-full bg-white hover:bg-yellow-50 border-2 border-zinc-300 hover:border-yellow-400 rounded-xl py-3.5 text-center font-black text-xs uppercase tracking-widest text-zinc-800 transition">
           Suggest New Topic
         </button>
-        <button className="w-full bg-zinc-100 hover:bg-zinc-200 border border-zinc-200 rounded-xl py-3 text-center font-black text-xs uppercase tracking-widest text-zinc-700 transition cursor-pointer">
+        <button className="w-full bg-white hover:bg-yellow-50 border-2 border-zinc-300 hover:border-yellow-400 rounded-xl py-3.5 text-center font-black text-xs uppercase tracking-widest text-zinc-800 transition">
           Nominate Debator
         </button>
       </div>
