@@ -105,9 +105,26 @@ export default function FeaturedDebate({ debate }: { debate: Debate }) {
           <div className="flex items-end gap-3 mt-auto">
             {/* Life preserver stacked above CALL FOR HELP, both centered together */}
             <div className="flex flex-col items-center gap-1">
-              {/* Red telephone handset */}
-              <svg width="42" height="42" viewBox="0 0 24 24" fill="#DC2626" xmlns="http://www.w3.org/2000/svg">
-                <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
+              {/* Classic desk telephone — handset on top, rotary dial below */}
+              <svg width="44" height="44" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+                {/* Phone body */}
+                <rect x="4" y="17" width="32" height="20" rx="4" fill="#DC2626"/>
+                {/* Handset: two earpiece cups + curved bridge, sitting on top of body */}
+                <ellipse cx="9"  cy="15" rx="5.5" ry="4.5" fill="#DC2626" stroke="#991B1B" strokeWidth="1"/>
+                <ellipse cx="31" cy="15" rx="5.5" ry="4.5" fill="#DC2626" stroke="#991B1B" strokeWidth="1"/>
+                <path d="M9,11 C14,5 26,5 31,11 L31,19 C26,15 14,15 9,19 Z" fill="#B91C1C"/>
+                {/* Rotary dial — outer ring, inner stop, finger holes */}
+                <circle cx="20" cy="28" r="8.5" fill="#B91C1C"/>
+                <circle cx="20" cy="28" r="3.5" fill="#7F1D1D"/>
+                {/* 8 finger holes evenly spaced at r=6 */}
+                <circle cx="20.0" cy="22.0" r="1.3" fill="#7F1D1D"/>
+                <circle cx="24.2" cy="23.2" r="1.3" fill="#7F1D1D"/>
+                <circle cx="26.0" cy="28.0" r="1.3" fill="#7F1D1D"/>
+                <circle cx="24.2" cy="32.8" r="1.3" fill="#7F1D1D"/>
+                <circle cx="20.0" cy="34.0" r="1.3" fill="#7F1D1D"/>
+                <circle cx="15.8" cy="32.8" r="1.3" fill="#7F1D1D"/>
+                <circle cx="14.0" cy="28.0" r="1.3" fill="#7F1D1D"/>
+                <circle cx="15.8" cy="23.2" r="1.3" fill="#7F1D1D"/>
               </svg>
               <span className="bg-zinc-500 text-white font-black text-xs uppercase tracking-widest px-3 py-2 rounded-lg whitespace-nowrap">CALL FOR HELP</span>
             </div>
