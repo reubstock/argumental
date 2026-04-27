@@ -102,7 +102,7 @@ export default function FeaturedDebate({ debate }: { debate: Debate }) {
               <span className="text-zinc-700">{new Date(debate.scheduledAt).toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"})}</span>
             </div>
           </div>
-          <div className="flex items-center gap-3 mt-auto">
+          <div className="flex items-end gap-3 mt-auto">
             {/* Life preserver stacked above CALL FOR HELP, both centered together */}
             <div className="flex flex-col items-center gap-1">
               <svg width="42" height="42" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
