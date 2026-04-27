@@ -129,27 +129,30 @@ export default function FeaturedDebate({ debate }: { debate: Debate }) {
                 </>
               )}
               <button onClick={() => setShowHelpPopup(v => !v)} className="flex flex-col items-center gap-1 hover:opacity-80 transition cursor-pointer">
-                {/* Desk telephone — single-stroke arch handset, clear rotary dial */}
+                {/* Desk telephone — white handset arch on red body, clear dial */}
                 <svg width="44" height="44" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
                   {/* Phone body */}
                   <rect x="4" y="15" width="32" height="23" rx="5" fill="#DC2626"/>
-                  {/* Handset — one clean thick arch, no fussy earpiece shapes */}
-                  <path d="M9,15 C9,4 31,4 31,15"
-                        fill="none" stroke="#DC2626" strokeWidth="9" strokeLinecap="round"/>
-                  <path d="M9,15 C9,4 31,4 31,15"
-                        fill="none" stroke="#991B1B" strokeWidth="3.5" strokeLinecap="round"/>
-                  {/* Rotary dial — larger outer ring, clear inner stop */}
-                  <circle cx="20" cy="27.5" r="10" fill="#B91C1C"/>
-                  <circle cx="20" cy="27.5" r="4"   fill="#7F1D1D"/>
-                  {/* 8 finger holes at r=7 — larger for legibility */}
-                  <circle cx="20.0" cy="20.5" r="1.6" fill="#5C1111"/>
-                  <circle cx="25.0" cy="22.5" r="1.6" fill="#5C1111"/>
-                  <circle cx="27.0" cy="27.5" r="1.6" fill="#5C1111"/>
-                  <circle cx="25.0" cy="32.5" r="1.6" fill="#5C1111"/>
-                  <circle cx="20.0" cy="34.5" r="1.6" fill="#5C1111"/>
-                  <circle cx="15.0" cy="32.5" r="1.6" fill="#5C1111"/>
-                  <circle cx="13.0" cy="27.5" r="1.6" fill="#5C1111"/>
-                  <circle cx="15.0" cy="22.5" r="1.6" fill="#5C1111"/>
+                  {/* Handset — white arch so it reads as a separate physical piece */}
+                  <path d="M9,15 C9,3 31,3 31,15"
+                        fill="none" stroke="white" strokeWidth="7" strokeLinecap="round"/>
+                  {/* Cradle groove — thin red line down the middle of the arch */}
+                  <path d="M9,15 C9,3 31,3 31,15"
+                        fill="none" stroke="#DC2626" strokeWidth="2" strokeLinecap="round"/>
+                  {/* Rotary dial — dark surround ring for contrast, then face */}
+                  <circle cx="20" cy="27.5" r="10"  fill="#7F1D1D"/>
+                  <circle cx="20" cy="27.5" r="8.5" fill="#B91C1C"/>
+                  {/* Finger stop (centre hub) */}
+                  <circle cx="20" cy="27.5" r="3.5" fill="#7F1D1D"/>
+                  {/* 8 finger holes — white for maximum contrast */}
+                  <circle cx="20.0" cy="20.5" r="1.5" fill="white"/>
+                  <circle cx="25.0" cy="22.5" r="1.5" fill="white"/>
+                  <circle cx="27.0" cy="27.5" r="1.5" fill="white"/>
+                  <circle cx="25.0" cy="32.5" r="1.5" fill="white"/>
+                  <circle cx="20.0" cy="34.5" r="1.5" fill="white"/>
+                  <circle cx="15.0" cy="32.5" r="1.5" fill="white"/>
+                  <circle cx="13.0" cy="27.5" r="1.5" fill="white"/>
+                  <circle cx="15.0" cy="22.5" r="1.5" fill="white"/>
                 </svg>
                 <span className="bg-zinc-500 text-white font-black text-xs uppercase tracking-widest px-3 py-2 rounded-lg whitespace-nowrap">CALL FOR HELP</span>
               </button>
