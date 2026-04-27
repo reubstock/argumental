@@ -129,26 +129,27 @@ export default function FeaturedDebate({ debate }: { debate: Debate }) {
                 </>
               )}
               <button onClick={() => setShowHelpPopup(v => !v)} className="flex flex-col items-center gap-1 hover:opacity-80 transition cursor-pointer">
-                {/* Classic desk telephone — handset on top, rotary dial below */}
+                {/* Desk telephone — single-stroke arch handset, clear rotary dial */}
                 <svg width="44" height="44" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
                   {/* Phone body */}
-                  <rect x="4" y="17" width="32" height="20" rx="4" fill="#DC2626"/>
-                  {/* Handset: two earpiece cups + curved bridge, sitting on top of body */}
-                  <ellipse cx="9"  cy="15" rx="5.5" ry="4.5" fill="#DC2626" stroke="#991B1B" strokeWidth="1"/>
-                  <ellipse cx="31" cy="15" rx="5.5" ry="4.5" fill="#DC2626" stroke="#991B1B" strokeWidth="1"/>
-                  <path d="M9,11 C14,5 26,5 31,11 L31,19 C26,15 14,15 9,19 Z" fill="#B91C1C"/>
-                  {/* Rotary dial — outer ring, inner stop, finger holes */}
-                  <circle cx="20" cy="28" r="8.5" fill="#B91C1C"/>
-                  <circle cx="20" cy="28" r="3.5" fill="#7F1D1D"/>
-                  {/* 8 finger holes evenly spaced at r=6 */}
-                  <circle cx="20.0" cy="22.0" r="1.3" fill="#7F1D1D"/>
-                  <circle cx="24.2" cy="23.2" r="1.3" fill="#7F1D1D"/>
-                  <circle cx="26.0" cy="28.0" r="1.3" fill="#7F1D1D"/>
-                  <circle cx="24.2" cy="32.8" r="1.3" fill="#7F1D1D"/>
-                  <circle cx="20.0" cy="34.0" r="1.3" fill="#7F1D1D"/>
-                  <circle cx="15.8" cy="32.8" r="1.3" fill="#7F1D1D"/>
-                  <circle cx="14.0" cy="28.0" r="1.3" fill="#7F1D1D"/>
-                  <circle cx="15.8" cy="23.2" r="1.3" fill="#7F1D1D"/>
+                  <rect x="4" y="15" width="32" height="23" rx="5" fill="#DC2626"/>
+                  {/* Handset — one clean thick arch, no fussy earpiece shapes */}
+                  <path d="M9,15 C9,4 31,4 31,15"
+                        fill="none" stroke="#DC2626" strokeWidth="9" strokeLinecap="round"/>
+                  <path d="M9,15 C9,4 31,4 31,15"
+                        fill="none" stroke="#991B1B" strokeWidth="3.5" strokeLinecap="round"/>
+                  {/* Rotary dial — larger outer ring, clear inner stop */}
+                  <circle cx="20" cy="27.5" r="10" fill="#B91C1C"/>
+                  <circle cx="20" cy="27.5" r="4"   fill="#7F1D1D"/>
+                  {/* 8 finger holes at r=7 — larger for legibility */}
+                  <circle cx="20.0" cy="20.5" r="1.6" fill="#5C1111"/>
+                  <circle cx="25.0" cy="22.5" r="1.6" fill="#5C1111"/>
+                  <circle cx="27.0" cy="27.5" r="1.6" fill="#5C1111"/>
+                  <circle cx="25.0" cy="32.5" r="1.6" fill="#5C1111"/>
+                  <circle cx="20.0" cy="34.5" r="1.6" fill="#5C1111"/>
+                  <circle cx="15.0" cy="32.5" r="1.6" fill="#5C1111"/>
+                  <circle cx="13.0" cy="27.5" r="1.6" fill="#5C1111"/>
+                  <circle cx="15.0" cy="22.5" r="1.6" fill="#5C1111"/>
                 </svg>
                 <span className="bg-zinc-500 text-white font-black text-xs uppercase tracking-widest px-3 py-2 rounded-lg whitespace-nowrap">CALL FOR HELP</span>
               </button>
