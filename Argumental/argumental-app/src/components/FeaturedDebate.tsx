@@ -102,24 +102,32 @@ export default function FeaturedDebate({ debate }: { debate: Debate }) {
               <span className="text-zinc-700">{new Date(debate.scheduledAt).toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"})}</span>
             </div>
           </div>
-          <div className="flex items-center gap-3 mt-auto">
-            <div className="flex flex-col items-center gap-1">
-              <svg width="27" height="27" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="20" cy="20" r="18" fill="#DC2626"/>
-                <path d="M20,2 A18,18 0 0,1 38,20 L30,20 A10,10 0 0,0 20,10 Z" fill="white"/>
-                <path d="M20,38 A18,18 0 0,1 2,20 L10,20 A10,10 0 0,0 20,30 Z" fill="white"/>
-                <circle cx="20" cy="20" r="10" fill="white"/>
-                <circle cx="20" cy="20" r="18" fill="none" stroke="#B91C1C" strokeWidth="1"/>
-                <circle cx="20" cy="20" r="10" fill="none" stroke="#B91C1C" strokeWidth="0.75"/>
-              </svg>
+          <div className="flex flex-col items-center gap-2 mt-auto">
+            {/* Lifesaver icon — chunky, centered at top of this section */}
+            <svg width="36" height="36" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+              {/* Outer red ring */}
+              <circle cx="20" cy="20" r="19" fill="#DC2626" stroke="#991B1B" strokeWidth="1.5"/>
+              {/* White panels — top-right and bottom-left */}
+              <path d="M20,1 A19,19 0 0,1 39,20 L31,20 A11,11 0 0,0 20,9 Z" fill="white"/>
+              <path d="M20,39 A19,19 0 0,1 1,20 L9,20 A11,11 0 0,0 20,31 Z" fill="white"/>
+              {/* Centre hole */}
+              <circle cx="20" cy="20" r="11" fill="white" stroke="#991B1B" strokeWidth="1.5"/>
+              {/* Cross dividers for crispness */}
+              <line x1="20" y1="1" x2="20" y2="9"  stroke="#991B1B" strokeWidth="1.5"/>
+              <line x1="20" y1="31" x2="20" y2="39" stroke="#991B1B" strokeWidth="1.5"/>
+              <line x1="1"  y1="20" x2="9"  y2="20" stroke="#991B1B" strokeWidth="1.5"/>
+              <line x1="31" y1="20" x2="39" y2="20" stroke="#991B1B" strokeWidth="1.5"/>
+            </svg>
+            {/* Call for Help + social icons — all on the same row */}
+            <div className="flex items-center gap-3">
               <span className="bg-zinc-500 text-white font-black text-xs uppercase tracking-widest px-3 py-2 rounded-lg whitespace-nowrap">Call for Help</span>
+              <a href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent("https://argumental.vercel.app")}`} target="_blank" rel="noopener noreferrer" className="hover:opacity-70 transition" aria-label="Share on Facebook">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="#1877F2"><path d="M24 12.073C24 5.404 18.627 0 12 0S0 5.404 0 12.073C0 18.1 4.388 23.094 10.125 24v-8.437H7.078v-3.49h3.047V9.41c0-3.025 1.792-4.697 4.533-4.697 1.312 0 2.686.236 2.686.236v2.97h-1.513c-1.491 0-1.956.93-1.956 1.883v2.27h3.328l-.532 3.49h-2.796V24C19.612 23.094 24 18.1 24 12.073z"/></svg>
+              </a>
+              <a href={`https://twitter.com/intent/tweet?text=${encodeURIComponent("Ben Shapiro vs AOC — Does Israel Have the Right to Exist? Watch live on Argumental 🥊")}&url=${encodeURIComponent("https://argumental.vercel.app")}`} target="_blank" rel="noopener noreferrer" className="hover:opacity-70 transition" aria-label="Share on X">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="#000000"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.253 5.622 5.911-5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+              </a>
             </div>
-            <a href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent("https://argumental.vercel.app")}`} target="_blank" rel="noopener noreferrer" className="hover:opacity-70 transition" aria-label="Share on Facebook">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="#1877F2"><path d="M24 12.073C24 5.404 18.627 0 12 0S0 5.404 0 12.073C0 18.1 4.388 23.094 10.125 24v-8.437H7.078v-3.49h3.047V9.41c0-3.025 1.792-4.697 4.533-4.697 1.312 0 2.686.236 2.686.236v2.97h-1.513c-1.491 0-1.956.93-1.956 1.883v2.27h3.328l-.532 3.49h-2.796V24C19.612 23.094 24 18.1 24 12.073z"/></svg>
-            </a>
-            <a href={`https://twitter.com/intent/tweet?text=${encodeURIComponent("Ben Shapiro vs AOC — Does Israel Have the Right to Exist? Watch live on Argumental 🥊")}&url=${encodeURIComponent("https://argumental.vercel.app")}`} target="_blank" rel="noopener noreferrer" className="hover:opacity-70 transition" aria-label="Share on X">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="#000000"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.253 5.622 5.911-5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-            </a>
           </div>
           <Link href={`/debates/${debate.id}`} className="bg-yellow-400 hover:bg-yellow-300 text-black font-bold py-3 rounded-xl text-center transition">
             {debate.status === "live" ? "Watch & Vote Now" : "View Debate"}
