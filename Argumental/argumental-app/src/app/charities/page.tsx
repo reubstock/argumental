@@ -1,7 +1,7 @@
 export default function CharitiesPage() {
   const charities: ({ url: string; name: string } | null)[] = [
     { url: "https://fmep.org/", name: "Foundation for Middle East Peace" },
-    null,
+    { url: "https://www.allmep.org/international-fund-for-israeli-palestinian-peace/", name: "International Fund for Israeli-Palestinian Peace" },
     null,
     null,
     null,
