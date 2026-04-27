@@ -23,7 +23,7 @@ export default function CharitiesPage() {
 
       {/* 2 × 3 grid */}
       <div className="flex-1 px-6 py-8">
-        <div className="max-w-6xl mx-auto grid grid-cols-2 grid-rows-3 gap-4 h-full" style={{ minHeight: "calc(100vh - 220px)" }}>
+        <div className="max-w-6xl mx-auto grid grid-cols-2 gap-4" style={{ gridTemplateRows: "repeat(3, minmax(320px, 1fr))" }}>
           {charities.map((charity, i) =>
             charity ? (
               <div key={i} className="relative rounded-2xl overflow-hidden border border-zinc-200 bg-white shadow-sm group">
