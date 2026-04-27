@@ -136,10 +136,10 @@ export default function FeaturedDebate({ debate }: { debate: Debate }) {
         <div className="flex justify-center pt-2 pb-1">{BellIcon}</div>
         {/* Tubes — fill remaining height */}
         <div className="flex gap-2 flex-1">
-          <div className="w-7 bg-zinc-200 rounded-full overflow-hidden flex flex-col justify-end">
+          <div className="w-5 bg-zinc-200 rounded-full overflow-hidden flex flex-col justify-end">
             <div className="bg-red-500 w-full rounded-full transition-all duration-300 ease-out" style={{height:`${pctA}%`}}/>
           </div>
-          <div className="w-7 bg-zinc-200 rounded-full overflow-hidden flex flex-col justify-end">
+          <div className="w-5 bg-zinc-200 rounded-full overflow-hidden flex flex-col justify-end">
             <div className="bg-blue-500 w-full rounded-full transition-all duration-300 ease-out" style={{height:`${pctB}%`}}/>
           </div>
         </div>
