@@ -103,7 +103,7 @@ export default function FeaturedDebate({ debate }: { debate: Debate }) {
               <span className="text-zinc-700">{new Date(debate.scheduledAt).toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"})}</span>
             </div>
           </div>
-          <div className="flex items-end gap-3 mt-auto">
+          <div className="flex items-end justify-between mt-auto">
             {/* Telephone icon + CALL FOR HELP — clickable, opens share popup */}
             <div className="relative flex flex-col items-center gap-1">
               {showHelpPopup && (
@@ -153,12 +153,18 @@ export default function FeaturedDebate({ debate }: { debate: Debate }) {
                 <span className="bg-zinc-500 text-white font-black text-xs uppercase tracking-widest px-3 py-2 rounded-lg whitespace-nowrap">CALL FOR HELP</span>
               </button>
             </div>
-            <a href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent("https://argumental.vercel.app")}`} target="_blank" rel="noopener noreferrer" className="hover:opacity-70 transition" aria-label="Share on Facebook">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="#1877F2"><path d="M24 12.073C24 5.404 18.627 0 12 0S0 5.404 0 12.073C0 18.1 4.388 23.094 10.125 24v-8.437H7.078v-3.49h3.047V9.41c0-3.025 1.792-4.697 4.533-4.697 1.312 0 2.686.236 2.686.236v2.97h-1.513c-1.491 0-1.956.93-1.956 1.883v2.27h3.328l-.532 3.49h-2.796V24C19.612 23.094 24 18.1 24 12.073z"/></svg>
-            </a>
-            <a href={`https://twitter.com/intent/tweet?text=${encodeURIComponent("Ben Shapiro vs AOC — Does Israel Have the Right to Exist? Watch live on Argumental 🥊")}&url=${encodeURIComponent("https://argumental.vercel.app")}`} target="_blank" rel="noopener noreferrer" className="hover:opacity-70 transition" aria-label="Share on X">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="#000000"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.253 5.622 5.911-5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-            </a>
+            {/* Share icons — right-side group */}
+            <div className="flex flex-col items-center gap-1.5">
+              <span className="text-zinc-400 text-xs font-semibold uppercase tracking-widest leading-none">Share</span>
+              <div className="flex items-center gap-3">
+                <a href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent("https://argumental.vercel.app")}`} target="_blank" rel="noopener noreferrer" className="hover:opacity-70 transition" aria-label="Share on Facebook">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="#1877F2"><path d="M24 12.073C24 5.404 18.627 0 12 0S0 5.404 0 12.073C0 18.1 4.388 23.094 10.125 24v-8.437H7.078v-3.49h3.047V9.41c0-3.025 1.792-4.697 4.533-4.697 1.312 0 2.686.236 2.686.236v2.97h-1.513c-1.491 0-1.956.93-1.956 1.883v2.27h3.328l-.532 3.49h-2.796V24C19.612 23.094 24 18.1 24 12.073z"/></svg>
+                </a>
+                <a href={`https://twitter.com/intent/tweet?text=${encodeURIComponent("Ben Shapiro vs AOC — Does Israel Have the Right to Exist? Watch live on Argumental 🥊")}&url=${encodeURIComponent("https://argumental.vercel.app")}`} target="_blank" rel="noopener noreferrer" className="hover:opacity-70 transition" aria-label="Share on X">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="#000000"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.253 5.622 5.911-5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                </a>
+              </div>
+            </div>
           </div>
           <Link href={`/debates/${debate.id}`} className="bg-yellow-400 hover:bg-yellow-300 text-black font-bold py-3 rounded-xl text-center transition">
             {debate.status === "live" ? "Watch & Vote Now" : "View Debate"}
@@ -193,15 +199,15 @@ export default function FeaturedDebate({ debate }: { debate: Debate }) {
           <div className="flex-1 flex flex-col gap-3">
             <div className="flex items-center bg-zinc-900 rounded-xl px-5 py-3 gap-4">
               <div className="flex-1 flex flex-col items-start">
-                <span className="text-red-400 text-[10px] font-bold uppercase tracking-widest leading-none mb-1">{debate.debaterA.name.split(" ").pop()}</span>
+                <span className="text-red-400 text-xs font-bold uppercase tracking-widest leading-none mb-1">{debate.debaterA.name.split(" ").pop()}</span>
                 <span className={`font-black text-2xl tabular-nums leading-none ${debateStarted ? "text-white" : "text-zinc-600"}`}>{fmt(timeA)}</span>
               </div>
               <div className="flex flex-col items-center">
-                <span className="text-yellow-400 text-[10px] font-bold uppercase tracking-widest leading-none mb-1">Debate</span>
+                <span className="text-yellow-400 text-xs font-bold uppercase tracking-widest leading-none mb-1">Debate</span>
                 <span className={`font-black text-3xl tabular-nums leading-none ${debateStarted ? "text-white" : "text-zinc-600"}`}>{fmt(mainTime)}</span>
               </div>
               <div className="flex-1 flex flex-col items-end">
-                <span className="text-blue-400 text-[10px] font-bold uppercase tracking-widest leading-none mb-1">{debate.debaterB.name.split(" ").pop()}</span>
+                <span className="text-blue-400 text-xs font-bold uppercase tracking-widest leading-none mb-1">{debate.debaterB.name.split(" ").pop()}</span>
                 <span className="text-zinc-600 font-black text-2xl tabular-nums leading-none">{fmt(timeB)}</span>
               </div>
             </div>
@@ -223,20 +229,21 @@ export default function FeaturedDebate({ debate }: { debate: Debate }) {
         <div className="flex gap-3">
           <div className="w-20 shrink-0" />
           <div className="flex-1 flex justify-between items-center bg-zinc-100 rounded-xl px-4 py-3">
+            {/* Shapiro — photo · VOTE label · $1 · $5 */}
             <div className="flex items-center gap-2">
-              <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-red-500 shrink-0">
+              <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-red-400 shrink-0">
                 <Image src="/shapiro.jpg" alt={debate.debaterA.name} width={48} height={48} className="w-full h-full object-cover object-top"/>
               </div>
-              <span className="bg-red-600 text-white font-black text-sm uppercase px-4 py-2 rounded-lg select-none">VOTE</span>
-              <button onClick={() => addA(1)} className="bg-yellow-400 hover:bg-yellow-300 text-black font-black text-xs uppercase px-3 py-2 rounded-lg transition">$1</button>
-              <button onClick={() => addA(5)} className="bg-green-500 hover:bg-green-400 text-white font-black text-xs uppercase px-3 py-2 rounded-lg transition">$5</button>
+              <span className="text-red-600 font-black text-xs uppercase tracking-widest select-none">VOTE</span>
+              <button onClick={() => addA(1)} className="bg-white hover:bg-zinc-50 border border-zinc-300 text-zinc-800 font-bold text-xs uppercase px-3 py-2 rounded-lg transition">$1</button>
+              <button onClick={() => addA(5)} className="bg-yellow-400 hover:bg-yellow-300 text-black font-black text-xs uppercase px-3 py-2 rounded-lg transition">$5</button>
             </div>
-            {/* AOC side — mirrored: $5 · $1 · VOTE · image far right */}
+            {/* AOC — $5 · $1 · VOTE label · photo */}
             <div className="flex items-center gap-2">
-              <button onClick={() => addB(5)} className="bg-green-500 hover:bg-green-400 text-white font-black text-xs uppercase px-3 py-2 rounded-lg transition">$5</button>
-              <button onClick={() => addB(1)} className="bg-yellow-400 hover:bg-yellow-300 text-black font-black text-xs uppercase px-3 py-2 rounded-lg transition">$1</button>
-              <span className="bg-blue-600 text-white font-black text-sm uppercase px-4 py-2 rounded-lg select-none">VOTE</span>
-              <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-blue-500 shrink-0">
+              <button onClick={() => addB(5)} className="bg-yellow-400 hover:bg-yellow-300 text-black font-black text-xs uppercase px-3 py-2 rounded-lg transition">$5</button>
+              <button onClick={() => addB(1)} className="bg-white hover:bg-zinc-50 border border-zinc-300 text-zinc-800 font-bold text-xs uppercase px-3 py-2 rounded-lg transition">$1</button>
+              <span className="text-blue-600 font-black text-xs uppercase tracking-widest select-none">VOTE</span>
+              <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-blue-400 shrink-0">
                 <Image src="/aoc.jpg" alt={debate.debaterB.name} width={48} height={48} className="w-full h-full object-cover object-top"/>
               </div>
             </div>

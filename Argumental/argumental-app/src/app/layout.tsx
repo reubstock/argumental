@@ -24,15 +24,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               className="h-10 w-auto"
             />
           </Link>
-          <div className="flex items-center gap-3 text-sm font-medium">
-            <Link href="/debates" className="text-zinc-500 hover:text-zinc-900 transition px-3 py-1.5">Debates</Link>
-            <Link href="/charities" className="bg-zinc-900 hover:bg-zinc-700 text-white px-4 py-1.5 rounded-lg transition">
-              Charities Benefited
-            </Link>
-            <Link href="/outcomes" className="bg-zinc-900 hover:bg-zinc-700 text-white px-4 py-1.5 rounded-lg transition">
-              Understanding Outcomes
-            </Link>
-            <Link href="/admin" className="text-zinc-400 hover:text-zinc-900 transition px-3 py-1.5">Admin</Link>
+          <div className="flex items-center text-sm font-medium">
+            <Link href="/debates"   className="text-zinc-500 hover:text-zinc-900 hover:bg-zinc-100 transition rounded-lg px-3 py-1.5">Debates</Link>
+            <Link href="/charities" className="text-zinc-500 hover:text-zinc-900 hover:bg-zinc-100 transition rounded-lg px-3 py-1.5">Charities</Link>
+            <Link href="/outcomes"  className="text-zinc-500 hover:text-zinc-900 hover:bg-zinc-100 transition rounded-lg px-3 py-1.5">Outcomes</Link>
+            <div className="w-px h-4 bg-zinc-200 mx-2" />
+            <Link href="/admin" className="text-zinc-400 hover:text-zinc-600 hover:bg-zinc-100 transition rounded-lg px-3 py-1.5 text-xs">Admin</Link>
           </div>
         </nav>
         <main className="flex-1">{children}</main>
