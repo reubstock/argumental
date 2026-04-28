@@ -22,7 +22,7 @@ export default function UpcomingPage() {
   return (
     <div className="flex flex-col min-h-full">
       {/* Header */}
-      <div className="border-b border-zinc-200 px-6 py-8">
+      <div className="border-b border-zinc-200 px-4 md:px-6 py-6 md:py-8">
         <div className="max-w-5xl mx-auto">
           <p className="text-yellow-600 text-xs uppercase tracking-widest font-semibold mb-2">Community</p>
           <h1 className="text-3xl font-black text-zinc-900">Upcoming</h1>
@@ -33,7 +33,7 @@ export default function UpcomingPage() {
       </div>
 
       {/* Forms */}
-      <div className="flex-1 px-6 py-10">
+      <div className="flex-1 px-4 md:px-6 py-8 md:py-10">
         <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
 
           {/* ── Topic form ── */}

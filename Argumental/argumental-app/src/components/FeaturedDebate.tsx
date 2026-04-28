@@ -84,10 +84,10 @@ export default function FeaturedDebate({ debate }: { debate: Debate }) {
   );
 
   return (
-    <div className="max-w-6xl mx-auto flex gap-6">
+    <div className="max-w-6xl mx-auto flex flex-col md:flex-row gap-4 md:gap-6">
 
       {/* ── LEFT: Info card + action boxes ── */}
-      <div className="w-72 shrink-0 flex flex-col gap-3">
+      <div className="w-full md:w-72 md:shrink-0 flex flex-col gap-3">
         <div className="bg-zinc-100 border border-zinc-200 rounded-2xl p-4 flex flex-col gap-3">
           <div>
             <p className="text-yellow-600 text-xs uppercase tracking-widest font-semibold mb-1">Featured Bout</p>
@@ -171,8 +171,8 @@ export default function FeaturedDebate({ debate }: { debate: Debate }) {
 
         <div className="flex gap-3 items-stretch">
 
-          {/* Left column: bell at top (aligns with clock bar top) → dollars → tubes spanning full height */}
-          <div className="w-20 shrink-0 flex flex-col items-center gap-1">
+          {/* Left column: bell at top (aligns with clock bar top) → dollars → tubes spanning full height — desktop only */}
+          <div className="hidden md:flex w-20 shrink-0 flex-col items-center gap-1">
             {BellIcon}
             <div className="flex gap-2 justify-center">
               <span className="text-red-600 font-black text-base tabular-nums leading-none">${votesA}</span>
@@ -219,25 +219,25 @@ export default function FeaturedDebate({ debate }: { debate: Debate }) {
           </div>
         </div>
 
-        {/* Vote row — spacer matches bell column so content left-aligns with video */}
+        {/* Vote row — spacer matches bell column on desktop; full-width on mobile */}
         <div className="flex gap-3">
-          <div className="w-20 shrink-0" />
-          <div className="flex-1 flex justify-between items-center bg-zinc-100 rounded-xl px-4 py-3">
+          <div className="hidden md:block w-20 shrink-0" />
+          <div className="flex-1 flex justify-between items-center bg-zinc-100 rounded-xl px-3 md:px-4 py-3">
             {/* Shapiro — photo · VOTE label · $1 · $5 */}
-            <div className="flex items-center gap-2">
-              <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-red-400 shrink-0">
+            <div className="flex items-center gap-1.5 md:gap-2">
+              <div className="w-9 h-9 md:w-12 md:h-12 rounded-full overflow-hidden border-2 border-red-400 shrink-0">
                 <Image src="/shapiro.jpg" alt={debate.debaterA.name} width={48} height={48} className="w-full h-full object-cover object-top"/>
               </div>
-              <span className="text-red-600 font-black text-xs uppercase tracking-widest select-none">VOTE</span>
-              <button onClick={() => addA(1)} className="bg-white hover:bg-zinc-50 border border-zinc-300 text-zinc-800 font-bold text-xs uppercase px-3 py-2 rounded-lg transition">$1</button>
-              <button onClick={() => addA(5)} className="bg-yellow-400 hover:bg-yellow-300 text-black font-black text-xs uppercase px-3 py-2 rounded-lg transition">$5</button>
+              <span className="hidden sm:inline text-red-600 font-black text-xs uppercase tracking-widest select-none">VOTE</span>
+              <button onClick={() => addA(1)} className="bg-white hover:bg-zinc-50 border border-zinc-300 text-zinc-800 font-bold text-xs uppercase px-2.5 md:px-3 py-2 rounded-lg transition">$1</button>
+              <button onClick={() => addA(5)} className="bg-yellow-400 hover:bg-yellow-300 text-black font-black text-xs uppercase px-2.5 md:px-3 py-2 rounded-lg transition">$5</button>
             </div>
             {/* AOC — $5 · $1 · VOTE label · photo */}
-            <div className="flex items-center gap-2">
-              <button onClick={() => addB(5)} className="bg-yellow-400 hover:bg-yellow-300 text-black font-black text-xs uppercase px-3 py-2 rounded-lg transition">$5</button>
-              <button onClick={() => addB(1)} className="bg-white hover:bg-zinc-50 border border-zinc-300 text-zinc-800 font-bold text-xs uppercase px-3 py-2 rounded-lg transition">$1</button>
-              <span className="text-blue-600 font-black text-xs uppercase tracking-widest select-none">VOTE</span>
-              <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-blue-400 shrink-0">
+            <div className="flex items-center gap-1.5 md:gap-2">
+              <button onClick={() => addB(5)} className="bg-yellow-400 hover:bg-yellow-300 text-black font-black text-xs uppercase px-2.5 md:px-3 py-2 rounded-lg transition">$5</button>
+              <button onClick={() => addB(1)} className="bg-white hover:bg-zinc-50 border border-zinc-300 text-zinc-800 font-bold text-xs uppercase px-2.5 md:px-3 py-2 rounded-lg transition">$1</button>
+              <span className="hidden sm:inline text-blue-600 font-black text-xs uppercase tracking-widest select-none">VOTE</span>
+              <div className="w-9 h-9 md:w-12 md:h-12 rounded-full overflow-hidden border-2 border-blue-400 shrink-0">
                 <Image src="/aoc.jpg" alt={debate.debaterB.name} width={48} height={48} className="w-full h-full object-cover object-top"/>
               </div>
             </div>

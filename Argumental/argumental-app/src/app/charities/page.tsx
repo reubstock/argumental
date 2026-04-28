@@ -11,7 +11,7 @@ export default function CharitiesPage() {
   return (
     <div className="flex flex-col min-h-full">
       {/* Header */}
-      <div className="border-b border-zinc-200 px-6 py-8">
+      <div className="border-b border-zinc-200 px-4 md:px-6 py-6 md:py-8">
         <div className="max-w-6xl mx-auto">
           <p className="text-yellow-600 text-xs uppercase tracking-widest font-semibold mb-2">Impact</p>
           <h1 className="text-3xl font-black text-zinc-900">Charities Benefited</h1>
@@ -22,11 +22,11 @@ export default function CharitiesPage() {
       </div>
 
       {/* 2 × 3 grid */}
-      <div className="flex-1 px-6 py-8">
-        <div className="max-w-6xl mx-auto grid grid-cols-2 gap-4" style={{ gridTemplateRows: "repeat(3, minmax(320px, 1fr))" }}>
+      <div className="flex-1 px-4 md:px-6 py-6 md:py-8">
+        <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-4">
           {charities.map((charity, i) =>
             charity ? (
-              <div key={i} className="relative rounded-2xl overflow-hidden border border-zinc-200 bg-white shadow-sm group">
+              <div key={i} className="relative rounded-2xl overflow-hidden border border-zinc-200 bg-white shadow-sm group min-h-[320px]">
                 <iframe
                   src={charity.url}
                   title={charity.name}
@@ -50,7 +50,7 @@ export default function CharitiesPage() {
             ) : (
               <div
                 key={i}
-                className="rounded-2xl border-2 border-dashed border-zinc-200 bg-zinc-50 flex flex-col items-center justify-center gap-2"
+                className="rounded-2xl border-2 border-dashed border-zinc-200 bg-zinc-50 flex flex-col items-center justify-center gap-2 min-h-[320px]"
               >
                 <div className="w-10 h-10 rounded-full bg-zinc-200 flex items-center justify-center">
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#a1a1aa" strokeWidth="2.5" strokeLinecap="round">

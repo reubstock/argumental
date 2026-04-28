@@ -9,7 +9,7 @@ export default function HomePage() {
     <div className="flex flex-col">
       {/* Featured debate — full width, top of page */}
       {featured && (
-        <section className="relative border-b border-zinc-200 px-6 pt-8 pb-10">
+        <section className="relative border-b border-zinc-200 px-4 md:px-6 pt-6 md:pt-8 pb-8 md:pb-10">
           <div className="absolute inset-0 bg-gradient-to-b from-yellow-400/5 to-transparent pointer-events-none" />
           <FeaturedDebate debate={featured} />
         </section>
