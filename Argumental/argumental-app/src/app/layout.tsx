@@ -8,7 +8,7 @@ const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "WordBattle — Combat Thinking for Peace",
+  title: "Argumental: Pick the Truth",
   description: "Live debates. Real stakes. Audience decides.",
 };
 
