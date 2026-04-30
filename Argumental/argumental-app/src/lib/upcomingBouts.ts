@@ -47,6 +47,8 @@ export const UPCOMING_BOUTS: UpcomingBout[] = [
   {
     scheduledAt: sundayAt8pmEdt(2026, 5, 17),
     topic: "A Woman is a Person with 2 X Chromosomes",
+    debaterA: { name: "Matt Walsh", position: "FOR" },
+    debaterB: { name: "Judith Butler", position: "AGAINST" },
   },
   {
     scheduledAt: sundayAt8pmEdt(2026, 5, 24),
