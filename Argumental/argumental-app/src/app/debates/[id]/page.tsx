@@ -168,7 +168,7 @@ export default async function DebatePage({ params }: Props) {
               <li>• 1 vote per viewer</li>
               <li>• $5 per vote</li>
               <li>• 10% of proceeds → winner&apos;s chosen charity</li>
-              <li>• 25-minute format: 4 phases</li>
+              <li>• 24-minute format: 4 phases</li>
             </ul>
           </Panel>
         </div>

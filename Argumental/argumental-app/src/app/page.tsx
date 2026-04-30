@@ -27,7 +27,7 @@ export default function HomePage() {
             </h2>
           </div>
           <p className="text-zinc-500 text-xs uppercase tracking-widest font-semibold tabular-nums">
-            4 phases · 25 minutes
+            4 phases · 24 minutes
           </p>
         </div>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3">

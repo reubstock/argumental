@@ -66,7 +66,7 @@ export default function FeaturedDebate({ debate }: { debate: Debate }) {
             <div className="border-t border-zinc-200 pt-3 flex flex-col gap-1.5 text-sm">
               <div className="flex justify-between text-zinc-500">
                 <span>Format</span>
-                <span className="text-zinc-700">4 phases · 25 min</span>
+                <span className="text-zinc-700">4 phases · 24 mins</span>
               </div>
               <div className="flex justify-between text-zinc-500">
                 <span>Vote cost</span>
@@ -120,26 +120,27 @@ export default function FeaturedDebate({ debate }: { debate: Debate }) {
                 )}
                 <button
                   onClick={() => setShowHelpPopup((v) => !v)}
-                  className="flex flex-col items-center gap-1 hover:opacity-80 transition cursor-pointer"
+                  className="flex flex-col items-center gap-1.5 hover:opacity-80 transition cursor-pointer"
                 >
-                  {/* Flat brand-red call icon */}
-                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-brand-red">
-                    <path d="M22 16.92v3a2 2 0 0 1 -2.18 2a19.79 19.79 0 0 1 -8.63 -3.07a19.5 19.5 0 0 1 -6 -6a19.79 19.79 0 0 1 -3.07 -8.67a2 2 0 0 1 1.99 -2.18h3a2 2 0 0 1 2 1.72a12.84 12.84 0 0 0 .7 2.81a2 2 0 0 1 -.45 2.11l-1.27 1.27a16 16 0 0 0 6 6l1.27 -1.27a2 2 0 0 1 2.11 -.45a12.84 12.84 0 0 0 2.81 .7a2 2 0 0 1 1.72 2z"/>
-                  </svg>
+                  <div className="h-8 flex items-center">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-brand-red">
+                      <path d="M22 16.92v3a2 2 0 0 1 -2.18 2a19.79 19.79 0 0 1 -8.63 -3.07a19.5 19.5 0 0 1 -6 -6a19.79 19.79 0 0 1 -3.07 -8.67a2 2 0 0 1 1.99 -2.18h3a2 2 0 0 1 2 1.72a12.84 12.84 0 0 0 .7 2.81a2 2 0 0 1 -.45 2.11l-1.27 1.27a16 16 0 0 0 6 6l1.27 -1.27a2 2 0 0 1 2.11 -.45a12.84 12.84 0 0 0 2.81 .7a2 2 0 0 1 1.72 2z"/>
+                    </svg>
+                  </div>
                   <span className="bg-zinc-100 text-zinc-700 font-black text-[10px] uppercase tracking-widest px-2 py-1 rounded-md whitespace-nowrap">Call for help</span>
                 </button>
               </div>
-              {/* Share icons — right-side group */}
+              {/* Share — FB + X icons inline with phone, matching pill below */}
               <div className="flex flex-col items-center gap-1.5">
-                <span className="text-zinc-400 text-[10px] font-bold uppercase tracking-widest leading-none">Share</span>
-                <div className="flex items-center gap-3">
+                <div className="h-8 flex items-center gap-3">
                   <a href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent("https://argumental.vercel.app")}`} target="_blank" rel="noopener noreferrer" className="hover:opacity-70 transition" aria-label="Share on Facebook">
-                    <svg width="22" height="22" viewBox="0 0 24 24" fill="#1877F2"><path d="M24 12.073C24 5.404 18.627 0 12 0S0 5.404 0 12.073C0 18.1 4.388 23.094 10.125 24v-8.437H7.078v-3.49h3.047V9.41c0-3.025 1.792-4.697 4.533-4.697 1.312 0 2.686.236 2.686.236v2.97h-1.513c-1.491 0-1.956.93-1.956 1.883v2.27h3.328l-.532 3.49h-2.796V24C19.612 23.094 24 18.1 24 12.073z"/></svg>
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="#1877F2"><path d="M24 12.073C24 5.404 18.627 0 12 0S0 5.404 0 12.073C0 18.1 4.388 23.094 10.125 24v-8.437H7.078v-3.49h3.047V9.41c0-3.025 1.792-4.697 4.533-4.697 1.312 0 2.686.236 2.686.236v2.97h-1.513c-1.491 0-1.956.93-1.956 1.883v2.27h3.328l-.532 3.49h-2.796V24C19.612 23.094 24 18.1 24 12.073z"/></svg>
                   </a>
                   <a href={`https://twitter.com/intent/tweet?text=${encodeURIComponent("Ben Shapiro vs AOC — Does Israel Have the Right to Exist? Watch live on Argumental 🥊")}&url=${encodeURIComponent("https://argumental.vercel.app")}`} target="_blank" rel="noopener noreferrer" className="hover:opacity-70 transition" aria-label="Share on X">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="#000000"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.253 5.622 5.911-5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="#000000"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.253 5.622 5.911-5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
                   </a>
                 </div>
+                <span className="bg-zinc-100 text-zinc-700 font-black text-[10px] uppercase tracking-widest px-2 py-1 rounded-md whitespace-nowrap">Share</span>
               </div>
             </div>
             <Link
