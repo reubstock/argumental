@@ -67,7 +67,7 @@ export default function VideoPlayer({
       {/* Live / coming soon badge */}
       <div className="absolute top-4 left-4 z-30">
         {isLive ? (
-          <span className="bg-red-600 text-white text-xs font-bold uppercase px-3 py-1 rounded-full animate-pulse">● LIVE NOW</span>
+          <span className="bg-brand-red text-white text-xs font-bold uppercase px-3 py-1 rounded-full animate-pulse">● LIVE NOW</span>
         ) : (
           <span className="bg-zinc-800 text-zinc-400 text-xs font-bold uppercase px-3 py-1 rounded-full">Watch Preview</span>
         )}

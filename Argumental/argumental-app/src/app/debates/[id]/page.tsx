@@ -22,7 +22,7 @@ export default async function DebatePage({ params }: Props) {
       <div className="mb-8">
         <div className="flex items-center gap-3 mb-3">
           {isLive && (
-            <span className="bg-red-600 text-white text-xs font-bold uppercase px-3 py-1 rounded-full animate-pulse">
+            <span className="bg-brand-red text-white text-xs font-bold uppercase px-3 py-1 rounded-full animate-pulse">
               ● LIVE
             </span>
           )}
@@ -44,8 +44,8 @@ export default async function DebatePage({ params }: Props) {
         <div className="lg:col-span-2 flex flex-col gap-6">
           {/* Debater cards */}
           <div className="grid grid-cols-2 gap-4">
-            <div className="bg-red-50 border border-red-200 rounded-2xl p-5">
-              <p className="text-red-600 text-xs uppercase tracking-widest font-semibold mb-1">
+            <div className="bg-brand-red/5 border border-brand-red/20 rounded-2xl p-5">
+              <p className="text-brand-red text-xs uppercase tracking-widest font-semibold mb-1">
                 {debate.debaterA.position}
               </p>
               <p className="text-zinc-900 font-bold text-xl">{debate.debaterA.name}</p>
@@ -55,8 +55,8 @@ export default async function DebatePage({ params }: Props) {
                 </p>
               )}
             </div>
-            <div className="bg-blue-50 border border-blue-200 rounded-2xl p-5">
-              <p className="text-blue-600 text-xs uppercase tracking-widest font-semibold mb-1">
+            <div className="bg-brand-blue/5 border border-brand-blue/20 rounded-2xl p-5">
+              <p className="text-brand-blue text-xs uppercase tracking-widest font-semibold mb-1">
                 {debate.debaterB.position}
               </p>
               <p className="text-zinc-900 font-bold text-xl">{debate.debaterB.name}</p>
@@ -111,19 +111,19 @@ export default async function DebatePage({ params }: Props) {
               <p className="text-zinc-500 text-sm mb-2">Final result</p>
               <div className="flex justify-around">
                 <div>
-                  <p className="text-red-600 font-bold text-2xl">{debate.votesA}</p>
+                  <p className="text-brand-red font-bold text-2xl tabular-nums">{debate.votesA}</p>
                   <p className="text-zinc-500 text-xs">{debate.debaterA.name}</p>
                 </div>
                 <div className="text-zinc-300 text-2xl font-bold">vs</div>
                 <div>
-                  <p className="text-blue-600 font-bold text-2xl">{debate.votesB}</p>
+                  <p className="text-brand-blue font-bold text-2xl tabular-nums">{debate.votesB}</p>
                   <p className="text-zinc-500 text-xs">{debate.debaterB.name}</p>
                 </div>
               </div>
             </div>
           ) : (
             <div className="bg-zinc-100 border border-zinc-200 rounded-2xl p-6 text-center">
-              <p className="text-yellow-600 font-bold">Upcoming</p>
+              <p className="text-black font-bold">Upcoming</p>
               <p className="text-zinc-700 text-sm mt-1">
                 {new Date(debate.scheduledAt).toLocaleDateString("en-US", {
                   weekday: "long",

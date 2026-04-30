@@ -10,7 +10,7 @@ export default function HomePage() {
       {/* Featured debate — full width, top of page */}
       {featured && (
         <section className="relative border-b border-zinc-200 px-4 md:px-6 pt-6 md:pt-8 pb-8 md:pb-10">
-          <div className="absolute inset-0 bg-gradient-to-b from-yellow-400/5 to-transparent pointer-events-none" />
+          <div className="absolute inset-0 bg-gradient-to-b from-zinc-100/50 to-transparent pointer-events-none" />
           <FeaturedDebate debate={featured} />
         </section>
       )}
@@ -29,7 +29,7 @@ export default function HomePage() {
               key={item.step}
               className="bg-zinc-100 border border-zinc-200 rounded-2xl p-6 flex flex-col gap-2"
             >
-              <span className="text-yellow-400 font-black text-3xl">{item.step}</span>
+              <span className="text-black font-black text-3xl">{item.step}</span>
               <h3 className="text-zinc-900 font-bold text-lg">{item.title}</h3>
               <p className="text-zinc-600 text-sm">{item.desc}</p>
             </div>

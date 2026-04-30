@@ -13,7 +13,7 @@ export default function CharitiesPage() {
       {/* Header */}
       <div className="border-b border-zinc-200 px-4 md:px-6 py-6 md:py-8">
         <div className="max-w-6xl mx-auto">
-          <p className="text-yellow-600 text-xs uppercase tracking-widest font-semibold mb-2">Impact</p>
+          <p className="text-black text-xs uppercase tracking-widest font-semibold mb-2">Impact</p>
           <h1 className="text-3xl font-black text-zinc-900">Charities Benefited</h1>
           <p className="text-zinc-500 text-sm mt-2">
             10% of every debate's proceeds go to the winning debater's chosen charity.
@@ -41,7 +41,7 @@ export default function CharitiesPage() {
                     href={charity.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-yellow-600 hover:text-yellow-700 text-xs font-semibold uppercase tracking-wide transition"
+                    className="text-black hover:text-zinc-700 text-xs font-semibold uppercase tracking-wide transition"
                   >
                     Visit ↗
                   </a>

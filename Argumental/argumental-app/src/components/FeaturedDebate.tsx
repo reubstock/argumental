@@ -90,7 +90,7 @@ export default function FeaturedDebate({ debate }: { debate: Debate }) {
       <div className="w-full md:w-72 md:shrink-0 flex flex-col gap-3">
         <div className="bg-zinc-100 border border-zinc-200 rounded-2xl p-4 flex flex-col gap-3">
           <div>
-            <p className="text-yellow-600 text-xs uppercase tracking-widest font-semibold mb-1">Featured Bout</p>
+            <p className="text-black text-xs uppercase tracking-widest font-semibold mb-1">Featured Bout</p>
             <h2 className="text-zinc-900 font-black text-lg leading-tight">{debate.title}</h2>
             <p className="text-zinc-600 text-sm mt-2 leading-snug">{debate.description}</p>
           </div>
@@ -114,7 +114,7 @@ export default function FeaturedDebate({ debate }: { debate: Debate }) {
                   <div className="absolute bottom-full mb-3 left-1/2 -translate-x-1/2 z-50 bg-white border border-zinc-200 rounded-2xl shadow-2xl p-4 flex flex-col gap-3 min-w-[180px]">
                     <p className="text-zinc-400 text-[10px] font-bold uppercase tracking-widest text-center">Share this debate</p>
                     <a href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent("https://argumental.vercel.app")}`} target="_blank" rel="noopener noreferrer"
-                      className="flex items-center gap-3 px-3 py-2 rounded-xl bg-zinc-50 hover:bg-blue-50 transition"
+                      className="flex items-center gap-3 px-3 py-2 rounded-xl bg-zinc-50 hover:bg-zinc-100 transition"
                       onClick={() => setShowHelpPopup(false)}>
                       <svg width="22" height="22" viewBox="0 0 24 24" fill="#1877F2"><path d="M24 12.073C24 5.404 18.627 0 12 0S0 5.404 0 12.073C0 18.1 4.388 23.094 10.125 24v-8.437H7.078v-3.49h3.047V9.41c0-3.025 1.792-4.697 4.533-4.697 1.312 0 2.686.236 2.686.236v2.97h-1.513c-1.491 0-1.956.93-1.956 1.883v2.27h3.328l-.532 3.49h-2.796V24C19.612 23.094 24 18.1 24 12.073z"/></svg>
                       <span className="text-sm font-semibold text-zinc-700">Facebook</span>
@@ -152,16 +152,16 @@ export default function FeaturedDebate({ debate }: { debate: Debate }) {
               </div>
             </div>
           </div>
-          <Link href={`/debates/${debate.id}`} className="bg-yellow-400 hover:bg-yellow-300 text-black font-bold py-2.5 rounded-xl text-center text-sm transition">
+          <Link href={`/debates/${debate.id}`} className="bg-black hover:bg-zinc-800 text-black font-bold py-2.5 rounded-xl text-center text-sm transition">
             {debate.status === "live" ? "Watch & Vote Now" : "View Debate"}
           </Link>
         </div>
 
         {/* Action boxes — link to /upcoming forms */}
-        <Link href="/upcoming#topic" className="block w-full bg-white hover:bg-yellow-50 border-2 border-zinc-300 hover:border-yellow-400 rounded-xl py-3.5 text-center font-black text-xs uppercase tracking-widest text-zinc-800 transition">
+        <Link href="/upcoming#topic" className="block w-full bg-white hover:bg-zinc-50 border-2 border-zinc-300 hover:border-black rounded-xl py-3.5 text-center font-black text-xs uppercase tracking-widest text-zinc-800 transition">
           Suggest New Topic
         </Link>
-        <Link href="/upcoming#nominate" className="block w-full bg-white hover:bg-yellow-50 border-2 border-zinc-300 hover:border-yellow-400 rounded-xl py-3.5 text-center font-black text-xs uppercase tracking-widest text-zinc-800 transition">
+        <Link href="/upcoming#nominate" className="block w-full bg-white hover:bg-zinc-50 border-2 border-zinc-300 hover:border-black rounded-xl py-3.5 text-center font-black text-xs uppercase tracking-widest text-zinc-800 transition">
           Nominate Debater
         </Link>
       </div>
@@ -175,16 +175,16 @@ export default function FeaturedDebate({ debate }: { debate: Debate }) {
           <div className="hidden md:flex w-20 shrink-0 flex-col items-center gap-1">
             {BellIcon}
             <div className="flex gap-2 justify-center">
-              <span className="text-red-600 font-black text-base tabular-nums leading-none">${votesA}</span>
-              <span className="text-blue-600 font-black text-base tabular-nums leading-none">${votesB}</span>
+              <span className="text-brand-red font-black text-base tabular-nums leading-none">${votesA}</span>
+              <span className="text-brand-blue font-black text-base tabular-nums leading-none">${votesB}</span>
             </div>
             {/* Tubes fill ALL remaining height — clock bar + gap + video */}
             <div className="flex-1 flex justify-center gap-2 pt-1">
               <div className="w-5 bg-zinc-200 rounded-full overflow-hidden flex flex-col justify-end">
-                <div className="bg-red-500 w-full rounded-full transition-all duration-300 ease-out" style={{height:`${pctA}%`}}/>
+                <div className="bg-brand-red w-full rounded-full transition-all duration-300 ease-out" style={{height:`${pctA}%`}}/>
               </div>
               <div className="w-5 bg-zinc-200 rounded-full overflow-hidden flex flex-col justify-end">
-                <div className="bg-blue-500 w-full rounded-full transition-all duration-300 ease-out" style={{height:`${pctB}%`}}/>
+                <div className="bg-brand-blue w-full rounded-full transition-all duration-300 ease-out" style={{height:`${pctB}%`}}/>
               </div>
             </div>
           </div>
@@ -193,15 +193,15 @@ export default function FeaturedDebate({ debate }: { debate: Debate }) {
           <div className="flex-1 flex flex-col gap-3">
             <div className="flex items-center bg-zinc-900 rounded-xl px-5 py-3 gap-4">
               <div className="flex-1 flex flex-col items-start">
-                <span className="text-red-400 text-xs font-bold uppercase tracking-widest leading-none mb-1">{debate.debaterA.name.split(" ").pop()}</span>
+                <span className="text-brand-red text-xs font-bold uppercase tracking-widest leading-none mb-1">{debate.debaterA.name.split(" ").pop()}</span>
                 <span className={`font-black text-2xl tabular-nums leading-none ${debateStarted ? "text-white" : "text-zinc-600"}`}>{fmt(timeA)}</span>
               </div>
               <div className="flex flex-col items-center">
-                <span className="text-yellow-400 text-xs font-bold uppercase tracking-widest leading-none mb-1">Debate</span>
+                <span className="text-white text-xs font-bold uppercase tracking-widest leading-none mb-1">Debate</span>
                 <span className={`font-black text-3xl tabular-nums leading-none ${debateStarted ? "text-white" : "text-zinc-600"}`}>{fmt(mainTime)}</span>
               </div>
               <div className="flex-1 flex flex-col items-end">
-                <span className="text-blue-400 text-xs font-bold uppercase tracking-widest leading-none mb-1">{debate.debaterB.name.split(" ").pop()}</span>
+                <span className="text-brand-blue text-xs font-bold uppercase tracking-widest leading-none mb-1">{debate.debaterB.name.split(" ").pop()}</span>
                 <span className="text-zinc-600 font-black text-2xl tabular-nums leading-none">{fmt(timeB)}</span>
               </div>
             </div>
@@ -225,19 +225,19 @@ export default function FeaturedDebate({ debate }: { debate: Debate }) {
           <div className="flex-1 flex justify-between items-center bg-zinc-100 rounded-xl px-3 md:px-4 py-3">
             {/* Shapiro — photo · VOTE label · $1 · $5 */}
             <div className="flex items-center gap-1.5 md:gap-2">
-              <div className="w-9 h-9 md:w-12 md:h-12 rounded-full overflow-hidden border-2 border-red-400 shrink-0">
+              <div className="w-9 h-9 md:w-12 md:h-12 rounded-full overflow-hidden border-2 border-brand-red shrink-0">
                 <Image src="/shapiro.jpg" alt={debate.debaterA.name} width={48} height={48} className="w-full h-full object-cover object-top"/>
               </div>
-              <span className="hidden sm:inline text-red-600 font-black text-xs uppercase tracking-widest select-none">VOTE</span>
+              <span className="hidden sm:inline text-brand-red font-black text-xs uppercase tracking-widest select-none">VOTE</span>
               <button onClick={() => addA(1)} className="bg-white hover:bg-zinc-50 border border-zinc-300 text-zinc-800 font-bold text-xs uppercase px-2.5 md:px-3 py-2 rounded-lg transition">$1</button>
-              <button onClick={() => addA(5)} className="bg-yellow-400 hover:bg-yellow-300 text-black font-black text-xs uppercase px-2.5 md:px-3 py-2 rounded-lg transition">$5</button>
+              <button onClick={() => addA(5)} className="bg-black hover:bg-zinc-800 text-black font-black text-xs uppercase px-2.5 md:px-3 py-2 rounded-lg transition">$5</button>
             </div>
             {/* AOC — $5 · $1 · VOTE label · photo */}
             <div className="flex items-center gap-1.5 md:gap-2">
-              <button onClick={() => addB(5)} className="bg-yellow-400 hover:bg-yellow-300 text-black font-black text-xs uppercase px-2.5 md:px-3 py-2 rounded-lg transition">$5</button>
+              <button onClick={() => addB(5)} className="bg-black hover:bg-zinc-800 text-black font-black text-xs uppercase px-2.5 md:px-3 py-2 rounded-lg transition">$5</button>
               <button onClick={() => addB(1)} className="bg-white hover:bg-zinc-50 border border-zinc-300 text-zinc-800 font-bold text-xs uppercase px-2.5 md:px-3 py-2 rounded-lg transition">$1</button>
-              <span className="hidden sm:inline text-blue-600 font-black text-xs uppercase tracking-widest select-none">VOTE</span>
-              <div className="w-9 h-9 md:w-12 md:h-12 rounded-full overflow-hidden border-2 border-blue-400 shrink-0">
+              <span className="hidden sm:inline text-brand-blue font-black text-xs uppercase tracking-widest select-none">VOTE</span>
+              <div className="w-9 h-9 md:w-12 md:h-12 rounded-full overflow-hidden border-2 border-brand-blue shrink-0">
                 <Image src="/aoc.jpg" alt={debate.debaterB.name} width={48} height={48} className="w-full h-full object-cover object-top"/>
               </div>
             </div>

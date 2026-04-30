@@ -21,7 +21,7 @@ export default async function StudioPage({ params, searchParams }: Props) {
       <div className="mb-6">
         <h1 className="text-3xl font-black text-white">{debate.title}</h1>
         <p className="text-zinc-400 text-sm mt-1">
-          Studio — joined as <span className="text-yellow-400 font-semibold">{participantName}</span>
+          Studio — joined as <span className="text-white font-semibold">{participantName}</span>
           {isDebater ? " (Debater)" : " (Observer)"}
         </p>
       </div>
@@ -42,7 +42,7 @@ export default async function StudioPage({ params, searchParams }: Props) {
             { label: "Rebuttal B", sub: debate.debaterB.name },
           ].map((p, i) => (
             <div key={i} className="bg-zinc-950 rounded-xl p-3 text-center">
-              <p className="text-yellow-400 text-xs font-bold">{`0${i + 1}`}</p>
+              <p className="text-zinc-400 text-xs font-bold tabular-nums">{`0${i + 1}`}</p>
               <p className="text-white text-sm font-semibold">{p.label}</p>
               <p className="text-zinc-500 text-xs">{p.sub}</p>
             </div>

@@ -44,11 +44,11 @@ function CheckoutForm({ debateId, votedFor, onSuccess }: CheckoutFormProps) {
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-4">
       <PaymentElement />
-      {error && <p className="text-red-400 text-sm">{error}</p>}
+      {error && <p className="text-brand-red text-sm">{error}</p>}
       <button
         type="submit"
         disabled={loading || !stripe}
-        className="bg-yellow-400 text-black font-bold py-3 rounded-lg hover:bg-yellow-300 disabled:opacity-50 transition"
+        className="bg-black text-black font-bold py-3 rounded-lg hover:bg-zinc-800 disabled:opacity-50 transition"
       >
         {loading ? "Processing..." : "Cast Vote — $5"}
       </button>
@@ -100,7 +100,7 @@ export default function VotePanel({ debate }: Props) {
   if (hasVoted) {
     return (
       <div className="bg-zinc-900 border border-zinc-700 rounded-2xl p-6 text-center">
-        <p className="text-yellow-400 font-bold text-lg">Vote cast!</p>
+        <p className="text-white font-bold text-lg">Vote cast!</p>
         <p className="text-zinc-400 text-sm mt-1">Results update live below.</p>
       </div>
     );
@@ -113,12 +113,12 @@ export default function VotePanel({ debate }: Props) {
       {/* Live vote bar */}
       <div className="flex flex-col gap-1">
         <div className="flex justify-between text-sm font-semibold">
-          <span className="text-red-400">{debate.debaterA.name} {pctA}%</span>
-          <span className="text-blue-400">{pctB}% {debate.debaterB.name}</span>
+          <span className="text-brand-red">{debate.debaterA.name} <span className="tabular-nums">{pctA}%</span></span>
+          <span className="text-brand-blue"><span className="tabular-nums">{pctB}%</span> {debate.debaterB.name}</span>
         </div>
-        <div className="w-full h-3 rounded-full overflow-hidden bg-blue-500">
+        <div className="w-full h-3 rounded-full overflow-hidden bg-brand-blue">
           <div
-            className="h-full bg-red-500 transition-all duration-700"
+            className="h-full bg-brand-red transition-all duration-700"
             style={{ width: `${pctA}%` }}
           />
         </div>
@@ -129,13 +129,13 @@ export default function VotePanel({ debate }: Props) {
         <div className="flex gap-3">
           <button
             onClick={() => handleSelectSide("A")}
-            className="flex-1 bg-red-600 hover:bg-red-500 text-white font-bold py-3 rounded-xl transition"
+            className="flex-1 bg-brand-red hover:bg-brand-red/80 text-white font-bold py-3 rounded-xl transition"
           >
             {debate.debaterA.name}
           </button>
           <button
             onClick={() => handleSelectSide("B")}
-            className="flex-1 bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 rounded-xl transition"
+            className="flex-1 bg-brand-blue hover:bg-zinc-1000 text-white font-bold py-3 rounded-xl transition"
           >
             {debate.debaterB.name}
           </button>

@@ -48,7 +48,7 @@ export default function DebateTimer({ phase, phaseEndsAt }: Props) {
       </span>
       <div
         className={`text-5xl font-mono font-bold tabular-nums ${
-          isUrgent ? "text-red-500 animate-pulse" : "text-white"
+          isUrgent ? "text-brand-red animate-pulse" : "text-white"
         }`}
       >
         {String(minutes).padStart(2, "0")}:{String(seconds).padStart(2, "0")}
@@ -57,7 +57,7 @@ export default function DebateTimer({ phase, phaseEndsAt }: Props) {
       <div className="w-64 h-1 bg-zinc-800 rounded-full overflow-hidden">
         <div
           className={`h-full rounded-full transition-all duration-1000 ${
-            isUrgent ? "bg-red-500" : "bg-yellow-400"
+            isUrgent ? "bg-brand-red" : "bg-black"
           }`}
           style={{ width: `${progress * 100}%` }}
         />

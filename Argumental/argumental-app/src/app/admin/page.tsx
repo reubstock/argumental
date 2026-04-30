@@ -24,9 +24,9 @@ export default function AdminPage() {
                 <span
                   className={`text-xs font-bold uppercase px-2 py-0.5 rounded-full ${
                     debate.status === "live"
-                      ? "bg-red-600 text-white"
+                      ? "bg-brand-red text-white"
                       : debate.status === "upcoming"
-                      ? "bg-yellow-400/10 text-yellow-400"
+                      ? "bg-white/10 text-white"
                       : "bg-zinc-800 text-zinc-500"
                   }`}
                 >
@@ -49,7 +49,7 @@ export default function AdminPage() {
               </Link>
               <Link
                 href={`/debates/${debate.id}/studio?role=moderator&name=Admin`}
-                className="text-sm text-white bg-yellow-400/10 hover:bg-yellow-400/20 border border-yellow-400/30 px-4 py-2 rounded-lg transition"
+                className="text-sm text-white bg-white/10 hover:bg-white/20 border border-white/30 px-4 py-2 rounded-lg transition"
               >
                 Studio
               </Link>

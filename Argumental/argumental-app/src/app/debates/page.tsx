@@ -12,7 +12,7 @@ export default function DebatesPage() {
       <div className="flex flex-col gap-4">
         {debates.map((debate) => {
           const statusColor = {
-            live: "bg-red-600 text-white",
+            live: "bg-brand-red text-white",
             upcoming: "bg-zinc-700 text-zinc-300",
             finished: "bg-zinc-800 text-zinc-500",
           }[debate.status];
@@ -21,7 +21,7 @@ export default function DebatesPage() {
             <Link
               key={debate.id}
               href={`/debates/${debate.id}`}
-              className="group bg-zinc-900 border border-zinc-800 hover:border-yellow-400/50 rounded-2xl p-6 flex items-start justify-between gap-4 transition"
+              className="group bg-zinc-900 border border-zinc-800 hover:border-black/50 rounded-2xl p-6 flex items-start justify-between gap-4 transition"
             >
               <div className="flex flex-col gap-2">
                 <div className="flex items-center gap-3">
@@ -38,17 +38,17 @@ export default function DebatesPage() {
                     })}
                   </span>
                 </div>
-                <h2 className="text-white font-bold text-xl group-hover:text-yellow-400 transition">
+                <h2 className="text-white font-bold text-xl group-hover:text-brand-red transition">
                   {debate.title}
                 </h2>
                 <p className="text-zinc-400 text-sm">{debate.description}</p>
                 <div className="flex items-center gap-2 mt-1">
-                  <span className="text-blue-400 font-semibold text-sm">{debate.debaterA.name}</span>
+                  <span className="text-brand-red font-semibold text-sm">{debate.debaterA.name}</span>
                   <span className="text-zinc-600 text-xs">vs</span>
-                  <span className="text-red-400 font-semibold text-sm">{debate.debaterB.name}</span>
+                  <span className="text-brand-blue font-semibold text-sm">{debate.debaterB.name}</span>
                 </div>
               </div>
-              <span className="text-zinc-600 group-hover:text-yellow-400 text-2xl transition mt-1 shrink-0">→</span>
+              <span className="text-zinc-600 group-hover:text-brand-red text-2xl transition mt-1 shrink-0">→</span>
             </Link>
           );
         })}

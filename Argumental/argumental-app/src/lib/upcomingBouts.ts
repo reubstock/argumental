@@ -1,0 +1,64 @@
+// Upcoming bout schedule — Sundays at 8 PM ET starting early May 2026.
+// Slots without `topic` / `debaterA` / `debaterB` render as "TBD" on the listing.
+//
+// To fill a slot:
+//   1. Set topic (one-line debate question)
+//   2. Set debaterA (FOR) and debaterB (AGAINST) with name + position
+//   3. Optionally set debateId once a /debates/{id} entry exists in lib/debates.ts
+
+export interface BoutDebater {
+  name: string;
+  position: string; // "FOR" | "AGAINST" | etc.
+}
+
+export interface UpcomingBout {
+  // ISO date string in UTC. Sundays at 8 PM ET = 00:00 UTC the next day (during EDT).
+  // Standard time (EST) would be 01:00 UTC the next day.
+  scheduledAt: string;
+  topic?: string;
+  description?: string;
+  debaterA?: BoutDebater;
+  debaterB?: BoutDebater;
+  debateId?: string;
+}
+
+// Sunday 8 PM EDT (UTC-4 from second Sunday of March through first Sunday of November)
+// = 00:00 UTC the following day (Monday).
+// US is on EDT for all of May 2026 → July 2026, then back to EDT through October.
+function sundayAt8pmEdt(year: number, month: number, day: number): string {
+  // ISO format: Monday at 00:00 UTC = Sunday 8pm EDT
+  const next = new Date(Date.UTC(year, month - 1, day + 1, 0, 0, 0));
+  return next.toISOString();
+}
+
+export const UPCOMING_BOUTS: UpcomingBout[] = [
+  {
+    scheduledAt: sundayAt8pmEdt(2026, 5, 3),
+  },
+  {
+    scheduledAt: sundayAt8pmEdt(2026, 5, 10),
+    topic: "Does Israel Have the Right to Exist?",
+    description:
+      "Two of America's most polarizing political voices go head to head on one of the most contested questions of our time.",
+    debaterA: { name: "Ben Shapiro", position: "FOR" },
+    debaterB: { name: "Alexandria Ocasio-Cortez", position: "AGAINST" },
+    debateId: "israel-001",
+  },
+  { scheduledAt: sundayAt8pmEdt(2026, 5, 17) },
+  { scheduledAt: sundayAt8pmEdt(2026, 5, 24) },
+  { scheduledAt: sundayAt8pmEdt(2026, 5, 31) },
+  { scheduledAt: sundayAt8pmEdt(2026, 6, 7) },
+  { scheduledAt: sundayAt8pmEdt(2026, 6, 14) },
+  { scheduledAt: sundayAt8pmEdt(2026, 6, 21) },
+  { scheduledAt: sundayAt8pmEdt(2026, 6, 28) },
+  { scheduledAt: sundayAt8pmEdt(2026, 7, 5) },
+  { scheduledAt: sundayAt8pmEdt(2026, 7, 12) },
+  { scheduledAt: sundayAt8pmEdt(2026, 7, 19) },
+];
+
+export function getUpcomingBouts(): UpcomingBout[] {
+  const now = Date.now();
+  return UPCOMING_BOUTS.filter(
+    (b) => new Date(b.scheduledAt).getTime() > now,
+  );
+}
