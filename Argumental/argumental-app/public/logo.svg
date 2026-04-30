@@ -1,36 +1,22 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 580 90" fill="none">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 540 90" fill="none">
 
-  <!-- Left figure — coral/red -->
-  <circle cx="62" cy="17" r="12" fill="#E05454"/>
-  <!-- Body: right arm sweeps up-right to meeting point, body fills down-left with left-leg wing -->
-  <path d="
-    M 114,43
-    C 102,37 86,27 76,30
-    C 68,32 63,30 62,30
-    C 54,42 34,60 24,86
-    C 37,80 55,68 71,60
-    C 77,72 83,86 86,90
-    C 89,77 87,61 100,50
-    C 107,45 111,43 114,43 Z
-  " fill="#E05454"/>
+  <!-- Round knot: two ropes (red + white) interlocked as a Hopf-link / love knot -->
 
-  <!-- Right figure — cobalt blue -->
-  <circle cx="169" cy="17" r="12" fill="#2E5FD9"/>
-  <!-- Body: left arm sweeps up-left to meeting point, body fills down-right with right-leg wing -->
-  <path d="
-    M 116,43
-    C 119,43 125,45 132,50
-    C 145,61 143,77 146,90
-    C 149,86 155,72 161,60
-    C 177,68 194,80 207,86
-    C 197,60 179,42 169,30
-    C 168,30 162,32 153,30
-    C 143,27 128,37 116,43 Z
-  " fill="#2E5FD9"/>
+  <!-- Red ring: navy outline + red interior -->
+  <circle cx="50" cy="45" r="32" stroke="#1A2540" stroke-width="18" fill="none"/>
+  <circle cx="50" cy="45" r="32" stroke="#E05454" stroke-width="11" fill="none"/>
 
-  <!-- ARGUMENTAL wordmark — dark navy -->
+  <!-- White ring: navy outline + white interior (drawn on top of red) -->
+  <circle cx="100" cy="45" r="32" stroke="#1A2540" stroke-width="18" fill="none"/>
+  <circle cx="100" cy="45" r="32" stroke="#FFFFFF" stroke-width="11" fill="none"/>
+
+  <!-- Weave override: red passes OVER white at the top crossing -->
+  <path d="M 64.03 16.24 A 32 32 0 0 1 81.05 37.26" stroke="#1A2540" stroke-width="18" fill="none"/>
+  <path d="M 64.03 16.24 A 32 32 0 0 1 81.05 37.26" stroke="#E05454" stroke-width="11" fill="none"/>
+
+  <!-- ARGUMENTAL wordmark -->
   <text
-    x="228"
+    x="155"
     y="63"
     font-family="'Arial Black','Helvetica Neue',Arial,sans-serif"
     font-weight="900"
