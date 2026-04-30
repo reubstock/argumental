@@ -6,6 +6,9 @@ import { getAllDebates } from "@/lib/debates";
  *
  * Always visible. Dashboards live or die on this kind of element: it tells
  * the viewer that the rest of the page is a live machine, not marketing.
+ *
+ * Mobile keeps only the two highest-signal stats (status + next bout) so the
+ * strip never overflows. Larger viewports get the full board, votes, raised.
  */
 export default function Ticker() {
   const now = Date.now();
@@ -37,39 +40,46 @@ export default function Ticker() {
     : null;
 
   const status = liveDebate ? "LIVE" : "UPCOMING";
-  const statusDot = liveDebate
-    ? "bg-brand-red animate-pulse"
-    : "bg-zinc-400";
-
-  const Sep = () => <span className="text-zinc-300">·</span>;
+  const statusDot = liveDebate ? "bg-brand-red animate-pulse" : "bg-zinc-400";
 
   return (
     <div className="border-b border-zinc-200 bg-zinc-50">
-      <div className="max-w-6xl mx-auto px-4 md:px-6 py-1.5 overflow-x-auto whitespace-nowrap">
-        <div className="flex items-center gap-3 md:gap-4 text-[11px] font-bold uppercase tracking-widest text-zinc-600 tabular-nums">
+      <div className="max-w-6xl mx-auto px-3 md:px-6 py-1.5 overflow-x-auto whitespace-nowrap">
+        <div className="flex items-center gap-2 md:gap-4 text-[10px] md:text-[11px] font-bold uppercase tracking-widest text-zinc-600 tabular-nums">
+          {/* Always visible */}
           <span className="flex items-center gap-1.5">
             <span
               className={`inline-block w-1.5 h-1.5 rounded-full ${statusDot}`}
             />
             {status}
           </span>
+
           {nextDateStr && (
             <>
-              <Sep />
+              <span className="text-zinc-300">·</span>
               <span>
-                Next bout {nextDateStr}
+                <span className="hidden sm:inline">Next bout </span>
+                {nextDateStr}
                 {daysUntil !== null && daysUntil > 0
-                  ? ` (in ${daysUntil}d)`
+                  ? ` · ${daysUntil}d`
                   : ""}
               </span>
             </>
           )}
-          <Sep />
-          <span>{upcoming.length} on the board</span>
-          <Sep />
-          <span>{totalVotes.toLocaleString()} votes cast</span>
-          <Sep />
-          <span>${totalRaised.toLocaleString()} raised</span>
+
+          {/* Tablet+ */}
+          <span className="hidden sm:inline text-zinc-300">·</span>
+          <span className="hidden sm:inline">
+            {upcoming.length} on the board
+          </span>
+          <span className="hidden sm:inline text-zinc-300">·</span>
+          <span className="hidden sm:inline">
+            {totalVotes.toLocaleString()} votes cast
+          </span>
+          <span className="hidden sm:inline text-zinc-300">·</span>
+          <span className="hidden sm:inline">
+            ${totalRaised.toLocaleString()} raised
+          </span>
         </div>
       </div>
     </div>

@@ -55,25 +55,55 @@ function BoutRow({ bout }: { bout: UpcomingBout }) {
   const date = fmtDate(bout.scheduledAt);
   const time = fmtTime(bout.scheduledAt);
 
+  const ActionLink = () =>
+    filled && bout.debateId ? (
+      <Link
+        href={`/debates/${bout.debateId}`}
+        className="text-center bg-black hover:bg-zinc-800 text-white font-black text-[11px] md:text-xs uppercase tracking-widest px-3 py-1.5 md:py-2 rounded-md transition whitespace-nowrap"
+      >
+        View →
+      </Link>
+    ) : (
+      <Link
+        href="#topic"
+        className="text-center bg-white hover:bg-zinc-50 border border-zinc-300 hover:border-black text-zinc-800 font-black text-[11px] md:text-xs uppercase tracking-widest px-3 py-1.5 md:py-2 rounded-md transition whitespace-nowrap"
+      >
+        Suggest →
+      </Link>
+    );
+
   return (
-    <div className="grid grid-cols-12 items-stretch border border-zinc-200 rounded-md bg-white overflow-hidden">
-      {/* Date strip */}
-      <div className="col-span-12 md:col-span-3 border-b md:border-b-0 md:border-r border-zinc-200 bg-zinc-50 px-4 py-3 flex md:flex-col md:justify-center gap-2 md:gap-0.5">
+    <div className="border border-zinc-200 rounded-md bg-white overflow-hidden md:grid md:grid-cols-12 md:items-stretch">
+      {/* Mobile: compact header (date + action inline) */}
+      <div className="md:hidden flex items-center justify-between border-b border-zinc-200 bg-zinc-50 px-3 py-2 gap-2">
+        <div className="flex items-baseline gap-2 min-w-0">
+          <span className="text-[10px] font-bold uppercase tracking-widest text-zinc-500 tabular-nums">
+            {date}
+          </span>
+          <span className="text-[11px] text-zinc-700 tabular-nums">
+            {time}
+          </span>
+        </div>
+        <ActionLink />
+      </div>
+
+      {/* Desktop: date strip column */}
+      <div className="hidden md:flex md:col-span-3 md:flex-col md:justify-center border-r border-zinc-200 bg-zinc-50 px-4 py-3 gap-0.5">
         <div className="text-[11px] font-bold uppercase tracking-widest text-zinc-500 tabular-nums">
           {date}
         </div>
         <div className="text-xs text-zinc-700 tabular-nums">{time}</div>
       </div>
 
-      {/* Body */}
-      <div className="col-span-12 md:col-span-7 px-4 py-3 flex flex-col justify-center gap-1">
+      {/* Body — same on both layouts */}
+      <div className="md:col-span-7 px-3 md:px-4 py-2.5 md:py-3 flex flex-col justify-center gap-1">
         {filled ? (
           <>
-            <div className="text-zinc-900 font-bold text-base leading-snug">
+            <div className="text-zinc-900 font-bold text-sm md:text-base leading-snug">
               {bout.topic}
             </div>
             {bout.debaterA && bout.debaterB && (
-              <div className="text-xs flex items-center gap-2 flex-wrap">
+              <div className="text-xs flex items-center gap-1.5 md:gap-2 flex-wrap">
                 <span className="text-brand-red font-semibold">
                   {bout.debaterA.name}
                 </span>
@@ -92,33 +122,19 @@ function BoutRow({ bout }: { bout: UpcomingBout }) {
           </>
         ) : (
           <>
-            <div className="text-zinc-400 font-bold text-base leading-snug uppercase tracking-widest">
+            <div className="text-zinc-400 font-bold text-sm md:text-base leading-snug uppercase tracking-widest">
               Topic — TBD
             </div>
-            <div className="text-xs text-zinc-500">
+            <div className="text-[11px] md:text-xs text-zinc-500">
               Slot open. Suggest a topic or nominate the debaters.
             </div>
           </>
         )}
       </div>
 
-      {/* Action */}
-      <div className="col-span-12 md:col-span-2 border-t md:border-t-0 md:border-l border-zinc-200 px-3 py-3 flex items-center justify-end md:justify-center">
-        {filled && bout.debateId ? (
-          <Link
-            href={`/debates/${bout.debateId}`}
-            className="w-full text-center bg-black hover:bg-zinc-800 text-white font-black text-xs uppercase tracking-widest px-3 py-2 rounded-md transition"
-          >
-            View →
-          </Link>
-        ) : (
-          <Link
-            href="#topic"
-            className="w-full text-center bg-white hover:bg-zinc-50 border border-zinc-300 hover:border-black text-zinc-800 font-black text-xs uppercase tracking-widest px-3 py-2 rounded-md transition"
-          >
-            Suggest →
-          </Link>
-        )}
+      {/* Desktop: action column */}
+      <div className="hidden md:flex md:col-span-2 border-l border-zinc-200 px-3 py-3 items-center justify-center">
+        <ActionLink />
       </div>
     </div>
   );

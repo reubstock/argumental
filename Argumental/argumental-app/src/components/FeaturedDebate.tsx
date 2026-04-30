@@ -238,6 +238,22 @@ export default function FeaturedDebate({ debate }: { debate: Debate }) {
         <div className="flex gap-3">
           <div className="hidden md:block w-20 shrink-0" />
           <Panel className="flex-1" label="Vote Tally">
+            {/* Mobile-only tug-of-war progress bar (replaces hidden desktop tubes) */}
+            <div className="md:hidden flex items-center gap-2 px-3 pt-2.5 text-[11px] font-black tabular-nums">
+              <span className="text-brand-red">${votesA}</span>
+              <div className="flex-1 flex h-1.5 rounded-full overflow-hidden bg-zinc-100">
+                <div
+                  className="bg-brand-red transition-all duration-300"
+                  style={{ width: `${pctA / 2}%` }}
+                />
+                <div className="flex-1" />
+                <div
+                  className="bg-brand-blue transition-all duration-300"
+                  style={{ width: `${pctB / 2}%` }}
+                />
+              </div>
+              <span className="text-brand-blue">${votesB}</span>
+            </div>
             <div className="flex justify-between items-center px-3 md:px-4 py-3">
               {/* Side A — photo · VOTE label · $1 · $5 */}
               <div className="flex items-center gap-1.5 md:gap-2">
