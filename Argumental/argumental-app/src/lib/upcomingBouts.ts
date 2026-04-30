@@ -44,8 +44,14 @@ export const UPCOMING_BOUTS: UpcomingBout[] = [
     debaterB: { name: "Alexandria Ocasio-Cortez", position: "AGAINST" },
     debateId: "israel-001",
   },
-  { scheduledAt: sundayAt8pmEdt(2026, 5, 17) },
-  { scheduledAt: sundayAt8pmEdt(2026, 5, 24) },
+  {
+    scheduledAt: sundayAt8pmEdt(2026, 5, 17),
+    topic: "A Woman is a Person with 2 X Chromosomes",
+  },
+  {
+    scheduledAt: sundayAt8pmEdt(2026, 5, 24),
+    topic: "The US Should Defund the Police",
+  },
   { scheduledAt: sundayAt8pmEdt(2026, 5, 31) },
   { scheduledAt: sundayAt8pmEdt(2026, 6, 7) },
   { scheduledAt: sundayAt8pmEdt(2026, 6, 14) },

@@ -55,22 +55,29 @@ function BoutRow({ bout }: { bout: UpcomingBout }) {
   const date = fmtDate(bout.scheduledAt);
   const time = fmtTime(bout.scheduledAt);
 
-  const ActionLink = () =>
-    filled && bout.debateId ? (
+  const ActionLink = () => {
+    // Three states: scheduled (debateId) → View · topic only → Nominate · empty → Suggest
+    if (filled && bout.debateId) {
+      return (
+        <Link
+          href={`/debates/${bout.debateId}`}
+          className="text-center bg-black hover:bg-zinc-800 text-white font-black text-[11px] md:text-xs uppercase tracking-widest px-3 py-1.5 md:py-2 rounded-md transition whitespace-nowrap"
+        >
+          View →
+        </Link>
+      );
+    }
+    const label = filled ? "Nominate →" : "Suggest →";
+    const target = filled ? "#nominate" : "#topic";
+    return (
       <Link
-        href={`/debates/${bout.debateId}`}
-        className="text-center bg-black hover:bg-zinc-800 text-white font-black text-[11px] md:text-xs uppercase tracking-widest px-3 py-1.5 md:py-2 rounded-md transition whitespace-nowrap"
-      >
-        View →
-      </Link>
-    ) : (
-      <Link
-        href="#topic"
+        href={target}
         className="text-center bg-white hover:bg-zinc-50 border border-zinc-300 hover:border-black text-zinc-800 font-black text-[11px] md:text-xs uppercase tracking-widest px-3 py-1.5 md:py-2 rounded-md transition whitespace-nowrap"
       >
-        Suggest →
+        {label}
       </Link>
     );
+  };
 
   return (
     <div className="border border-zinc-200 rounded-md bg-white overflow-hidden md:grid md:grid-cols-12 md:items-stretch">
