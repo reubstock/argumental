@@ -167,7 +167,7 @@ export default function FeaturedDebate({ debate }: { debate: Debate }) {
       </div>
 
       {/* ── MIDDLE + RIGHT ── */}
-      <div className="flex-1 min-w-0 flex flex-col gap-3">
+      <div className="flex-1 min-w-0 flex flex-col gap-1.5">
         <div className="flex gap-3 items-stretch">
 
           {/* Left column: verdict indicator → tally → tubes — desktop only */}
@@ -237,7 +237,7 @@ export default function FeaturedDebate({ debate }: { debate: Debate }) {
         {/* Vote row */}
         <div className="flex gap-3">
           <div className="hidden md:block w-20 shrink-0" />
-          <Panel className="flex-1" label="Vote Tally">
+          <Panel className="flex-1">
             {/* Mobile-only tug-of-war progress bar (replaces hidden desktop tubes) */}
             <div className="md:hidden flex items-center gap-2 px-3 pt-2.5 text-[11px] font-black tabular-nums">
               <span className="text-brand-red">${votesA}</span>
