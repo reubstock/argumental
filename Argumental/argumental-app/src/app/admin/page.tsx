@@ -1,81 +1,103 @@
 import { getAllDebates } from "@/lib/debates";
 import Link from "next/link";
+import Panel from "@/components/Panel";
 
 export default function AdminPage() {
   const debates = getAllDebates();
 
   return (
-    <div className="max-w-4xl mx-auto px-6 py-16 w-full">
+    <div className="max-w-4xl mx-auto px-4 md:px-6 py-10 md:py-14 w-full">
       <div className="flex items-center justify-between mb-8">
         <div>
-          <h1 className="text-4xl font-black text-white">Admin</h1>
-          <p className="text-zinc-400 mt-1">Manage debates and monitor live bouts.</p>
+          <p className="text-black text-xs uppercase tracking-widest font-semibold mb-2">
+            Operator
+          </p>
+          <h1 className="text-3xl md:text-4xl font-black text-zinc-900">
+            Admin
+          </h1>
+          <p className="text-zinc-500 text-sm mt-1">
+            Manage debates and monitor live bouts.
+          </p>
         </div>
       </div>
 
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-3">
         {debates.map((debate) => (
-          <div
-            key={debate.id}
-            className="bg-zinc-900 border border-zinc-800 rounded-2xl p-6 flex items-center justify-between"
-          >
-            <div>
-              <div className="flex items-center gap-3 mb-1">
-                <span
-                  className={`text-xs font-bold uppercase px-2 py-0.5 rounded-full ${
-                    debate.status === "live"
-                      ? "bg-brand-red text-white"
-                      : debate.status === "upcoming"
-                      ? "bg-white/10 text-white"
-                      : "bg-zinc-800 text-zinc-500"
-                  }`}
-                >
-                  {debate.status}
-                </span>
-                <span className="text-zinc-500 text-xs">ID: {debate.id}</span>
+          <Panel key={debate.id}>
+            <div className="p-5 flex items-center justify-between gap-4">
+              <div className="min-w-0">
+                <div className="flex items-center gap-3 mb-1">
+                  <span
+                    className={`text-[10px] font-bold uppercase tracking-widest px-2 py-0.5 rounded-full ${
+                      debate.status === "live"
+                        ? "bg-brand-red text-white"
+                        : debate.status === "upcoming"
+                          ? "bg-zinc-100 text-zinc-700"
+                          : "bg-zinc-100 text-zinc-500"
+                    }`}
+                  >
+                    {debate.status}
+                  </span>
+                  <span className="text-zinc-500 text-xs uppercase tracking-widest tabular-nums">
+                    ID: {debate.id}
+                  </span>
+                </div>
+                <h2 className="text-zinc-900 font-bold text-base">
+                  {debate.title}
+                </h2>
+                <p className="text-zinc-500 text-sm">
+                  <span className="text-brand-red font-semibold">
+                    {debate.debaterA.name}
+                  </span>{" "}
+                  vs{" "}
+                  <span className="text-brand-blue font-semibold">
+                    {debate.debaterB.name}
+                  </span>{" "}
+                  ·{" "}
+                  <span className="tabular-nums">
+                    {debate.votesA + debate.votesB}
+                  </span>{" "}
+                  total votes
+                </p>
               </div>
-              <h2 className="text-white font-bold text-lg">{debate.title}</h2>
-              <p className="text-zinc-400 text-sm">
-                {debate.debaterA.name} vs {debate.debaterB.name} ·{" "}
-                {debate.votesA + debate.votesB} total votes
-              </p>
+              <div className="flex gap-2 shrink-0">
+                <Link
+                  href={`/debates/${debate.id}`}
+                  className="text-xs font-black uppercase tracking-widest text-zinc-700 bg-white hover:bg-zinc-50 border border-zinc-300 hover:border-black px-3 py-2 rounded-md transition"
+                >
+                  View
+                </Link>
+                <Link
+                  href={`/debates/${debate.id}/studio?role=moderator&name=Admin`}
+                  className="text-xs font-black uppercase tracking-widest text-white bg-black hover:bg-zinc-800 px-3 py-2 rounded-md transition"
+                >
+                  Studio
+                </Link>
+              </div>
             </div>
-            <div className="flex gap-2">
-              <Link
-                href={`/debates/${debate.id}`}
-                className="text-sm text-zinc-400 hover:text-white border border-zinc-700 hover:border-zinc-500 px-4 py-2 rounded-lg transition"
-              >
-                View
-              </Link>
-              <Link
-                href={`/debates/${debate.id}/studio?role=moderator&name=Admin`}
-                className="text-sm text-white bg-white/10 hover:bg-white/20 border border-white/30 px-4 py-2 rounded-lg transition"
-              >
-                Studio
-              </Link>
-            </div>
-          </div>
+          </Panel>
         ))}
       </div>
 
-      <div className="mt-10 bg-zinc-900 border border-zinc-800 rounded-2xl p-6">
-        <h3 className="text-white font-bold mb-3">Integration Checklist</h3>
-        <ul className="text-zinc-400 text-sm space-y-2">
-          {[
-            "Add LIVEKIT_API_KEY + LIVEKIT_API_SECRET to .env.local",
-            "Add MUX_TOKEN_ID + MUX_TOKEN_SECRET to .env.local",
-            "Add PUSHER_* keys to .env.local",
-            "Add STRIPE_SECRET_KEY + STRIPE_WEBHOOK_SECRET to .env.local",
-            "Configure Stripe webhook to POST /api/votes (payment_intent.succeeded)",
-            "Configure Mux webhook to POST /api/mux-webhook",
-            "Replace in-memory debate store (lib/debates.ts) with Postgres/Supabase",
-          ].map((item, i) => (
-            <li key={i} className="flex items-start gap-2">
-              <span className="text-zinc-600 mt-0.5">☐</span>
-              {item}
-            </li>
-          ))}
-        </ul>
+      <div className="mt-10">
+        <Panel label="Integration Checklist">
+          <ul className="text-zinc-700 text-sm p-5 space-y-2">
+            {[
+              "Add LIVEKIT_API_KEY + LIVEKIT_API_SECRET to .env.local",
+              "Add MUX_TOKEN_ID + MUX_TOKEN_SECRET to .env.local",
+              "Add PUSHER_* keys to .env.local",
+              "Add STRIPE_SECRET_KEY + STRIPE_WEBHOOK_SECRET to .env.local",
+              "Configure Stripe webhook to POST /api/votes (payment_intent.succeeded)",
+              "Configure Mux webhook to POST /api/mux-webhook",
+              "Replace in-memory debate store (lib/debates.ts) with Postgres/Supabase",
+            ].map((item, i) => (
+              <li key={i} className="flex items-start gap-2">
+                <span className="text-zinc-400 mt-0.5">☐</span>
+                {item}
+              </li>
+            ))}
+          </ul>
+        </Panel>
       </div>
     </div>
   );

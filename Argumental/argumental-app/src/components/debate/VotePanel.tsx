@@ -48,7 +48,7 @@ function CheckoutForm({ debateId, votedFor, onSuccess }: CheckoutFormProps) {
       <button
         type="submit"
         disabled={loading || !stripe}
-        className="bg-black text-black font-bold py-3 rounded-lg hover:bg-zinc-800 disabled:opacity-50 transition"
+        className="bg-black text-white font-bold py-3 rounded-lg hover:bg-zinc-800 disabled:opacity-50 transition"
       >
         {loading ? "Processing..." : "Cast Vote — $5"}
       </button>

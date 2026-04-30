@@ -22,11 +22,14 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
-@keyframes bell-ring {
-  0%,100% { transform: rotate(0deg); transform-origin: top center; }
-  10%,50%,90% { transform: rotate(-18deg); transform-origin: top center; }
-  30%,70% { transform: rotate(18deg); transform-origin: top center; }
+/* Verdict reached — quick scale + opacity flash to mark threshold crossing. */
+@keyframes verdict-flash {
+  0%   { transform: scale(1);    opacity: 1; }
+  20%  { transform: scale(1.18); opacity: 1; }
+  40%  { transform: scale(0.98); opacity: 0.7; }
+  60%  { transform: scale(1.08); opacity: 1; }
+  100% { transform: scale(1);    opacity: 1; }
 }
-.animate-bell-ring {
-  animation: bell-ring 0.5s ease-in-out infinite;
+.animate-verdict-flash {
+  animation: verdict-flash 1.2s ease-in-out;
 }
