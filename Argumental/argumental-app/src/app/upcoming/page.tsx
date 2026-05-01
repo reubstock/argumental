@@ -2,7 +2,11 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { UPCOMING_BOUTS, type UpcomingBout } from "@/lib/upcomingBouts";
+import {
+  UPCOMING_BOUTS,
+  type UpcomingBout,
+  type BoutDebater,
+} from "@/lib/upcomingBouts";
 import OddsDial from "@/components/OddsDial";
 
 function Field({
@@ -49,6 +53,40 @@ function fmtTime(iso: string) {
     minute: "2-digit",
     timeZoneName: "short",
   }).format(d);
+}
+
+function DebaterChip({
+  debater,
+  side,
+}: {
+  debater: BoutDebater;
+  side: "A" | "B";
+}) {
+  const borderCls =
+    side === "A" ? "border-brand-red" : "border-brand-blue";
+  const nameCls = side === "A" ? "text-brand-red" : "text-brand-blue";
+  return (
+    <div className="flex items-center gap-1.5">
+      {debater.photo && (
+        <div
+          className={`w-6 h-6 md:w-7 md:h-7 rounded-full overflow-hidden border-2 ${borderCls} shrink-0`}
+        >
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={debater.photo}
+            alt={debater.name}
+            className="w-full h-full object-cover object-top"
+          />
+        </div>
+      )}
+      <span className={`${nameCls} font-semibold whitespace-nowrap`}>
+        {debater.name}
+      </span>
+      <span className="text-[10px] uppercase tracking-widest text-zinc-400">
+        {debater.position}
+      </span>
+    </div>
+  );
 }
 
 function BoutRow({ bout }: { bout: UpcomingBout }) {
@@ -111,20 +149,10 @@ function BoutRow({ bout }: { bout: UpcomingBout }) {
               {bout.topic}
             </div>
             {bout.debaterA && bout.debaterB && (
-              <div className="text-xs flex items-center gap-1.5 md:gap-2 flex-wrap">
-                <span className="text-brand-red font-semibold">
-                  {bout.debaterA.name}
-                </span>
-                <span className="text-[10px] uppercase tracking-widest text-zinc-400">
-                  {bout.debaterA.position}
-                </span>
+              <div className="text-xs flex items-center gap-2 flex-wrap">
+                <DebaterChip debater={bout.debaterA} side="A" />
                 <span className="text-zinc-400">vs</span>
-                <span className="text-brand-blue font-semibold">
-                  {bout.debaterB.name}
-                </span>
-                <span className="text-[10px] uppercase tracking-widest text-zinc-400">
-                  {bout.debaterB.position}
-                </span>
+                <DebaterChip debater={bout.debaterB} side="B" />
               </div>
             )}
           </>
@@ -140,8 +168,8 @@ function BoutRow({ bout }: { bout: UpcomingBout }) {
         )}
       </div>
 
-      {/* Desktop: ODDS cell */}
-      <div className="hidden md:flex md:col-span-2 border-l border-zinc-200 px-2 py-2 flex-col items-center justify-center gap-0.5">
+      {/* ODDS cell — visible on every breakpoint */}
+      <div className="md:col-span-2 border-t md:border-t-0 md:border-l border-zinc-200 px-2 py-2 flex flex-col items-center justify-center gap-0.5">
         <span className="text-[9px] font-black uppercase tracking-widest text-zinc-400 leading-none">
           Odds
         </span>

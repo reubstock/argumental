@@ -41,11 +41,11 @@ export default function NavBar() {
 
         {/* Desktop nav — inline links (md+) */}
         <div className="hidden md:flex items-center font-medium">
-          <Link href="/upcoming" className={desktopLink}>
-            Upcoming
-          </Link>
           <Link href="/debates" className={desktopLink}>
             Debates
+          </Link>
+          <Link href="/upcoming" className={desktopLink}>
+            Upcoming
           </Link>
           <Link href="/charities" className={desktopLink}>
             Charities
@@ -105,11 +105,11 @@ export default function NavBar() {
           />
           <div className="md:hidden absolute top-full left-0 right-0 z-50 bg-white border-b border-zinc-200 shadow-lg">
             <div className="flex flex-col py-1">
-              <Link href="/upcoming" onClick={close} className={mobileLink}>
-                Upcoming
-              </Link>
               <Link href="/debates" onClick={close} className={mobileLink}>
                 Debates
+              </Link>
+              <Link href="/upcoming" onClick={close} className={mobileLink}>
+                Upcoming
               </Link>
               <Link href="/charities" onClick={close} className={mobileLink}>
                 Charities

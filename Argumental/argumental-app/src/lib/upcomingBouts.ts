@@ -11,6 +11,8 @@
 export interface BoutDebater {
   name: string;
   position: string; // "FOR" | "AGAINST" | etc.
+  /** Square headshot path (any size — rendered into a small circle). */
+  photo?: string;
 }
 
 export interface UpcomingBout {
@@ -39,8 +41,12 @@ export const UPCOMING_BOUTS: UpcomingBout[] = [
     topic: "Does Israel Have the Right to Exist?",
     description:
       "Two of America's most polarizing political voices go head to head on one of the most contested questions of our time.",
-    debaterA: { name: "Ben Shapiro", position: "FOR" },
-    debaterB: { name: "Alexandria Ocasio-Cortez", position: "AGAINST" },
+    debaterA: { name: "Ben Shapiro", position: "FOR", photo: "/shapiro.jpg" },
+    debaterB: {
+      name: "Alexandria Ocasio-Cortez",
+      position: "AGAINST",
+      photo: "/aoc.jpg",
+    },
     debateId: "israel-001",
     // 60% favor the conservative (Shapiro / FOR / side A) → oddsB = 40.
     oddsB: 40,
@@ -48,16 +54,32 @@ export const UPCOMING_BOUTS: UpcomingBout[] = [
   {
     scheduledAt: sundayAt8pmEdt(2026, 5, 17),
     topic: "A Woman is a Person with 2 X Chromosomes",
-    debaterA: { name: "Matt Walsh", position: "FOR" },
-    debaterB: { name: "Judith Butler", position: "AGAINST" },
+    debaterA: {
+      name: "Matt Walsh",
+      position: "FOR",
+      photo: "/debaters/walsh.jpg",
+    },
+    debaterB: {
+      name: "Judith Butler",
+      position: "AGAINST",
+      photo: "/debaters/butler.jpg",
+    },
     debateId: "woman-001",
     oddsB: 65,
   },
   {
     scheduledAt: sundayAt8pmEdt(2026, 5, 24),
     topic: "The US Should Defund the Police",
-    debaterA: { name: "Ilhan Omar", position: "FOR" },
-    debaterB: { name: "Pete Hegseth", position: "AGAINST" },
+    debaterA: {
+      name: "Ilhan Omar",
+      position: "FOR",
+      photo: "/debaters/omar.jpg",
+    },
+    debaterB: {
+      name: "Pete Hegseth",
+      position: "AGAINST",
+      photo: "/debaters/hegseth.jpg",
+    },
     debateId: "defund-001",
     oddsB: 76,
   },
