@@ -207,7 +207,7 @@ export default function FeaturedDebate({ debate }: { debate: Debate }) {
           {/* Right column: clock bar stacked above video */}
           <div className="flex-1 flex flex-col gap-3">
             <Panel variant="dark" label="Live Clock">
-              <div className="flex items-center px-5 py-3 gap-4">
+              <div className="flex items-center px-5 py-1.5 gap-4">
                 <div className="flex-1 flex flex-col items-start">
                   <span className="text-brand-red text-xs font-bold uppercase tracking-widest leading-none mb-1">
                     {debate.debaterA.name.split(" ").pop()}
