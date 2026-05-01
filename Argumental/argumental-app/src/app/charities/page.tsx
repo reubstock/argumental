@@ -25,6 +25,19 @@ export default function CharitiesPage() {
         <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
           {CHARITIES.map((charity) => (
             <Panel key={charity.id} className="flex flex-col">
+              {/* Hero image — 2:1 ratio strip at the top */}
+              {charity.heroImage && (
+                <div className="aspect-[2/1] bg-zinc-100 border-b border-zinc-200 overflow-hidden">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={charity.heroImage}
+                    alt=""
+                    aria-hidden="true"
+                    className="w-full h-full object-cover"
+                    loading="lazy"
+                  />
+                </div>
+              )}
               <div className="p-5 flex flex-col gap-3 flex-1">
                 <div>
                   <p className="text-black text-[10px] uppercase tracking-widest font-bold mb-1">
@@ -59,23 +72,30 @@ export default function CharitiesPage() {
           ))}
 
           {/* Trailing "more to come" tile to balance the grid visually */}
-          <Panel className="min-h-[200px] flex flex-col items-center justify-center gap-2 border-dashed">
-            <div className="w-10 h-10 rounded-full bg-zinc-100 flex items-center justify-center">
-              <svg
-                width="18"
-                height="18"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="#a1a1aa"
-                strokeWidth="2.5"
-                strokeLinecap="round"
-              >
-                <path d="M12 5v14M5 12h14" />
-              </svg>
+          <Panel className="flex flex-col">
+            <div className="aspect-[2/1] bg-zinc-50 border-b border-zinc-200 flex items-center justify-center">
+              <div className="w-10 h-10 rounded-full bg-zinc-100 flex items-center justify-center">
+                <svg
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="#a1a1aa"
+                  strokeWidth="2.5"
+                  strokeLinecap="round"
+                >
+                  <path d="M12 5v14M5 12h14" />
+                </svg>
+              </div>
             </div>
-            <span className="text-zinc-400 text-xs font-bold uppercase tracking-widest">
-              More charities coming
-            </span>
+            <div className="p-5 flex flex-col gap-3 flex-1 items-center justify-center text-center">
+              <span className="text-zinc-400 text-xs font-bold uppercase tracking-widest">
+                More charities coming
+              </span>
+              <p className="text-zinc-500 text-xs">
+                Charities are added as debaters select them.
+              </p>
+            </div>
           </Panel>
         </div>
       </div>
