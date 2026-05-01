@@ -5,6 +5,8 @@
 //   1. Set topic (one-line debate question)
 //   2. Set debaterA (FOR) and debaterB (AGAINST) with name + position
 //   3. Optionally set debateId once a /debates/{id} entry exists in lib/debates.ts
+//   4. Optionally set oddsB (0-100): pre-bout consensus likelihood that side B wins.
+//      The OddsDial on the row needle-points based on this value.
 
 export interface BoutDebater {
   name: string;
@@ -20,13 +22,13 @@ export interface UpcomingBout {
   debaterA?: BoutDebater;
   debaterB?: BoutDebater;
   debateId?: string;
+  /** 0–100, pre-bout odds that side B (AGAINST) wins. 50 = even. */
+  oddsB?: number;
 }
 
 // Sunday 8 PM EDT (UTC-4 from second Sunday of March through first Sunday of November)
 // = 00:00 UTC the following day (Monday).
-// US is on EDT for all of May 2026 → July 2026, then back to EDT through October.
 function sundayAt8pmEdt(year: number, month: number, day: number): string {
-  // ISO format: Monday at 00:00 UTC = Sunday 8pm EDT
   const next = new Date(Date.UTC(year, month - 1, day + 1, 0, 0, 0));
   return next.toISOString();
 }
@@ -49,10 +51,16 @@ export const UPCOMING_BOUTS: UpcomingBout[] = [
     topic: "A Woman is a Person with 2 X Chromosomes",
     debaterA: { name: "Matt Walsh", position: "FOR" },
     debaterB: { name: "Judith Butler", position: "AGAINST" },
+    debateId: "woman-001",
+    oddsB: 65,
   },
   {
     scheduledAt: sundayAt8pmEdt(2026, 5, 24),
     topic: "The US Should Defund the Police",
+    debaterA: { name: "Ilhan Omar", position: "FOR" },
+    debaterB: { name: "Pete Hegseth", position: "AGAINST" },
+    debateId: "defund-001",
+    oddsB: 76,
   },
   { scheduledAt: sundayAt8pmEdt(2026, 5, 31) },
   { scheduledAt: sundayAt8pmEdt(2026, 6, 7) },

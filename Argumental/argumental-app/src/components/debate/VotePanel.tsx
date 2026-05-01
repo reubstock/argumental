@@ -135,7 +135,7 @@ export default function VotePanel({ debate }: Props) {
           </button>
           <button
             onClick={() => handleSelectSide("B")}
-            className="flex-1 bg-brand-blue hover:bg-zinc-1000 text-white font-bold py-3 rounded-xl transition"
+            className="flex-1 bg-brand-blue hover:bg-brand-blue/80 text-white font-bold py-3 rounded-xl transition"
           >
             {debate.debaterB.name}
           </button>

@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { UPCOMING_BOUTS, type UpcomingBout } from "@/lib/upcomingBouts";
+import OddsDial from "@/components/OddsDial";
 
 function Field({
   label,
@@ -103,7 +104,7 @@ function BoutRow({ bout }: { bout: UpcomingBout }) {
       </div>
 
       {/* Body — same on both layouts */}
-      <div className="md:col-span-7 px-3 md:px-4 py-2.5 md:py-3 flex flex-col justify-center gap-1">
+      <div className="md:col-span-5 px-3 md:px-4 py-2.5 md:py-3 flex flex-col justify-center gap-1">
         {filled ? (
           <>
             <div className="text-zinc-900 font-bold text-sm md:text-base leading-snug">
@@ -136,6 +137,20 @@ function BoutRow({ bout }: { bout: UpcomingBout }) {
               Slot open. Suggest a topic or nominate the debaters.
             </div>
           </>
+        )}
+      </div>
+
+      {/* Desktop: ODDS cell */}
+      <div className="hidden md:flex md:col-span-2 border-l border-zinc-200 px-2 py-2 flex-col items-center justify-center gap-0.5">
+        <span className="text-[9px] font-black uppercase tracking-widest text-zinc-400 leading-none">
+          Odds
+        </span>
+        {bout.oddsB !== undefined ? (
+          <OddsDial oddsB={bout.oddsB} />
+        ) : (
+          <span className="text-zinc-300 text-base font-black leading-none mt-2">
+            —
+          </span>
         )}
       </div>
 
