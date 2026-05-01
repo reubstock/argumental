@@ -45,6 +45,8 @@ export const UPCOMING_BOUTS: UpcomingBout[] = [
     debaterA: { name: "Ben Shapiro", position: "FOR" },
     debaterB: { name: "Alexandria Ocasio-Cortez", position: "AGAINST" },
     debateId: "israel-001",
+    // 60% favor the conservative (Shapiro / FOR / side A) → oddsB = 40.
+    oddsB: 40,
   },
   {
     scheduledAt: sundayAt8pmEdt(2026, 5, 17),
