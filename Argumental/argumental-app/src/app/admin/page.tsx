@@ -5,13 +5,69 @@ import Panel from "@/components/Panel";
 
 export const dynamic = "force-dynamic";
 
+function envOk(...keys: string[]): boolean {
+  return keys.every((k) => !!process.env[k]);
+}
+
 export default function AdminPage() {
   const debates = getAllDebates();
-  const charityPersistent = hasPersistentStorage();
+
+  // System status — each integration is a row of clear, user-facing prose.
+  const integrations: {
+    label: string;
+    ok: boolean;
+    okLabel: string;
+    offLabel: string;
+    detail: string;
+  }[] = [
+    {
+      label: "Charity DB",
+      ok: hasPersistentStorage(),
+      okLabel: "Connected",
+      offLabel: "In-memory",
+      detail:
+        "Persists charities added through the UI across deploys. Connect Upstash Redis on Vercel → Storage tab.",
+    },
+    {
+      label: "Live Stream",
+      ok: envOk("MUX_TOKEN_ID", "MUX_TOKEN_SECRET"),
+      okLabel: "Connected",
+      offLabel: "Not configured",
+      detail:
+        "Streams the live debate video via Mux. Add MUX_TOKEN_ID + MUX_TOKEN_SECRET.",
+    },
+    {
+      label: "Real-time Voting",
+      ok: envOk("PUSHER_APP_ID", "PUSHER_KEY", "PUSHER_SECRET"),
+      okLabel: "Connected",
+      offLabel: "Not configured",
+      detail:
+        "Broadcasts vote tallies to viewers as they update. Add PUSHER_APP_ID + PUSHER_KEY + PUSHER_SECRET + PUSHER_CLUSTER.",
+    },
+    {
+      label: "Payments",
+      ok: envOk("STRIPE_SECRET_KEY"),
+      okLabel: "Connected",
+      offLabel: "Not configured",
+      detail:
+        "Processes the $5 vote charges via Stripe. Add STRIPE_SECRET_KEY + STRIPE_WEBHOOK_SECRET, then point a Stripe webhook at /api/votes.",
+    },
+    {
+      label: "Studio",
+      ok: envOk("LIVEKIT_API_KEY", "LIVEKIT_API_SECRET"),
+      okLabel: "Connected",
+      offLabel: "Not configured",
+      detail:
+        "Hosts the debater video room via LiveKit. Add LIVEKIT_API_KEY + LIVEKIT_API_SECRET.",
+    },
+  ];
+
+  const allOk = integrations.every((i) => i.ok);
 
   return (
     <div className="max-w-4xl mx-auto px-4 md:px-6 py-10 md:py-14 w-full">
-      <div className="flex items-start justify-between gap-4 mb-8 flex-wrap">
+      {/* Header */}
+      <div className="flex items-start justify-between gap-4 mb-6 flex-wrap">
         <div>
           <p className="text-black text-xs uppercase tracking-widest font-semibold mb-2">
             Operator
@@ -23,21 +79,42 @@ export default function AdminPage() {
             Manage debates and monitor live bouts.
           </p>
         </div>
-
-        {/* System status — currently just charity DB; expand as more services come online */}
-        <div className="flex flex-col gap-1.5 mt-2">
-          <span className="text-[10px] font-bold uppercase tracking-widest text-zinc-400">
-            Status
-          </span>
-          <StatusPill
-            label="Charity DB"
-            ok={charityPersistent}
-            okLabel="Connected"
-            offLabel="In-memory"
-          />
-        </div>
+        <StatusPill
+          label="System"
+          ok={allOk}
+          okLabel="All connected"
+          offLabel={`${integrations.filter((i) => !i.ok).length} pending`}
+        />
       </div>
 
+      {/* System status panel */}
+      <div className="mb-8">
+        <Panel label="System Status">
+          <ul className="divide-y divide-zinc-200">
+            {integrations.map((i) => (
+              <li
+                key={i.label}
+                className="px-4 py-3 flex items-start justify-between gap-4 flex-wrap"
+              >
+                <div className="min-w-0 flex-1">
+                  <p className="text-zinc-900 font-bold text-sm">{i.label}</p>
+                  <p className="text-zinc-500 text-xs mt-0.5 leading-snug">
+                    {i.detail}
+                  </p>
+                </div>
+                <StatusPill
+                  label=""
+                  ok={i.ok}
+                  okLabel={i.okLabel}
+                  offLabel={i.offLabel}
+                />
+              </li>
+            ))}
+          </ul>
+        </Panel>
+      </div>
+
+      {/* Debates list */}
       <div className="flex flex-col gap-3">
         {debates.map((debate) => (
           <Panel key={debate.id}>
@@ -95,28 +172,6 @@ export default function AdminPage() {
           </Panel>
         ))}
       </div>
-
-      <div className="mt-10">
-        <Panel label="Integration Checklist">
-          <ul className="text-zinc-700 text-sm p-5 space-y-2">
-            {[
-              "Add LIVEKIT_API_KEY + LIVEKIT_API_SECRET to .env.local",
-              "Add MUX_TOKEN_ID + MUX_TOKEN_SECRET to .env.local",
-              "Add PUSHER_* keys to .env.local",
-              "Add STRIPE_SECRET_KEY + STRIPE_WEBHOOK_SECRET to .env.local",
-              "Configure Stripe webhook to POST /api/votes (payment_intent.succeeded)",
-              "Configure Mux webhook to POST /api/mux-webhook",
-              "Provision Upstash Redis on Vercel — auto-injects UPSTASH_REDIS_REST_URL + UPSTASH_REDIS_REST_TOKEN; powers /charities persistence",
-              "Replace in-memory debate store (lib/debates.ts) with Postgres/Supabase",
-            ].map((item, i) => (
-              <li key={i} className="flex items-start gap-2">
-                <span className="text-zinc-400 mt-0.5">☐</span>
-                {item}
-              </li>
-            ))}
-          </ul>
-        </Panel>
-      </div>
     </div>
   );
 }
@@ -127,14 +182,14 @@ function StatusPill({
   okLabel,
   offLabel,
 }: {
-  label: string;
+  label?: string;
   ok: boolean;
   okLabel: string;
   offLabel: string;
 }) {
   return (
     <span
-      className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-md border text-[10px] font-bold uppercase tracking-widest ${
+      className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-md border text-[10px] font-bold uppercase tracking-widest whitespace-nowrap ${
         ok
           ? "border-emerald-200 bg-emerald-50 text-emerald-700"
           : "border-zinc-200 bg-zinc-50 text-zinc-600"
@@ -143,7 +198,8 @@ function StatusPill({
       <span
         className={`w-1.5 h-1.5 rounded-full ${ok ? "bg-emerald-500" : "bg-zinc-400"}`}
       />
-      {label}: {ok ? okLabel : offLabel}
+      {label && <>{label}: </>}
+      {ok ? okLabel : offLabel}
     </span>
   );
 }
