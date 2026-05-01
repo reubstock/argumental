@@ -222,11 +222,11 @@ export default function FeaturedDebate({ debate }: { debate: Debate }) {
                     {fmt(mainTime)}
                   </span>
                 </div>
-                <div className="flex-1 flex flex-col items-end">
-                  <span className="text-brand-blue text-xs font-bold uppercase tracking-widest leading-none mb-1">
+                <div className="flex-1 flex flex-col items-end text-right">
+                  <span className="text-brand-blue text-xs font-bold uppercase tracking-widest leading-none mb-1 text-right">
                     {debate.debaterB.name.split(" ").pop()}
                   </span>
-                  <span className="text-zinc-600 font-black text-2xl tabular-nums leading-none">
+                  <span className="text-zinc-600 font-black text-2xl tabular-nums leading-none text-right">
                     {fmt(timeB)}
                   </span>
                 </div>
