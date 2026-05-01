@@ -51,15 +51,26 @@ export default function FeaturedDebate({ debate }: { debate: Debate }) {
   return (
     <div className="max-w-6xl mx-auto flex flex-col md:flex-row gap-4 md:gap-6">
 
+      {/* ── MOBILE-ONLY title at the top of the page ── */}
+      <div className="md:hidden order-1">
+        <p className="text-black text-[10px] uppercase tracking-widest font-bold mb-1">
+          Featured Bout
+        </p>
+        <h2 className="text-zinc-900 font-black text-2xl leading-tight">
+          {debate.title}
+        </h2>
+      </div>
+
       {/* ── LEFT: Info card + action boxes ── */}
-      <div className="w-full md:w-72 md:shrink-0 flex flex-col gap-3">
+      <div className="w-full md:w-72 md:shrink-0 flex flex-col gap-3 order-3 md:order-none">
         <Panel label="Featured Bout">
           <div className="p-4 flex flex-col gap-3">
             <div>
-              <h2 className="text-zinc-900 font-black text-lg leading-tight">
+              {/* Title repeats on desktop only — on mobile it lives at the top of the page */}
+              <h2 className="hidden md:block text-zinc-900 font-black text-lg leading-tight">
                 {debate.title}
               </h2>
-              <p className="text-zinc-600 text-sm mt-2 leading-snug">
+              <p className="text-zinc-600 text-sm md:mt-2 leading-snug">
                 {debate.description}
               </p>
             </div>
@@ -168,7 +179,7 @@ export default function FeaturedDebate({ debate }: { debate: Debate }) {
       </div>
 
       {/* ── MIDDLE + RIGHT ── */}
-      <div className="flex-1 min-w-0 flex flex-col gap-1.5">
+      <div className="flex-1 min-w-0 flex flex-col gap-1.5 order-2 md:order-none">
         <div className="flex gap-3 items-stretch">
 
           {/* Left column: verdict indicator → tally → tubes — desktop only */}
