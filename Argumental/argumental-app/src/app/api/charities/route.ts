@@ -3,7 +3,7 @@ import { revalidatePath } from "next/cache";
 import { addCharity, getAllCharities } from "@/lib/charities";
 
 export async function GET() {
-  return NextResponse.json({ charities: getAllCharities() });
+  return NextResponse.json({ charities: await getAllCharities() });
 }
 
 export async function POST(req: Request) {
@@ -47,7 +47,7 @@ export async function POST(req: Request) {
     );
   }
 
-  const charity = addCharity({
+  const charity = await addCharity({
     name: b.name as string,
     url,
     focus: b.focus as string,

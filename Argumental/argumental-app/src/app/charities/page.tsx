@@ -4,8 +4,8 @@ import { getAllCharities } from "@/lib/charities";
 
 export const dynamic = "force-dynamic";
 
-export default function CharitiesPage() {
-  const charities = getAllCharities();
+export default async function CharitiesPage() {
+  const charities = await getAllCharities();
 
   return (
     <div className="flex flex-col min-h-full">

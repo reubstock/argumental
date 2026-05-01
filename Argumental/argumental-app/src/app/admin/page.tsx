@@ -89,6 +89,7 @@ export default function AdminPage() {
               "Add STRIPE_SECRET_KEY + STRIPE_WEBHOOK_SECRET to .env.local",
               "Configure Stripe webhook to POST /api/votes (payment_intent.succeeded)",
               "Configure Mux webhook to POST /api/mux-webhook",
+              "Provision Upstash Redis on Vercel — auto-injects UPSTASH_REDIS_REST_URL + UPSTASH_REDIS_REST_TOKEN; powers /charities persistence",
               "Replace in-memory debate store (lib/debates.ts) with Postgres/Supabase",
             ].map((item, i) => (
               <li key={i} className="flex items-start gap-2">
