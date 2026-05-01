@@ -35,9 +35,6 @@ function sundayAt8pmEdt(year: number, month: number, day: number): string {
 
 export const UPCOMING_BOUTS: UpcomingBout[] = [
   {
-    scheduledAt: sundayAt8pmEdt(2026, 5, 3),
-  },
-  {
     scheduledAt: sundayAt8pmEdt(2026, 5, 10),
     topic: "Does Israel Have the Right to Exist?",
     description:
