@@ -142,20 +142,16 @@ function BoutRow({ bout }: { bout: UpcomingBout }) {
       </div>
 
       {/* Body — same on both layouts */}
-      <div className="md:col-span-7 px-3 md:px-4 py-2.5 md:py-3 flex flex-col justify-center gap-1.5">
+      <div className="md:col-span-5 px-3 md:px-4 py-2.5 md:py-3 flex flex-col justify-center gap-1">
         {filled ? (
           <>
             <div className="text-zinc-900 font-bold text-sm md:text-base leading-snug">
               {bout.topic}
             </div>
             {bout.debaterA && bout.debaterB && (
-              <div className="text-xs flex items-center gap-2 md:gap-3 flex-wrap">
+              <div className="text-xs flex items-center gap-2 flex-wrap">
                 <DebaterChip debater={bout.debaterA} side="A" />
-                {bout.oddsB !== undefined ? (
-                  <OddsDial oddsB={bout.oddsB} />
-                ) : (
-                  <span className="text-zinc-400">vs</span>
-                )}
+                <span className="text-zinc-400">vs</span>
                 <DebaterChip debater={bout.debaterB} side="B" />
               </div>
             )}
@@ -169,6 +165,20 @@ function BoutRow({ bout }: { bout: UpcomingBout }) {
               Slot open. Suggest a topic or nominate the debaters.
             </div>
           </>
+        )}
+      </div>
+
+      {/* ODDS cell — visible on every breakpoint */}
+      <div className="md:col-span-2 border-t md:border-t-0 md:border-l border-zinc-200 px-2 py-2 flex flex-col items-center justify-center gap-0.5">
+        <span className="text-[9px] font-black uppercase tracking-widest text-zinc-400 leading-none">
+          Odds
+        </span>
+        {bout.oddsB !== undefined ? (
+          <OddsDial oddsB={bout.oddsB} />
+        ) : (
+          <span className="text-zinc-300 text-base font-black leading-none mt-2">
+            —
+          </span>
         )}
       </div>
 
