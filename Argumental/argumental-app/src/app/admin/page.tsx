@@ -1,13 +1,17 @@
 import { getAllDebates } from "@/lib/debates";
+import { hasPersistentStorage } from "@/lib/charities";
 import Link from "next/link";
 import Panel from "@/components/Panel";
 
+export const dynamic = "force-dynamic";
+
 export default function AdminPage() {
   const debates = getAllDebates();
+  const charityPersistent = hasPersistentStorage();
 
   return (
     <div className="max-w-4xl mx-auto px-4 md:px-6 py-10 md:py-14 w-full">
-      <div className="flex items-center justify-between mb-8">
+      <div className="flex items-start justify-between gap-4 mb-8 flex-wrap">
         <div>
           <p className="text-black text-xs uppercase tracking-widest font-semibold mb-2">
             Operator
@@ -18,6 +22,19 @@ export default function AdminPage() {
           <p className="text-zinc-500 text-sm mt-1">
             Manage debates and monitor live bouts.
           </p>
+        </div>
+
+        {/* System status — currently just charity DB; expand as more services come online */}
+        <div className="flex flex-col gap-1.5 mt-2">
+          <span className="text-[10px] font-bold uppercase tracking-widest text-zinc-400">
+            Status
+          </span>
+          <StatusPill
+            label="Charity DB"
+            ok={charityPersistent}
+            okLabel="Connected"
+            offLabel="In-memory"
+          />
         </div>
       </div>
 
@@ -101,5 +118,32 @@ export default function AdminPage() {
         </Panel>
       </div>
     </div>
+  );
+}
+
+function StatusPill({
+  label,
+  ok,
+  okLabel,
+  offLabel,
+}: {
+  label: string;
+  ok: boolean;
+  okLabel: string;
+  offLabel: string;
+}) {
+  return (
+    <span
+      className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-md border text-[10px] font-bold uppercase tracking-widest ${
+        ok
+          ? "border-emerald-200 bg-emerald-50 text-emerald-700"
+          : "border-zinc-200 bg-zinc-50 text-zinc-600"
+      }`}
+    >
+      <span
+        className={`w-1.5 h-1.5 rounded-full ${ok ? "bg-emerald-500" : "bg-zinc-400"}`}
+      />
+      {label}: {ok ? okLabel : offLabel}
+    </span>
   );
 }
