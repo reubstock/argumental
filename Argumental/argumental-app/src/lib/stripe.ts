@@ -1,7 +1,7 @@
 import Stripe from "stripe";
 
 export const VOTE_PRICE_CENTS = 500; // $5.00
-export const CHARITY_PERCENTAGE = 0.1; // 10%
+export const CHARITY_PERCENTAGE = 0.18; // 18%
 
 let _stripe: Stripe | null = null;
 

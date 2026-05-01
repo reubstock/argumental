@@ -14,7 +14,7 @@ export default function CharitiesPage() {
             Charities Benefited
           </h1>
           <p className="text-zinc-500 text-sm mt-2">
-            10% of every debate&apos;s proceeds goes to the winning
+            18% of every debate&apos;s proceeds goes to the winning
             debater&apos;s chosen charity.
           </p>
         </div>

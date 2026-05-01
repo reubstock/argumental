@@ -85,7 +85,7 @@ export default function FeaturedDebate({ debate }: { debate: Debate }) {
               </div>
               <div className="flex justify-between text-zinc-500">
                 <span>Charity cut</span>
-                <span className="text-zinc-700">10% to winner&apos;s pick</span>
+                <span className="text-zinc-700">18% to winner&apos;s pick</span>
               </div>
               <div className="flex justify-between text-zinc-500">
                 <span>Date</span>

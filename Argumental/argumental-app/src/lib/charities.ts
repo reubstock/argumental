@@ -1,5 +1,5 @@
 // Charities surfaced on /charities and selected by debaters as the destination
-// for the winner's 10 % cut.
+// for the winner's 18 % cut.
 //
 // To add a new charity:
 //   1. Drop a hero image at /public/charities/{id}.jpg (2:1 ratio works best,

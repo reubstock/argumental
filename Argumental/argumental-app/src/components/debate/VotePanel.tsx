@@ -151,7 +151,7 @@ export default function VotePanel({ debate }: Props) {
       )}
 
       <p className="text-zinc-500 text-xs text-center">
-        1 vote per viewer · 10% of proceeds go to the winner&apos;s chosen charity
+        1 vote per viewer · 18% of proceeds go to the winner&apos;s chosen charity
       </p>
     </div>
   );
