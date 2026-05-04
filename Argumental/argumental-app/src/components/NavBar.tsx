@@ -55,17 +55,25 @@ export default function NavBar() {
           </Link>
           <div className="w-px h-4 bg-zinc-200 mx-2" />
           <Link
-            href="/admin"
-            className="text-black hover:bg-zinc-100 transition rounded-md px-3 py-1.5 text-xs"
+            href="/deck"
+            className="bg-black hover:bg-zinc-800 text-white font-black uppercase tracking-widest text-[11px] px-3 py-1.5 rounded-md transition whitespace-nowrap"
           >
-            Admin
+            Deck
           </Link>
         </div>
 
-        {/* Mobile — hamburger button */}
-        <button
-          onClick={() => setOpen((o) => !o)}
-          className="md:hidden p-2 -mr-1 text-zinc-900 hover:bg-zinc-100 rounded-md transition"
+        {/* Mobile — Deck button + hamburger */}
+        <div className="flex items-center gap-1.5 md:hidden">
+          <Link
+            href="/deck"
+            onClick={close}
+            className="bg-black hover:bg-zinc-800 text-white font-black uppercase tracking-widest text-[11px] px-3 py-1.5 rounded-md transition whitespace-nowrap"
+          >
+            Deck
+          </Link>
+          <button
+            onClick={() => setOpen((o) => !o)}
+            className="p-2 -mr-1 text-zinc-900 hover:bg-zinc-100 rounded-md transition"
           aria-label={open ? "Close menu" : "Open menu"}
           aria-expanded={open}
         >
@@ -91,7 +99,8 @@ export default function NavBar() {
               </>
             )}
           </svg>
-        </button>
+          </button>
+        </div>
       </div>
 
       {/* Mobile dropdown panel */}
@@ -117,15 +126,6 @@ export default function NavBar() {
               <Link href="/outcomes" onClick={close} className={mobileLink}>
                 Outcomes
               </Link>
-              <div className="border-t border-zinc-100 mt-1">
-                <Link
-                  href="/admin"
-                  onClick={close}
-                  className="block px-4 py-2.5 uppercase tracking-wide text-xs font-medium text-zinc-500 hover:bg-zinc-50"
-                >
-                  Admin
-                </Link>
-              </div>
             </div>
           </div>
         </>
