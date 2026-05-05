@@ -55,46 +55,65 @@ function Section({
 
 
 /**
- * WorldMapIllustration — minimalist continent silhouettes with brand-colored
- * dots placed on the league's six regional rankings. Public-domain map paths
- * adapted from the Natural Earth low-res world dataset, simplified for an
- * editorial / line-art look.
+ * WorldMapIllustration — uses the public-domain Wikimedia low-resolution
+ * world map (340 country paths, equirectangular-ish, viewBox 0 0 950 620)
+ * as the base, with brand-colored markers overlaid in the same coordinate
+ * space at the league's six regional ranking territories.
  */
 function WorldMapIllustration() {
-  const continents = [
-    "M50 35 L95 30 L110 50 L100 70 L80 95 L55 95 L40 75 L35 55 Z",
-    "M80 100 L100 105 L95 115 L82 110 Z",
-    "M105 110 L130 115 L130 145 L115 160 L100 155 L98 130 Z",
-    "M165 35 L200 35 L205 55 L185 65 L170 60 L160 50 Z",
-    "M170 70 L210 70 L220 110 L200 145 L185 145 L170 110 Z",
-    "M205 30 L290 30 L305 50 L300 75 L270 95 L240 95 L220 75 L210 55 Z",
-    "M270 100 L295 105 L290 115 L260 110 Z",
-    "M285 130 L315 130 L320 145 L300 150 L280 145 Z",
+  // Coordinates calibrated to the world-map.svg viewBox (950×620).
+  const markers: {
+    cx: number;
+    cy: number;
+    side: "A" | "B";
+    label: string;
+  }[] = [
+    { cx: 280, cy: 215, side: "A", label: "US East" },
+    { cx: 175, cy: 225, side: "A", label: "US West" },
+    { cx: 495, cy: 180, side: "B", label: "Europe" },
+    { cx: 815, cy: 230, side: "A", label: "Asia-Pacific" },
+    { cx: 555, cy: 245, side: "B", label: "MENA" },
+    { cx: 340, cy: 405, side: "B", label: "Latin America" },
   ];
-  const markers: { cx: number; cy: number; side: "A" | "B"; label: string }[] = [
-    { cx: 90, cy: 60, side: "A", label: "US East" },
-    { cx: 60, cy: 65, side: "A", label: "US West" },
-    { cx: 180, cy: 50, side: "B", label: "Europe" },
-    { cx: 270, cy: 70, side: "A", label: "Asia-Pacific" },
-    { cx: 200, cy: 75, side: "B", label: "MENA" },
-    { cx: 115, cy: 135, side: "B", label: "Latin America" },
-  ];
+
   return (
-    <svg
-      viewBox="0 0 360 180"
-      className="w-full h-auto"
+    <div
+      className="relative w-full"
       aria-label="World map with the six Argumental regional ranking territories"
     >
-      {continents.map((d, i) => (
-        <path key={i} d={d} fill="#f4f4f5" stroke="#d4d4d8" strokeWidth="0.8" />
-      ))}
-      {markers.map((m) => (
-        <g key={m.label}>
-          <circle cx={m.cx} cy={m.cy} r="6" fill={m.side === "A" ? "#EB2C35" : "#1165C6"} opacity="0.18" />
-          <circle cx={m.cx} cy={m.cy} r="3" fill={m.side === "A" ? "#EB2C35" : "#1165C6"} />
-        </g>
-      ))}
-    </svg>
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src="/world-map.svg"
+        alt=""
+        aria-hidden="true"
+        className="w-full h-auto block opacity-75"
+      />
+      {/* Marker overlay — same viewBox as the source map */}
+      <svg
+        viewBox="0 0 950 620"
+        className="absolute inset-0 w-full h-auto pointer-events-none"
+      >
+        {markers.map((m) => (
+          <g key={m.label}>
+            <circle
+              cx={m.cx}
+              cy={m.cy}
+              r="22"
+              fill={m.side === "A" ? "#EB2C35" : "#1165C6"}
+              opacity="0.18"
+            />
+            <circle
+              cx={m.cx}
+              cy={m.cy}
+              r="9"
+              fill={m.side === "A" ? "#EB2C35" : "#1165C6"}
+              stroke="white"
+              strokeWidth="3"
+            />
+          </g>
+        ))}
+      </svg>
+    </div>
   );
 }
 
@@ -381,7 +400,7 @@ export default function DeckPage() {
           classes — like weight classes in MMA. A discoverable, defendable
           hierarchy of the world&apos;s best debaters.
         </p>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-10 mb-10 md:mb-14">
           <div>
             <p className="text-[10px] md:text-xs uppercase tracking-widest font-black text-zinc-900 border-b border-zinc-200 pb-2 mb-4">
               Knowledge classes
@@ -399,18 +418,23 @@ export default function DeckPage() {
             <p className="text-[10px] md:text-xs uppercase tracking-widest font-black text-zinc-900 border-b border-zinc-200 pb-2 mb-4">
               Regional rankings
             </p>
-            <div className="grid grid-cols-[auto_1fr] gap-x-5 items-center">
-              <ul className="text-zinc-700 text-base md:text-lg leading-relaxed space-y-1.5">
-                <li>· US East</li>
-                <li>· US West</li>
-                <li>· Europe</li>
-                <li>· Asia-Pacific</li>
-                <li>· MENA</li>
-                <li>· Latin America</li>
-              </ul>
-              <WorldMapIllustration />
-            </div>
+            <ul className="text-zinc-700 text-base md:text-lg leading-relaxed space-y-1.5">
+              <li>· US East</li>
+              <li>· US West</li>
+              <li>· Europe</li>
+              <li>· Asia-Pacific</li>
+              <li>· MENA</li>
+              <li>· Latin America</li>
+            </ul>
           </div>
+        </div>
+
+        {/* Map gets its own full-width row so it can render at a usable size */}
+        <div>
+          <p className="text-[10px] md:text-xs uppercase tracking-widest font-black text-zinc-400 mb-4">
+            Six regions, one league
+          </p>
+          <WorldMapIllustration />
         </div>
       </Section>
 
