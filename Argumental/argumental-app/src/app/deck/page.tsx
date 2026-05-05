@@ -27,10 +27,10 @@ function Section({
   return (
     <section
       id={`s${n}`}
-      className="border-t border-zinc-200 px-5 md:px-12 py-12 md:py-20"
+      className="border-t border-zinc-200 px-4 md:px-12 py-10 md:py-20"
     >
       <div className="max-w-4xl mx-auto">
-        <header className="flex items-baseline gap-4 md:gap-6 mb-6 md:mb-10">
+        <header className="flex items-baseline gap-3 md:gap-6 mb-5 md:mb-10">
           <span className="text-zinc-400 text-base md:text-lg font-black tabular-nums">
             {String(n).padStart(2, "0")}
           </span>
@@ -39,11 +39,11 @@ function Section({
           </span>
         </header>
         {kicker && (
-          <p className="text-black text-xs uppercase tracking-widest font-black mb-3">
+          <p className="text-black text-[11px] md:text-xs uppercase tracking-widest font-black mb-3">
             {kicker}
           </p>
         )}
-        <h2 className="text-2xl md:text-4xl font-black leading-tight tracking-tight mb-8 md:mb-10 text-zinc-900">
+        <h2 className="text-2xl md:text-4xl font-black leading-tight tracking-tight mb-6 md:mb-10 text-zinc-900">
           {title}
         </h2>
         {children}
@@ -192,31 +192,31 @@ export default function DeckPage() {
       {/* 01 — Cover (full-bleed hero, no top border) */}
       <section
         id="s1"
-        className="px-5 md:px-12 py-16 md:py-28 min-h-[70vh] flex flex-col"
+        className="px-4 md:px-12 py-12 md:py-28 min-h-[70vh] flex flex-col"
       >
         <div className="max-w-4xl mx-auto w-full flex-1 flex flex-col">
-          <header className="mb-12 md:mb-20">
+          <header className="mb-8 md:mb-20">
             <span className="text-zinc-400 text-[10px] md:text-xs uppercase tracking-widest font-black">
               Investor Brief · 2026
             </span>
           </header>
 
-          <div className="flex-1 flex flex-col justify-center gap-6 md:gap-8">
+          <div className="flex-1 flex flex-col justify-center gap-5 md:gap-8">
             <Image
               src="/logo.png"
               alt="Argumental"
               width={200}
               height={200}
               priority
-              className="w-32 md:w-44 h-auto"
+              className="w-28 sm:w-36 md:w-44 h-auto"
             />
-            <h1 className="text-5xl md:text-7xl font-black tracking-tight leading-[0.95]">
+            <h1 className="text-4xl sm:text-5xl md:text-7xl font-black tracking-tight leading-[0.95]">
               Argumental
             </h1>
-            <p className="text-xl md:text-3xl font-bold text-zinc-700 leading-snug max-w-3xl">
+            <p className="text-lg sm:text-xl md:text-3xl font-bold text-zinc-700 leading-snug max-w-3xl">
               The Path to Peace Begins with an Argument.
             </p>
-            <div className="flex flex-wrap gap-2 mt-2">
+            <div className="flex flex-wrap gap-2 mt-1">
               <span className="text-[10px] md:text-xs font-black uppercase tracking-widest border border-zinc-300 text-zinc-700 px-3 py-1.5 rounded-md">
                 The UFC of Ideas
               </span>
@@ -652,10 +652,10 @@ export default function DeckPage() {
       {/* 12 — Ask */}
       <section
         id="s12"
-        className="border-t border-zinc-200 px-5 md:px-12 py-16 md:py-28"
+        className="border-t border-zinc-200 px-4 md:px-12 py-12 md:py-28"
       >
         <div className="max-w-4xl mx-auto">
-          <header className="flex items-baseline gap-4 md:gap-6 mb-6 md:mb-10">
+          <header className="flex items-baseline gap-3 md:gap-6 mb-5 md:mb-10">
             <span className="text-zinc-400 text-base md:text-lg font-black tabular-nums">
               12
             </span>
@@ -663,17 +663,17 @@ export default function DeckPage() {
               12 / {String(TOTAL).padStart(2, "0")}
             </span>
           </header>
-          <p className="text-black text-xs uppercase tracking-widest font-black mb-3">
+          <p className="text-black text-[11px] md:text-xs uppercase tracking-widest font-black mb-3">
             The Ask
           </p>
-          <h2 className="text-3xl md:text-6xl font-black leading-tight tracking-tight mb-8 max-w-4xl">
+          <h2 className="text-3xl sm:text-4xl md:text-6xl font-black leading-tight tracking-tight mb-6 md:mb-8 max-w-4xl">
             The world doesn&apos;t need fewer arguments. It needs better ones.
           </h2>
-          <p className="text-zinc-700 text-lg md:text-2xl leading-snug mb-10 max-w-3xl">
+          <p className="text-zinc-700 text-base sm:text-lg md:text-2xl leading-snug mb-8 md:mb-10 max-w-3xl">
             Argumental is the league where that happens — civilly,
             professionally, in front of millions. Join the seed round.
           </p>
-          <div className="flex flex-col md:flex-row gap-3">
+          <div className="flex flex-col sm:flex-row gap-3">
             <a
               href="mailto:reubstock@gmail.com?subject=Argumental%20seed%20round"
               className="bg-black hover:bg-zinc-800 text-white font-black uppercase tracking-widest text-xs md:text-sm px-5 py-3 rounded-md transition text-center"
@@ -687,7 +687,7 @@ export default function DeckPage() {
               See the live product
             </a>
           </div>
-          <p className="text-zinc-400 text-[10px] uppercase tracking-widest font-black mt-12">
+          <p className="text-zinc-400 text-[10px] uppercase tracking-widest font-black mt-10 md:mt-12">
             The Path to Peace Begins with an Argument.
           </p>
         </div>
