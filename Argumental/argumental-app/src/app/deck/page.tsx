@@ -329,36 +329,50 @@ export default function DeckPage() {
         kicker="Comparables"
         title="What purpose-built leagues prove."
       >
-        <ul className="divide-y divide-zinc-200 border-y border-zinc-200 mb-8">
-          {[
-            { name: "UFC", note: "$0 → $9B by inventing the category." },
-            {
-              name: "F1 / Drive to Survive",
-              note: "Format-first storytelling rebuilt the sport globally.",
-            },
-            {
-              name: "Pickleball PPA",
-              note: "From garage sport to professional tour in under a decade.",
-            },
-            {
-              name: "Fortnite Champion Series",
-              note:
-                "Native-internet competition with audience-first economics.",
-            },
-          ].map((c) => (
-            <li
-              key={c.name}
-              className="py-4 grid grid-cols-1 md:grid-cols-3 gap-2 md:gap-6"
-            >
-              <p className="text-zinc-900 font-bold text-base md:text-lg">
-                {c.name}
-              </p>
-              <p className="text-zinc-600 text-sm md:text-base md:col-span-2">
-                {c.note}
-              </p>
-            </li>
-          ))}
-        </ul>
+        <div className="grid grid-cols-1 md:grid-cols-5 gap-8 md:gap-10 items-center mb-8">
+          <ul className="md:col-span-3 divide-y divide-zinc-200 border-y border-zinc-200">
+            {[
+              { name: "UFC", note: "$0 → $9B by inventing the category." },
+              {
+                name: "F1 / Drive to Survive",
+                note: "Format-first storytelling rebuilt the sport globally.",
+              },
+              {
+                name: "Pickleball PPA",
+                note: "From garage sport to professional tour in under a decade.",
+              },
+              {
+                name: "Fortnite Champion Series",
+                note:
+                  "Native-internet competition with audience-first economics.",
+              },
+            ].map((c) => (
+              <li
+                key={c.name}
+                className="py-4 grid grid-cols-1 md:grid-cols-3 gap-2 md:gap-6"
+              >
+                <p className="text-zinc-900 font-bold text-base md:text-lg">
+                  {c.name}
+                </p>
+                <p className="text-zinc-600 text-sm md:text-base md:col-span-2">
+                  {c.note}
+                </p>
+              </li>
+            ))}
+          </ul>
+          <figure className="md:col-span-2 flex flex-col items-center md:items-start gap-3">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/argumental-belt.png"
+              alt="Argumental Tier 1 championship belt"
+              className="w-full max-w-[320px] h-auto"
+              loading="lazy"
+            />
+            <figcaption className="text-[10px] uppercase tracking-widest font-black text-zinc-400 text-center md:text-left">
+              The Argumental Tier 1 championship belt
+            </figcaption>
+          </figure>
+        </div>
         <p className="text-zinc-700 text-base md:text-lg leading-relaxed max-w-3xl">
           Common thread:{" "}
           <span className="text-zinc-900 font-bold">
