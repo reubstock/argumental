@@ -55,65 +55,41 @@ function Section({
 
 
 /**
- * WorldMapIllustration — uses the public-domain Wikimedia low-resolution
- * world map (340 country paths, equirectangular-ish, viewBox 0 0 950 620)
- * as the base, with brand-colored markers overlaid in the same coordinate
- * space at the league's six regional ranking territories.
+ * GlobeIcon — small iconic globe that conveys "global" without being a
+ * literal map. A circle with longitude curves, a continent silhouette
+ * (Africa-centric), and three small brand-colored region pulses.
  */
-function WorldMapIllustration() {
-  // Coordinates calibrated to the world-map.svg viewBox (950×620).
-  const markers: {
-    cx: number;
-    cy: number;
-    side: "A" | "B";
-    label: string;
-  }[] = [
-    { cx: 280, cy: 215, side: "A", label: "US East" },
-    { cx: 175, cy: 225, side: "A", label: "US West" },
-    { cx: 495, cy: 180, side: "B", label: "Europe" },
-    { cx: 815, cy: 230, side: "A", label: "Asia-Pacific" },
-    { cx: 555, cy: 245, side: "B", label: "MENA" },
-    { cx: 340, cy: 405, side: "B", label: "Latin America" },
-  ];
-
+function GlobeIcon() {
   return (
-    <div
-      className="relative w-full"
-      aria-label="World map with the six Argumental regional ranking territories"
+    <svg
+      viewBox="0 0 100 100"
+      className="w-20 h-20 md:w-24 md:h-24"
+      aria-label="Global league"
     >
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        src="/world-map.svg"
-        alt=""
-        aria-hidden="true"
-        className="w-full h-auto block opacity-75"
+      {/* Globe sphere */}
+      <circle cx="50" cy="50" r="42" stroke="#a1a1aa" strokeWidth="1.5" fill="white" />
+
+      {/* Latitude lines */}
+      <ellipse cx="50" cy="50" rx="42" ry="14" stroke="#d4d4d8" strokeWidth="1" fill="none" />
+      <ellipse cx="50" cy="34" rx="38" ry="6" stroke="#e4e4e7" strokeWidth="0.8" fill="none" />
+      <ellipse cx="50" cy="66" rx="38" ry="6" stroke="#e4e4e7" strokeWidth="0.8" fill="none" />
+
+      {/* Longitude lines */}
+      <ellipse cx="50" cy="50" rx="14" ry="42" stroke="#d4d4d8" strokeWidth="1" fill="none" />
+      <ellipse cx="50" cy="50" rx="28" ry="42" stroke="#e4e4e7" strokeWidth="0.8" fill="none" />
+
+      {/* Stylized continent silhouette (loose Africa+Eurasia hint) */}
+      <path
+        d="M48 22 Q56 25 58 34 Q60 42 56 50 Q62 56 60 64 Q56 74 48 78 Q42 76 40 70 Q38 62 42 56 Q38 50 42 42 Q44 32 48 22 Z"
+        fill="#27272a"
+        opacity="0.35"
       />
-      {/* Marker overlay — same viewBox as the source map */}
-      <svg
-        viewBox="0 0 950 620"
-        className="absolute inset-0 w-full h-auto pointer-events-none"
-      >
-        {markers.map((m) => (
-          <g key={m.label}>
-            <circle
-              cx={m.cx}
-              cy={m.cy}
-              r="22"
-              fill={m.side === "A" ? "#EB2C35" : "#1165C6"}
-              opacity="0.18"
-            />
-            <circle
-              cx={m.cx}
-              cy={m.cy}
-              r="9"
-              fill={m.side === "A" ? "#EB2C35" : "#1165C6"}
-              stroke="white"
-              strokeWidth="3"
-            />
-          </g>
-        ))}
-      </svg>
-    </div>
+
+      {/* Region pulses — alternating brand red / blue */}
+      <circle cx="32" cy="40" r="3.5" fill="#EB2C35" />
+      <circle cx="68" cy="44" r="3.5" fill="#1165C6" />
+      <circle cx="56" cy="68" r="3.5" fill="#EB2C35" />
+    </svg>
   );
 }
 
@@ -418,23 +394,18 @@ export default function DeckPage() {
             <p className="text-[10px] md:text-xs uppercase tracking-widest font-black text-zinc-900 border-b border-zinc-200 pb-2 mb-4">
               Regional rankings
             </p>
-            <ul className="text-zinc-700 text-base md:text-lg leading-relaxed space-y-1.5">
-              <li>· US East</li>
-              <li>· US West</li>
-              <li>· Europe</li>
-              <li>· Asia-Pacific</li>
-              <li>· MENA</li>
-              <li>· Latin America</li>
-            </ul>
+            <div className="flex items-center gap-5">
+              <ul className="text-zinc-700 text-base md:text-lg leading-relaxed space-y-1.5 flex-1">
+                <li>· US East</li>
+                <li>· US West</li>
+                <li>· Europe</li>
+                <li>· Asia-Pacific</li>
+                <li>· MENA</li>
+                <li>· Latin America</li>
+              </ul>
+              <GlobeIcon />
+            </div>
           </div>
-        </div>
-
-        {/* Map gets its own full-width row so it can render at a usable size */}
-        <div>
-          <p className="text-[10px] md:text-xs uppercase tracking-widest font-black text-zinc-400 mb-4">
-            Six regions, one league
-          </p>
-          <WorldMapIllustration />
         </div>
       </Section>
 
