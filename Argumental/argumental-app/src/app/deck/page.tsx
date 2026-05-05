@@ -55,40 +55,92 @@ function Section({
 
 
 /**
- * GlobeIcon — small iconic globe that conveys "global" without being a
- * literal map. A circle with longitude curves, a continent silhouette
- * (Africa-centric), and three small brand-colored region pulses.
+ * GlobeIcon — a classic desk globe: tilted blue-and-green sphere with a
+ * gold meridian arc cradling it, on a brass stem and disc base. Conveys
+ * "global league" without being a literal map.
  */
 function GlobeIcon() {
   return (
     <svg
-      viewBox="0 0 100 100"
-      className="w-20 h-20 md:w-24 md:h-24"
+      viewBox="0 0 120 140"
+      className="w-24 h-28 md:w-32 md:h-36"
       aria-label="Global league"
     >
-      {/* Globe sphere */}
-      <circle cx="50" cy="50" r="42" stroke="#a1a1aa" strokeWidth="1.5" fill="white" />
+      <defs>
+        <radialGradient id="ocean" cx="35%" cy="30%" r="75%">
+          <stop offset="0%" stopColor="#7DC3F0" />
+          <stop offset="55%" stopColor="#1E6FB8" />
+          <stop offset="100%" stopColor="#0B3A66" />
+        </radialGradient>
+        <radialGradient id="brass" cx="30%" cy="30%" r="80%">
+          <stop offset="0%" stopColor="#FCE38A" />
+          <stop offset="50%" stopColor="#D4A017" />
+          <stop offset="100%" stopColor="#7C5A02" />
+        </radialGradient>
+        <radialGradient id="brassDark" cx="50%" cy="20%" r="90%">
+          <stop offset="0%" stopColor="#D4A017" />
+          <stop offset="100%" stopColor="#5C3F01" />
+        </radialGradient>
+        {/* Gloss highlight to suggest glass/sphere */}
+        <radialGradient id="gloss" cx="32%" cy="22%" r="35%">
+          <stop offset="0%" stopColor="white" stopOpacity="0.55" />
+          <stop offset="100%" stopColor="white" stopOpacity="0" />
+        </radialGradient>
+      </defs>
 
-      {/* Latitude lines */}
-      <ellipse cx="50" cy="50" rx="42" ry="14" stroke="#d4d4d8" strokeWidth="1" fill="none" />
-      <ellipse cx="50" cy="34" rx="38" ry="6" stroke="#e4e4e7" strokeWidth="0.8" fill="none" />
-      <ellipse cx="50" cy="66" rx="38" ry="6" stroke="#e4e4e7" strokeWidth="0.8" fill="none" />
+      {/* Base disc + stem */}
+      <ellipse cx="60" cy="132" rx="26" ry="4.5" fill="url(#brassDark)" />
+      <ellipse cx="60" cy="129" rx="26" ry="4.5" fill="url(#brass)" />
+      <rect x="56" y="116" width="8" height="14" fill="url(#brass)" />
+      <ellipse cx="60" cy="116" rx="6" ry="2" fill="#FCE38A" />
 
-      {/* Longitude lines */}
-      <ellipse cx="50" cy="50" rx="14" ry="42" stroke="#d4d4d8" strokeWidth="1" fill="none" />
-      <ellipse cx="50" cy="50" rx="28" ry="42" stroke="#e4e4e7" strokeWidth="0.8" fill="none" />
+      {/* Tilted globe + meridian arc */}
+      <g transform="rotate(-18 60 60)">
+        {/* Meridian arc (C cradle behind the sphere on the right side) */}
+        <path
+          d="M60 18 A42 42 0 0 1 60 102 L66 108 A48 48 0 0 0 66 12 Z"
+          fill="url(#brassDark)"
+        />
+        {/* Front of meridian (covers the sphere edge) */}
+        <path
+          d="M60 18 L60 22 A38 38 0 0 1 60 98 L60 102 A42 42 0 0 0 60 18 Z"
+          fill="url(#brass)"
+          opacity="0.55"
+        />
 
-      {/* Stylized continent silhouette (loose Africa+Eurasia hint) */}
-      <path
-        d="M48 22 Q56 25 58 34 Q60 42 56 50 Q62 56 60 64 Q56 74 48 78 Q42 76 40 70 Q38 62 42 56 Q38 50 42 42 Q44 32 48 22 Z"
-        fill="#27272a"
-        opacity="0.35"
-      />
+        {/* Sphere — ocean */}
+        <circle cx="60" cy="60" r="38" fill="url(#ocean)" />
 
-      {/* Region pulses — alternating brand red / blue */}
-      <circle cx="32" cy="40" r="3.5" fill="#EB2C35" />
-      <circle cx="68" cy="44" r="3.5" fill="#1165C6" />
-      <circle cx="56" cy="68" r="3.5" fill="#EB2C35" />
+        {/* Continents — stylized blobs in the right rough places */}
+        <g fill="#3F8B3F" opacity="0.95">
+          {/* North America */}
+          <path d="M36 42 Q44 36 50 42 Q52 50 46 56 Q40 58 34 52 Q32 46 36 42 Z" />
+          {/* South America */}
+          <path d="M44 66 Q50 66 50 74 Q48 84 42 86 Q38 80 40 72 Q42 68 44 66 Z" />
+          {/* Africa */}
+          <path d="M62 50 Q70 50 70 60 Q72 70 64 78 Q58 78 58 70 Q56 60 62 50 Z" />
+          {/* Eurasia (sweeping right) */}
+          <path d="M62 36 Q78 32 86 40 Q88 48 80 50 Q70 50 62 46 Q60 40 62 36 Z" />
+          {/* Australia */}
+          <path d="M82 70 Q90 70 90 76 Q86 80 80 78 Q78 74 82 70 Z" />
+        </g>
+
+        {/* Latitude / longitude grid (faint white) */}
+        <g stroke="white" strokeWidth="0.5" fill="none" opacity="0.25">
+          <ellipse cx="60" cy="60" rx="38" ry="10" />
+          <ellipse cx="60" cy="60" rx="38" ry="20" />
+          <ellipse cx="60" cy="60" rx="10" ry="38" />
+          <ellipse cx="60" cy="60" rx="22" ry="38" />
+          <line x1="60" y1="22" x2="60" y2="98" />
+          <line x1="22" y1="60" x2="98" y2="60" />
+        </g>
+
+        {/* Glass gloss */}
+        <circle cx="60" cy="60" r="38" fill="url(#gloss)" />
+
+        {/* Sphere outline */}
+        <circle cx="60" cy="60" r="38" fill="none" stroke="#0B3A66" strokeWidth="0.8" opacity="0.7" />
+      </g>
     </svg>
   );
 }
@@ -371,12 +423,27 @@ export default function DeckPage() {
         kicker="The League"
         title="Rankings. Titles. World-class champions."
       >
-        <p className="text-zinc-600 text-lg md:text-xl leading-relaxed mb-10 md:mb-14 max-w-3xl">
-          Champions ranked by region. Titles defended within knowledge-area
-          classes — like weight classes in MMA. A discoverable, defendable
-          hierarchy of the world&apos;s best debaters.
-        </p>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-10 mb-10 md:mb-14">
+        <div className="grid grid-cols-1 md:grid-cols-5 gap-8 md:gap-10 items-center mb-10 md:mb-14">
+          <p className="md:col-span-3 text-zinc-600 text-lg md:text-xl leading-relaxed">
+            Champions ranked by region. Titles defended within knowledge-area
+            classes — like weight classes in MMA. A discoverable, defendable
+            hierarchy of the world&apos;s best debaters.
+          </p>
+          <figure className="md:col-span-2 flex flex-col items-center md:items-start gap-3">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/argumental-belt.png"
+              alt="Argumental Tier 1 championship belt"
+              className="w-full max-w-[320px] h-auto"
+              loading="lazy"
+            />
+            <figcaption className="text-[10px] uppercase tracking-widest font-black text-zinc-400 text-center md:text-left">
+              The Argumental Tier 1 championship belt
+            </figcaption>
+          </figure>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-10">
           <div>
             <p className="text-[10px] md:text-xs uppercase tracking-widest font-black text-zinc-900 border-b border-zinc-200 pb-2 mb-4">
               Knowledge classes
@@ -415,50 +482,36 @@ export default function DeckPage() {
         kicker="Comparables"
         title="What purpose-built leagues prove."
       >
-        <div className="grid grid-cols-1 md:grid-cols-5 gap-8 md:gap-10 items-center mb-8">
-          <ul className="md:col-span-3 divide-y divide-zinc-200 border-y border-zinc-200">
-            {[
-              { name: "UFC", note: "$0 → $9B by inventing the category." },
-              {
-                name: "F1 / Drive to Survive",
-                note: "Format-first storytelling rebuilt the sport globally.",
-              },
-              {
-                name: "Pickleball PPA",
-                note: "From garage sport to professional tour in under a decade.",
-              },
-              {
-                name: "Fortnite Champion Series",
-                note:
-                  "Native-internet competition with audience-first economics.",
-              },
-            ].map((c) => (
-              <li
-                key={c.name}
-                className="py-4 grid grid-cols-1 md:grid-cols-3 gap-2 md:gap-6"
-              >
-                <p className="text-zinc-900 font-bold text-base md:text-lg">
-                  {c.name}
-                </p>
-                <p className="text-zinc-600 text-sm md:text-base md:col-span-2">
-                  {c.note}
-                </p>
-              </li>
-            ))}
-          </ul>
-          <figure className="md:col-span-2 flex flex-col items-center md:items-start gap-3">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src="/argumental-belt.png"
-              alt="Argumental Tier 1 championship belt"
-              className="w-full max-w-[320px] h-auto"
-              loading="lazy"
-            />
-            <figcaption className="text-[10px] uppercase tracking-widest font-black text-zinc-400 text-center md:text-left">
-              The Argumental Tier 1 championship belt
-            </figcaption>
-          </figure>
-        </div>
+        <ul className="divide-y divide-zinc-200 border-y border-zinc-200 mb-8">
+          {[
+            { name: "UFC", note: "$0 → $9B by inventing the category." },
+            {
+              name: "F1 / Drive to Survive",
+              note: "Format-first storytelling rebuilt the sport globally.",
+            },
+            {
+              name: "Pickleball PPA",
+              note: "From garage sport to professional tour in under a decade.",
+            },
+            {
+              name: "Fortnite Champion Series",
+              note:
+                "Native-internet competition with audience-first economics.",
+            },
+          ].map((c) => (
+            <li
+              key={c.name}
+              className="py-4 grid grid-cols-1 md:grid-cols-3 gap-2 md:gap-6"
+            >
+              <p className="text-zinc-900 font-bold text-base md:text-lg">
+                {c.name}
+              </p>
+              <p className="text-zinc-600 text-sm md:text-base md:col-span-2">
+                {c.note}
+              </p>
+            </li>
+          ))}
+        </ul>
         <p className="text-zinc-700 text-base md:text-lg leading-relaxed max-w-3xl">
           Common thread:{" "}
           <span className="text-zinc-900 font-bold">
