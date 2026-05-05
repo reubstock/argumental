@@ -4,10 +4,10 @@ import Image from "next/image";
 export const metadata = {
   title: "Argumental — Investor Deck",
   description:
-    "The Path to Peace Begins with an Argument. A 11-section investor brief on the world's first professional debate league.",
+    "The Path to Peace Begins with an Argument. A 12-section investor brief on the world's first professional debate league.",
 };
 
-const TOTAL = 11;
+const TOTAL = 12;
 
 /**
  * Editorial-style single-page deck. Numbered badges, HR dividers, whitespace-
@@ -54,6 +54,50 @@ function Section({
 
 
 
+/**
+ * WorldMapIllustration — minimalist continent silhouettes with brand-colored
+ * dots placed on the league's six regional rankings. Public-domain map paths
+ * adapted from the Natural Earth low-res world dataset, simplified for an
+ * editorial / line-art look.
+ */
+function WorldMapIllustration() {
+  const continents = [
+    "M50 35 L95 30 L110 50 L100 70 L80 95 L55 95 L40 75 L35 55 Z",
+    "M80 100 L100 105 L95 115 L82 110 Z",
+    "M105 110 L130 115 L130 145 L115 160 L100 155 L98 130 Z",
+    "M165 35 L200 35 L205 55 L185 65 L170 60 L160 50 Z",
+    "M170 70 L210 70 L220 110 L200 145 L185 145 L170 110 Z",
+    "M205 30 L290 30 L305 50 L300 75 L270 95 L240 95 L220 75 L210 55 Z",
+    "M270 100 L295 105 L290 115 L260 110 Z",
+    "M285 130 L315 130 L320 145 L300 150 L280 145 Z",
+  ];
+  const markers: { cx: number; cy: number; side: "A" | "B"; label: string }[] = [
+    { cx: 90, cy: 60, side: "A", label: "US East" },
+    { cx: 60, cy: 65, side: "A", label: "US West" },
+    { cx: 180, cy: 50, side: "B", label: "Europe" },
+    { cx: 270, cy: 70, side: "A", label: "Asia-Pacific" },
+    { cx: 200, cy: 75, side: "B", label: "MENA" },
+    { cx: 115, cy: 135, side: "B", label: "Latin America" },
+  ];
+  return (
+    <svg
+      viewBox="0 0 360 180"
+      className="w-full h-auto"
+      aria-label="World map with the six Argumental regional ranking territories"
+    >
+      {continents.map((d, i) => (
+        <path key={i} d={d} fill="#f4f4f5" stroke="#d4d4d8" strokeWidth="0.8" />
+      ))}
+      {markers.map((m) => (
+        <g key={m.label}>
+          <circle cx={m.cx} cy={m.cy} r="6" fill={m.side === "A" ? "#EB2C35" : "#1165C6"} opacity="0.18" />
+          <circle cx={m.cx} cy={m.cy} r="3" fill={m.side === "A" ? "#EB2C35" : "#1165C6"} />
+        </g>
+      ))}
+    </svg>
+  );
+}
+
 function Headshot({
   src,
   alt,
@@ -78,6 +122,7 @@ function Headshot({
   );
 }
 
+// (TOC array kept for future use — the Cover anchor list was removed earlier.)
 const TOC: { n: number; label: string }[] = [
   { n: 1, label: "Cover" },
   { n: 2, label: "Problem" },
@@ -85,12 +130,14 @@ const TOC: { n: number; label: string }[] = [
   { n: 4, label: "Product" },
   { n: 5, label: "Format" },
   { n: 6, label: "Sample Bouts" },
-  { n: 7, label: "Comparables" },
-  { n: 7, label: "Why Now" },
-  { n: 7, label: "Model" },
-  { n: 7, label: "Plan" },
-  { n: 7, label: "Ask" },
+  { n: 7, label: "The League" },
+  { n: 8, label: "Comparables" },
+  { n: 9, label: "Why Now" },
+  { n: 10, label: "Model" },
+  { n: 11, label: "Plan" },
+  { n: 12, label: "Ask" },
 ];
+void TOC;
 
 export default function DeckPage() {
   return (
@@ -323,9 +370,53 @@ export default function DeckPage() {
         </ul>
       </Section>
 
-      {/*  */}
+      {/* 07 — The League */}
       <Section
         n={7}
+        kicker="The League"
+        title="Rankings. Titles. World-class champions."
+      >
+        <p className="text-zinc-600 text-lg md:text-xl leading-relaxed mb-10 md:mb-14 max-w-3xl">
+          Champions ranked by region. Titles defended within knowledge-area
+          classes — like weight classes in MMA. A discoverable, defendable
+          hierarchy of the world&apos;s best debaters.
+        </p>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-10">
+          <div>
+            <p className="text-[10px] md:text-xs uppercase tracking-widest font-black text-zinc-900 border-b border-zinc-200 pb-2 mb-4">
+              Knowledge classes
+            </p>
+            <ul className="text-zinc-700 text-base md:text-lg leading-relaxed space-y-1.5">
+              <li>· Foreign Policy</li>
+              <li>· Economics</li>
+              <li>· Culture</li>
+              <li>· Science</li>
+              <li>· Faith</li>
+              <li>· Tech &amp; AI</li>
+            </ul>
+          </div>
+          <div>
+            <p className="text-[10px] md:text-xs uppercase tracking-widest font-black text-zinc-900 border-b border-zinc-200 pb-2 mb-4">
+              Regional rankings
+            </p>
+            <div className="grid grid-cols-[auto_1fr] gap-x-5 items-center">
+              <ul className="text-zinc-700 text-base md:text-lg leading-relaxed space-y-1.5">
+                <li>· US East</li>
+                <li>· US West</li>
+                <li>· Europe</li>
+                <li>· Asia-Pacific</li>
+                <li>· MENA</li>
+                <li>· Latin America</li>
+              </ul>
+              <WorldMapIllustration />
+            </div>
+          </div>
+        </div>
+      </Section>
+
+      {/* 08 — Comparables */}
+      <Section
+        n={8}
         kicker="Comparables"
         title="What purpose-built leagues prove."
       >
@@ -382,8 +473,8 @@ export default function DeckPage() {
         </p>
       </Section>
 
-      {/* 08 — Why Now */}
-      <Section n={7} kicker="Why Now" title="The conditions have never been better.">
+      {/* 09 — Why Now */}
+      <Section n={9} kicker="Why Now" title="The conditions have never been better.">
         <ol className="space-y-6 max-w-3xl">
           {[
             {
@@ -422,9 +513,9 @@ export default function DeckPage() {
         </ol>
       </Section>
 
-      {/* 09 — Business Model */}
+      {/* 10 — Business Model */}
       <Section
-        n={7}
+        n={10}
         kicker="Model"
         title="Three lines of revenue. One civic license."
       >
@@ -465,9 +556,9 @@ export default function DeckPage() {
         </div>
       </Section>
 
-      {/* 10 — Plan */}
+      {/* 11 — Plan */}
       <Section
-        n={7}
+        n={11}
         kicker="The Plan"
         title="Six months of programming. Multi-platform from day one."
       >
@@ -510,18 +601,18 @@ export default function DeckPage() {
         </p>
       </Section>
 
-      {/* 11 — Ask */}
+      {/* 12 — Ask */}
       <section
-        id="s11"
+        id="s12"
         className="border-t border-zinc-200 px-5 md:px-12 py-16 md:py-28"
       >
         <div className="max-w-4xl mx-auto">
           <header className="flex items-baseline gap-4 md:gap-6 mb-6 md:mb-10">
             <span className="text-zinc-400 text-base md:text-lg font-black tabular-nums">
-              11
+              12
             </span>
             <span className="text-zinc-400 text-[10px] md:text-xs uppercase tracking-widest font-black">
-              11 / {String(TOTAL).padStart(2, "0")}
+              12 / {String(TOTAL).padStart(2, "0")}
             </span>
           </header>
           <p className="text-black text-xs uppercase tracking-widest font-black mb-3">
