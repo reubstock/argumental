@@ -406,28 +406,14 @@ export default function DeckPage() {
         kicker="The League"
         title="Rankings. Titles. World-class champions."
       >
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 items-center mb-10 md:mb-14">
-          <p className="md:col-span-2 text-zinc-600 text-lg md:text-xl leading-relaxed">
-            Champions ranked by region. Titles defended within knowledge-area
-            classes — like weight classes in MMA. A discoverable, defendable
-            hierarchy of the world&apos;s best debaters.{" "}
-            <span className="text-zinc-900 font-bold">
-              Imagine Dario Amodei lifting the Tech / AI world title
-            </span>
-            .
-          </p>
-          <figure className="flex justify-center md:justify-end">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src="/debaters/amodei-trophy.png"
-              alt="Dario Amodei holding the Tech/AI World Champion trophy"
-              className="max-h-[420px] md:max-h-[480px] w-auto rounded-md"
-              loading="lazy"
-            />
-          </figure>
-        </div>
+        <p className="text-zinc-600 text-lg md:text-xl leading-relaxed mb-10 md:mb-14 max-w-3xl">
+          Champions ranked by region. Titles defended within knowledge-area
+          classes — like weight classes in MMA. A discoverable, defendable
+          hierarchy of the world&apos;s best debaters.
+        </p>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8 mb-10 md:mb-14">
+        {/* Two-column body: knowledge classes (left) · regions + map (right) */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-10 mb-12 md:mb-16">
           <div>
             <p className="text-[10px] md:text-xs uppercase tracking-widest font-black text-zinc-900 border-b border-zinc-200 pb-2 mb-4">
               Knowledge classes
@@ -445,27 +431,44 @@ export default function DeckPage() {
             <p className="text-[10px] md:text-xs uppercase tracking-widest font-black text-zinc-900 border-b border-zinc-200 pb-2 mb-4">
               Regional rankings
             </p>
-            <ul className="text-zinc-700 text-base md:text-lg leading-relaxed space-y-1.5">
-              <li>· US East</li>
-              <li>· US West</li>
-              <li>· Europe</li>
-              <li>· Asia-Pacific</li>
-              <li>· MENA</li>
-              <li>· Latin America</li>
-            </ul>
+            <div className="grid grid-cols-[auto_1fr] gap-x-5 items-center">
+              <ul className="text-zinc-700 text-base md:text-lg leading-relaxed space-y-1.5">
+                <li>· US East</li>
+                <li>· US West</li>
+                <li>· Europe</li>
+                <li>· Asia-Pacific</li>
+                <li>· MENA</li>
+                <li>· Latin America</li>
+              </ul>
+              <WorldMapIllustration />
+            </div>
           </div>
         </div>
 
-        {/* Larger world map breaks out of the grid below — roughly 2× its
-            previous size since it now spans the full content column. */}
-        <div className="border-t border-zinc-200 pt-8">
-          <p className="text-[10px] md:text-xs uppercase tracking-widest font-black text-zinc-400 mb-4">
-            Six regions, one league
+        {/* Champion exemplar — the trophy image gets its own centered moment
+            on a black panel so the dark composition reads as intentional. */}
+        <figure className="border-t border-zinc-200 pt-10 md:pt-14">
+          <p className="text-[10px] md:text-xs uppercase tracking-widest font-black text-zinc-400 mb-6 text-center">
+            Sample champion
           </p>
-          <div className="max-w-3xl mx-auto">
-            <WorldMapIllustration />
+          <div className="bg-black rounded-md flex items-center justify-center px-6 py-8">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/debaters/amodei-trophy.png"
+              alt="Dario Amodei holding the Tech/AI World Champion trophy"
+              className="max-h-[460px] w-auto"
+              loading="lazy"
+            />
           </div>
-        </div>
+          <figcaption className="text-center mt-5">
+            <p className="text-zinc-900 font-black text-base md:text-lg leading-tight">
+              Imagine Dario Amodei lifting the Tech / AI world title.
+            </p>
+            <p className="text-[10px] md:text-xs uppercase tracking-widest font-black text-zinc-400 mt-2">
+              Illustrative — not endorsed by Mr. Amodei
+            </p>
+          </figcaption>
+        </figure>
       </Section>
 
       {/* 08 — Comparables */}
