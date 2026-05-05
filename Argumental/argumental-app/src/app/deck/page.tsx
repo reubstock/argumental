@@ -406,33 +406,24 @@ export default function DeckPage() {
         kicker="The League"
         title="Rankings. Titles. World-class champions."
       >
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 items-start mb-10 md:mb-14">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 items-center mb-10 md:mb-14">
           <p className="md:col-span-2 text-zinc-600 text-lg md:text-xl leading-relaxed">
             Champions ranked by region. Titles defended within knowledge-area
             classes — like weight classes in MMA. A discoverable, defendable
             hierarchy of the world&apos;s best debaters.{" "}
             <span className="text-zinc-900 font-bold">
-              Imagine Dario Amodei as the standing Tech / AI world champion
+              Imagine Dario Amodei lifting the Tech / AI world title
             </span>
             .
           </p>
-          <figure className="border-l-2 border-brand-blue pl-4 flex items-center gap-3">
-            <div className="w-14 h-14 rounded-full overflow-hidden border-2 border-brand-blue shrink-0">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src="/debaters/amodei.jpg"
-                alt="Dario Amodei"
-                className="w-full h-full object-cover object-top"
-              />
-            </div>
-            <figcaption>
-              <p className="text-zinc-900 font-black text-sm leading-tight">
-                Dario Amodei
-              </p>
-              <p className="text-[10px] uppercase tracking-widest font-black text-brand-blue mt-0.5">
-                Sample · Tech / AI
-              </p>
-            </figcaption>
+          <figure className="flex justify-center md:justify-end">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/debaters/amodei-trophy.png"
+              alt="Dario Amodei holding the Tech/AI World Champion trophy"
+              className="max-h-[420px] md:max-h-[480px] w-auto rounded-md"
+              loading="lazy"
+            />
           </figure>
         </div>
 
