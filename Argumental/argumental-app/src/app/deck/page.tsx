@@ -300,12 +300,9 @@ export default function DeckPage() {
         className="px-5 md:px-12 py-16 md:py-28 min-h-[70vh] flex flex-col"
       >
         <div className="max-w-4xl mx-auto w-full flex-1 flex flex-col">
-          <header className="flex items-baseline justify-between mb-12 md:mb-20">
+          <header className="mb-12 md:mb-20">
             <span className="text-zinc-400 text-[10px] md:text-xs uppercase tracking-widest font-black">
               Investor Brief · 2026
-            </span>
-            <span className="text-zinc-400 text-[10px] md:text-xs uppercase tracking-widest font-black tabular-nums">
-              01 / {String(TOTAL).padStart(2, "0")}
             </span>
           </header>
 
@@ -331,18 +328,6 @@ export default function DeckPage() {
             </div>
           </div>
 
-          {/* Inline TOC anchor list — a quick way to jump through the deck */}
-          <nav className="mt-12 md:mt-20 flex flex-wrap gap-x-4 md:gap-x-6 gap-y-1 text-[10px] md:text-xs uppercase tracking-widest font-black">
-            {TOC.slice(1).map((s) => (
-              <a
-                key={s.n}
-                href={`#s${s.n}`}
-                className="text-zinc-400 hover:text-zinc-900 transition tabular-nums"
-              >
-                {String(s.n).padStart(2, "0")} {s.label}
-              </a>
-            ))}
-          </nav>
         </div>
       </section>
 
