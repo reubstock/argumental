@@ -128,9 +128,6 @@ export default function DeckPage() {
               <span className="text-[10px] md:text-xs font-black uppercase tracking-widest border border-zinc-300 text-zinc-700 px-3 py-1.5 rounded-md">
                 The UFC of Ideas
               </span>
-              <span className="text-[10px] md:text-xs font-black uppercase tracking-widest border border-zinc-300 text-zinc-700 px-3 py-1.5 rounded-md">
-                Fortnite meets MENSA
-              </span>
             </div>
           </div>
 
