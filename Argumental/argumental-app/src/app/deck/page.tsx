@@ -52,6 +52,206 @@ function Section({
   );
 }
 
+/**
+ * ChampionTrophyIllustration — example champion holding a "TECH/AI" trophy
+ * over his head. Used in slide 7 to make the league concept visceral. Photo
+ * is Dario Amodei from Wikipedia commons.
+ */
+function ChampionTrophyIllustration() {
+  return (
+    <figure className="border-t border-zinc-200 pt-6 flex flex-col items-center text-center">
+      <span className="text-[10px] uppercase tracking-widest font-black text-zinc-400 mb-3">
+        Sample champion
+      </span>
+      {/* Trophy + arms — a single SVG composition */}
+      <svg
+        viewBox="0 0 220 220"
+        width="180"
+        height="180"
+        className="-mb-6"
+        aria-hidden="true"
+      >
+        {/* Trophy cup */}
+        <defs>
+          <linearGradient id="cup" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor="#facc15" />
+            <stop offset="55%" stopColor="#eab308" />
+            <stop offset="100%" stopColor="#a16207" />
+          </linearGradient>
+          <linearGradient id="plate" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor="#1A2540" />
+            <stop offset="100%" stopColor="#0a0a0a" />
+          </linearGradient>
+        </defs>
+        {/* Side handles */}
+        <path
+          d="M65 35 Q40 40 40 65 Q40 90 65 95"
+          stroke="url(#cup)"
+          strokeWidth="6"
+          fill="none"
+          strokeLinecap="round"
+        />
+        <path
+          d="M155 35 Q180 40 180 65 Q180 90 155 95"
+          stroke="url(#cup)"
+          strokeWidth="6"
+          fill="none"
+          strokeLinecap="round"
+        />
+        {/* Cup body */}
+        <path
+          d="M55 30 L165 30 L150 110 Q140 130 110 130 Q80 130 70 110 Z"
+          fill="url(#cup)"
+          stroke="#7c4a02"
+          strokeWidth="1.5"
+        />
+        {/* Top rim */}
+        <ellipse cx="110" cy="30" rx="55" ry="6" fill="#fde047" stroke="#7c4a02" strokeWidth="1" />
+        {/* Plate */}
+        <rect x="72" y="55" width="76" height="34" rx="2" fill="url(#plate)" stroke="#000" strokeWidth="0.5" />
+        <text
+          x="110"
+          y="69"
+          textAnchor="middle"
+          fontFamily="Geist, system-ui, sans-serif"
+          fontSize="10"
+          fontWeight="900"
+          fill="#a1a1aa"
+          letterSpacing="2"
+        >
+          WORLD
+        </text>
+        <text
+          x="110"
+          y="83"
+          textAnchor="middle"
+          fontFamily="Geist, system-ui, sans-serif"
+          fontSize="14"
+          fontWeight="900"
+          fill="#facc15"
+          letterSpacing="1.5"
+        >
+          TECH / AI
+        </text>
+        {/* Stem */}
+        <rect x="100" y="130" width="20" height="20" fill="url(#cup)" stroke="#7c4a02" strokeWidth="1" />
+        {/* Base */}
+        <rect x="78" y="150" width="64" height="12" rx="2" fill="url(#cup)" stroke="#7c4a02" strokeWidth="1" />
+        <rect x="70" y="162" width="80" height="6" rx="1" fill="#7c4a02" />
+
+        {/* Stylized arms reaching up to the trophy */}
+        <path
+          d="M85 168 Q70 195 80 215"
+          stroke="#1A2540"
+          strokeWidth="6"
+          fill="none"
+          strokeLinecap="round"
+        />
+        <path
+          d="M135 168 Q150 195 140 215"
+          stroke="#1A2540"
+          strokeWidth="6"
+          fill="none"
+          strokeLinecap="round"
+        />
+      </svg>
+
+      {/* Champion photo — circular, brand-bordered, just below the SVG */}
+      <div className="w-20 h-20 rounded-full overflow-hidden border-4 border-brand-blue shrink-0 relative z-10">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="/debaters/amodei.jpg"
+          alt="Dario Amodei"
+          className="w-full h-full object-cover object-top"
+        />
+      </div>
+      <figcaption className="mt-3">
+        <p className="text-zinc-900 font-black text-sm">Dario Amodei</p>
+        <p className="text-[10px] uppercase tracking-widest font-black text-brand-blue mt-0.5">
+          World Champion · Tech / AI
+        </p>
+      </figcaption>
+    </figure>
+  );
+}
+
+/**
+ * WorldMapIllustration — minimalist continent silhouettes with brand-colored
+ * dots placed on the league's six regional rankings. Public-domain map paths
+ * adapted from the Natural Earth low-res world dataset, simplified for an
+ * editorial / editorial-line-art look.
+ */
+function WorldMapIllustration() {
+  // Simplified continent silhouettes (very low-poly) so the map reads as
+  // "world" without overwhelming the layout. Coordinate space 0..360 × 0..180
+  // (lat/lon-ish, equirectangular).
+  const continents = [
+    // North America
+    "M50 35 L95 30 L110 50 L100 70 L80 95 L55 95 L40 75 L35 55 Z",
+    // Central America (small)
+    "M80 100 L100 105 L95 115 L82 110 Z",
+    // South America
+    "M105 110 L130 115 L130 145 L115 160 L100 155 L98 130 Z",
+    // Europe
+    "M165 35 L200 35 L205 55 L185 65 L170 60 L160 50 Z",
+    // Africa
+    "M170 70 L210 70 L220 110 L200 145 L185 145 L170 110 Z",
+    // Asia
+    "M205 30 L290 30 L305 50 L300 75 L270 95 L240 95 L220 75 L210 55 Z",
+    // SE Asia / Indonesia
+    "M270 100 L295 105 L290 115 L260 110 Z",
+    // Oceania
+    "M285 130 L315 130 L320 145 L300 150 L280 145 Z",
+  ];
+
+  // Region markers (cx, cy in same coord space, color side)
+  const markers: { cx: number; cy: number; side: "A" | "B"; label: string }[] = [
+    { cx: 90, cy: 60, side: "A", label: "US East" },
+    { cx: 60, cy: 65, side: "A", label: "US West" },
+    { cx: 180, cy: 50, side: "B", label: "Europe" },
+    { cx: 270, cy: 70, side: "A", label: "Asia-Pacific" },
+    { cx: 200, cy: 75, side: "B", label: "MENA" },
+    { cx: 115, cy: 135, side: "B", label: "Latin America" },
+  ];
+
+  return (
+    <svg
+      viewBox="0 0 360 180"
+      className="w-full h-auto"
+      aria-label="World map with the six Argumental regional ranking territories"
+    >
+      {/* Continent silhouettes */}
+      {continents.map((d, i) => (
+        <path
+          key={i}
+          d={d}
+          fill="#f4f4f5"
+          stroke="#d4d4d8"
+          strokeWidth="0.8"
+        />
+      ))}
+      {/* Region markers */}
+      {markers.map((m) => (
+        <g key={m.label}>
+          <circle
+            cx={m.cx}
+            cy={m.cy}
+            r="6"
+            fill={m.side === "A" ? "#EB2C35" : "#1165C6"}
+            opacity="0.18"
+          />
+          <circle
+            cx={m.cx}
+            cy={m.cy}
+            r="3"
+            fill={m.side === "A" ? "#EB2C35" : "#1165C6"}
+          />
+        </g>
+      ))}
+    </svg>
+  );
+}
+
 function Headshot({
   src,
   alt,
@@ -348,32 +548,40 @@ export default function DeckPage() {
           classes — like weight classes in MMA. A discoverable, defendable
           hierarchy of the world&apos;s best debaters.
         </p>
+
         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8">
+          {/* Knowledge classes — paired with the champion illustration */}
           <div>
             <p className="text-[10px] md:text-xs uppercase tracking-widest font-black text-zinc-900 border-b border-zinc-200 pb-2 mb-4">
               Knowledge classes
             </p>
-            <ul className="text-zinc-700 text-base md:text-lg leading-relaxed space-y-1.5">
+            <ul className="text-zinc-700 text-base md:text-lg leading-relaxed space-y-1.5 mb-8">
               <li>· Foreign Policy</li>
               <li>· Economics</li>
               <li>· Culture</li>
               <li>· Science</li>
               <li>· Faith</li>
-              <li>· Tech &amp; AI</li>
+              <li className="text-zinc-900 font-bold">· Tech &amp; AI</li>
             </ul>
+            <ChampionTrophyIllustration />
           </div>
+
+          {/* Regional rankings — paired with the world map */}
           <div>
             <p className="text-[10px] md:text-xs uppercase tracking-widest font-black text-zinc-900 border-b border-zinc-200 pb-2 mb-4">
               Regional rankings
             </p>
-            <ul className="text-zinc-700 text-base md:text-lg leading-relaxed space-y-1.5">
-              <li>· US East</li>
-              <li>· US West</li>
-              <li>· Europe</li>
-              <li>· Asia-Pacific</li>
-              <li>· MENA</li>
-              <li>· Latin America</li>
-            </ul>
+            <div className="grid grid-cols-2 gap-x-6">
+              <ul className="text-zinc-700 text-base md:text-lg leading-relaxed space-y-1.5">
+                <li>· US East</li>
+                <li>· US West</li>
+                <li>· Europe</li>
+                <li>· Asia-Pacific</li>
+                <li>· MENA</li>
+                <li>· Latin America</li>
+              </ul>
+              <WorldMapIllustration />
+            </div>
           </div>
         </div>
       </Section>
