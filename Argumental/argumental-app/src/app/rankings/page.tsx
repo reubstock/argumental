@@ -8,17 +8,16 @@ export const metadata = {
 
 export default function RankingsPage() {
   return (
-    <div className="max-w-5xl mx-auto px-4 md:px-6 py-10 md:py-14 w-full">
-      <div className="mb-6 md:mb-8">
-        <p className="text-black text-xs uppercase tracking-widest font-semibold mb-2">
+    <div className="max-w-5xl mx-auto px-4 md:px-6 py-5 md:py-8 w-full">
+      <div className="mb-4 md:mb-5 flex items-baseline gap-3 flex-wrap">
+        <p className="text-black text-[10px] md:text-xs uppercase tracking-widest font-semibold">
           The Board
         </p>
-        <h1 className="text-3xl md:text-4xl font-black text-zinc-900">
+        <h1 className="text-2xl md:text-3xl font-black text-zinc-900 leading-none">
           Rankings
         </h1>
-        <p className="text-zinc-500 text-sm mt-2 max-w-2xl">
-          Live standings of Argumental debaters — ranked by knowledge class
-          and region. Title fights move the line each week.
+        <p className="text-zinc-500 text-xs md:text-sm">
+          Live standings · refreshed weekly.
         </p>
       </div>
 

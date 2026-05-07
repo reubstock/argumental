@@ -74,35 +74,26 @@ function GlobalBoard() {
 function ChampionCard({ r }: { r: Ranked }) {
   return (
     <Panel className="overflow-hidden">
-      {/* Belt as hero strip across the top */}
-      <div className="bg-zinc-50 border-b border-zinc-200 flex items-center justify-center px-6 py-5">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src="/argumental-belt.png"
-          alt="Argumental Tier 1 championship belt"
-          className="h-24 md:h-32 w-auto"
-          loading="lazy"
-        />
-      </div>
-
-      <div className="p-5 md:p-6 flex items-center gap-4 md:gap-5">
-        <Avatar
-          name={r.name}
-          photo={r.photo}
-          side="A"
-          size="lg"
-        />
+      <div className="p-4 md:p-5 flex items-center gap-3 md:gap-5">
+        <Avatar name={r.name} photo={r.photo} side="A" size="lg" />
         <div className="flex-1 min-w-0">
           <p className="text-brand-red text-[10px] md:text-xs uppercase tracking-widest font-black mb-1">
             World Champion
           </p>
-          <h2 className="text-zinc-900 font-black text-xl md:text-2xl leading-tight">
+          <h2 className="text-zinc-900 font-black text-lg md:text-2xl leading-tight">
             {r.name}
           </h2>
-          <p className="text-zinc-600 text-sm md:text-base mt-1.5">
+          <p className="text-zinc-600 text-xs md:text-base mt-1">
             {r.subjects.join(" · ")}
           </p>
         </div>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="/argumental-belt.png"
+          alt="Argumental Tier 1 championship belt"
+          className="h-14 sm:h-20 md:h-24 w-auto shrink-0"
+          loading="lazy"
+        />
       </div>
     </Panel>
   );
