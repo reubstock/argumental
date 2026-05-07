@@ -10,62 +10,128 @@ import {
 } from "@/lib/rankings";
 
 type Scope = "global" | "local";
+type Subject = "all" | "politics" | "race" | "religion" | "sports";
+
+/** Loose subject → tag matcher. "Religion" pulls in "Faith" too. */
+const SUBJECT_MATCHES: Record<Exclude<Subject, "all">, string[]> = {
+  politics: ["Politics"],
+  race: ["Race"],
+  religion: ["Religion", "Faith"],
+  sports: ["Sports"],
+};
+
+function rankedMatches(r: Ranked, subject: Subject): boolean {
+  if (subject === "all") return true;
+  const tags = SUBJECT_MATCHES[subject];
+  return r.subjects.some((s) =>
+    tags.some((t) => s.toLowerCase().includes(t.toLowerCase())),
+  );
+}
+
+const SUBJECT_LABEL: Record<Subject, string> = {
+  all: "All",
+  politics: "Politics",
+  race: "Race",
+  religion: "Religion",
+  sports: "Sports",
+};
+
+const SUBJECT_OPTIONS: Subject[] = ["all", "politics", "race", "religion", "sports"];
 
 /**
- * RankingsScope — segmented GLOBAL / LOCAL toggle for the Rankings page.
+ * RankingsScope — twin toggles (GLOBAL / LOCAL · subject filter) for the
+ * Rankings page.
  *
- * Default scope is "global" → renders the live ranked list backed by
- * lib/rankings.ts. "local" stays as a placeholder until regional data lands.
+ * Default: scope = "global", subject = "all". When real local data lands
+ * the local placeholder will swap in a regional list using the same filter.
  */
 export default function RankingsScope() {
   const [scope, setScope] = useState<Scope>("global");
+  const [subject, setSubject] = useState<Subject>("all");
 
   return (
-    <div className="flex flex-col gap-6">
-      {/* Toggle */}
-      <div
-        role="tablist"
-        aria-label="Ranking scope"
-        className="inline-flex self-start border border-zinc-300 rounded-md bg-white p-0.5"
-      >
-        <ScopeButton
-          active={scope === "global"}
-          onClick={() => setScope("global")}
-        >
-          Global
-        </ScopeButton>
-        <ScopeButton
-          active={scope === "local"}
-          onClick={() => setScope("local")}
-        >
-          Local
-        </ScopeButton>
+    <div className="flex flex-col gap-5">
+      {/* Toggles row */}
+      <div className="flex flex-wrap gap-3 items-center">
+        <SegmentedToggle
+          label="Ranking scope"
+          options={[
+            { value: "global", label: "Global" },
+            { value: "local", label: "Local" },
+          ]}
+          value={scope}
+          onChange={(v) => setScope(v as Scope)}
+        />
+        <SegmentedToggle
+          label="Subject filter"
+          options={SUBJECT_OPTIONS.map((s) => ({
+            value: s,
+            label: SUBJECT_LABEL[s],
+          }))}
+          value={subject}
+          onChange={(v) => setSubject(v as Subject)}
+        />
       </div>
 
-      {scope === "global" ? <GlobalBoard /> : <LocalPlaceholder />}
+      {scope === "global" ? (
+        <GlobalBoard subject={subject} />
+      ) : (
+        <LocalPlaceholder />
+      )}
     </div>
   );
 }
 
-function GlobalBoard() {
+function GlobalBoard({ subject }: { subject: Subject }) {
   const champion = getChampion();
   const challengers = getChallengers();
 
+  const champShown =
+    champion && rankedMatches(champion, subject) ? champion : null;
+  const challengersShown = challengers.filter((r) => rankedMatches(r, subject));
+
+  const filtered = subject !== "all";
+  const empty = !champShown && challengersShown.length === 0;
+
+  if (empty) {
+    return (
+      <Panel>
+        <div className="p-10 md:p-16 text-center flex flex-col items-center gap-2">
+          <span className="text-zinc-400 text-xs font-bold uppercase tracking-widest">
+            No matches
+          </span>
+          <p className="text-zinc-500 text-sm max-w-md">
+            No ranked debater currently lists {SUBJECT_LABEL[subject]} as a
+            subject. Try a different filter or browse all.
+          </p>
+        </div>
+      </Panel>
+    );
+  }
+
   return (
     <div className="flex flex-col gap-3">
-      {champion && <ChampionCard r={champion} />}
-      <div className="flex flex-col">
-        {challengers.map((r, i) => (
-          <ChallengerRow
-            key={r.rank}
-            r={r}
-            // top edge handled by border-t on each row except first
-            isFirst={i === 0}
-          />
-        ))}
-      </div>
-      <p className="text-zinc-400 text-[10px] uppercase tracking-widest font-bold mt-2">
-        Top {GLOBAL_RANKINGS.length - 1} contenders shown · refreshed weekly
+      {champShown && <ChampionCard r={champShown} />}
+      {challengersShown.length > 0 && (
+        <div className="flex flex-col">
+          {challengersShown.map((r, i) => (
+            <ChallengerRow
+              key={r.rank}
+              r={r}
+              isFirst={i === 0}
+              isLast={i === challengersShown.length - 1}
+            />
+          ))}
+        </div>
+      )}
+      <p className="text-zinc-400 text-[10px] uppercase tracking-widest font-bold mt-1">
+        {filtered
+          ? `${champShown ? challengersShown.length + 1 : challengersShown.length} debater${
+              (champShown ? challengersShown.length + 1 : challengersShown.length) === 1
+                ? ""
+                : "s"
+            } in ${SUBJECT_LABEL[subject]} · global ranks shown`
+          : `Top ${GLOBAL_RANKINGS.length - 1} contenders shown · refreshed weekly`}
       </p>
     </div>
   );
@@ -99,14 +165,20 @@ function ChampionCard({ r }: { r: Ranked }) {
   );
 }
 
-function ChallengerRow({ r, isFirst }: { r: Ranked; isFirst: boolean }) {
+function ChallengerRow({
+  r,
+  isFirst,
+  isLast,
+}: {
+  r: Ranked;
+  isFirst: boolean;
+  isLast: boolean;
+}) {
   return (
     <div
-      className={`flex items-center gap-3 md:gap-4 px-3 md:px-4 py-3 md:py-3.5 bg-white ${
-        isFirst
-          ? "border border-zinc-200 rounded-t-md"
-          : "border border-t-0 border-zinc-200"
-      } ${r.rank === 10 ? "rounded-b-md" : ""}`}
+      className={`flex items-center gap-3 md:gap-4 px-3 md:px-4 py-3 md:py-3.5 bg-white border border-zinc-200 ${
+        isFirst ? "rounded-t-md" : "border-t-0"
+      } ${isLast ? "rounded-b-md" : ""}`}
     >
       <span className="text-zinc-400 font-black tabular-nums text-base md:text-lg w-7 md:w-8 shrink-0 text-right">
         {String(r.rank).padStart(2, "0")}
@@ -216,28 +288,42 @@ function LocalPlaceholder() {
   );
 }
 
-function ScopeButton({
-  active,
-  onClick,
-  children,
+function SegmentedToggle({
+  label,
+  options,
+  value,
+  onChange,
 }: {
-  active: boolean;
-  onClick: () => void;
-  children: React.ReactNode;
+  label: string;
+  options: { value: string; label: string }[];
+  value: string;
+  onChange: (v: string) => void;
 }) {
   return (
-    <button
-      type="button"
-      role="tab"
-      aria-selected={active}
-      onClick={onClick}
-      className={`px-4 py-2 rounded-md text-[11px] font-black uppercase tracking-widest transition ${
-        active
-          ? "bg-black text-white"
-          : "text-zinc-500 hover:text-zinc-900 hover:bg-zinc-50"
-      }`}
+    <div
+      role="tablist"
+      aria-label={label}
+      className="inline-flex border border-zinc-300 rounded-md bg-white p-0.5"
     >
-      {children}
-    </button>
+      {options.map((opt) => {
+        const active = opt.value === value;
+        return (
+          <button
+            key={opt.value}
+            type="button"
+            role="tab"
+            aria-selected={active}
+            onClick={() => onChange(opt.value)}
+            className={`px-3 md:px-4 py-2 rounded-md text-[11px] font-black uppercase tracking-widest transition whitespace-nowrap ${
+              active
+                ? "bg-black text-white"
+                : "text-zinc-500 hover:text-zinc-900 hover:bg-zinc-50"
+            }`}
+          >
+            {opt.label}
+          </button>
+        );
+      })}
+    </div>
   );
 }
