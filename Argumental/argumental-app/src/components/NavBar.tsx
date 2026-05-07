@@ -53,6 +53,9 @@ export default function NavBar() {
           <Link href="/outcomes" className={desktopLink}>
             Outcomes
           </Link>
+          <Link href="/rankings" className={desktopLink}>
+            Rankings
+          </Link>
           <div className="w-px h-4 bg-zinc-200 mx-2" />
           <Link
             href="/deck"
@@ -125,6 +128,9 @@ export default function NavBar() {
               </Link>
               <Link href="/outcomes" onClick={close} className={mobileLink}>
                 Outcomes
+              </Link>
+              <Link href="/rankings" onClick={close} className={mobileLink}>
+                Rankings
               </Link>
             </div>
           </div>
