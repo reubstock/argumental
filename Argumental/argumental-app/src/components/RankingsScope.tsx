@@ -10,12 +10,11 @@ import {
 } from "@/lib/rankings";
 
 type Scope = "global" | "local";
-type Subject = "all" | "politics" | "race" | "religion" | "sports";
+type Subject = "all" | "politics" | "religion" | "sports";
 
 /** Loose subject → tag matcher. "Religion" pulls in "Faith" too. */
 const SUBJECT_MATCHES: Record<Exclude<Subject, "all">, string[]> = {
   politics: ["Politics"],
-  race: ["Race"],
   religion: ["Religion", "Faith"],
   sports: ["Sports"],
 };
@@ -31,12 +30,11 @@ function rankedMatches(r: Ranked, subject: Subject): boolean {
 const SUBJECT_LABEL: Record<Subject, string> = {
   all: "All",
   politics: "Politics",
-  race: "Race",
   religion: "Religion",
   sports: "Sports",
 };
 
-const SUBJECT_OPTIONS: Subject[] = ["all", "politics", "race", "religion", "sports"];
+const SUBJECT_OPTIONS: Subject[] = ["all", "politics", "religion", "sports"];
 
 /**
  * RankingsScope — twin toggles (GLOBAL / LOCAL · subject filter) for the

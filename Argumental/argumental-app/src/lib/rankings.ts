@@ -15,7 +15,7 @@ export const GLOBAL_RANKINGS: Ranked[] = [
   {
     rank: 0,
     name: "Coleman Hughes",
-    subjects: ["Race", "Public Policy", "Culture"],
+    subjects: ["Public Policy", "Culture"],
     photo: "/debaters/hughes.jpg",
   },
   {
