@@ -7,23 +7,25 @@ import { getDebate, updateDebate } from "@/lib/debates";
  * POST /api/admin/streams
  * Body: { debateId: string }
  *
- * Creates a Mux live stream for the given debate, stores the live-stream
- * ID + playback ID on the debate (so the bout page renders MuxPlayer
- * once the operator goes live), and returns the RTMP URL + stream key
- * for the operator to paste into OBS / studio software.
+ * Creates TWO Mux live streams (one per debater) for the given debate
+ * and stores both playback IDs + live-stream IDs on the debate. The
+ * <PhasedDebatePlayer> on the bout page swaps between the two streams
+ * automatically on the 6-minute clock.
  *
- * SECURITY NOTE: stream_key is a secret. We return it ONCE at creation
- * time and do NOT persist it on the debate. The operator must copy it
- * to OBS now or roll a new stream key in the Mux dashboard later.
+ * Returns RTMP URL + stream key for each debater. Each debater pastes
+ * their stream key into their own OBS / studio software and streams
+ * the entire 24 minutes — the player decides who's visible.
  *
- * PERSISTENCE NOTE: `lib/debates.ts` is in-memory and per-instance on
- * Vercel — meaning the muxLiveStreamId stored here won't be visible
- * to other serverless instances (incl. the webhook handler and the
- * /debates/[id] page). To make this real, swap the Map in lib/debates.ts
- * for an Upstash Redis store (same pattern as lib/charities.ts).
+ * SECURITY: stream keys are returned ONCE and never persisted on the
+ * debate. Operator must distribute to debaters now or roll fresh keys
+ * in the Mux dashboard.
  *
- * TODO: lock this route to authenticated admins. Today anyone who hits
- * the URL can spin up a Mux stream (and run up your bill).
+ * PERSISTENCE NOTE: lib/debates.ts is in-memory per-instance. The IDs
+ * stored here may not be visible to the webhook handler or bout page
+ * if those land on a different Vercel serverless instance. Swap to
+ * Upstash Redis to fix.
+ *
+ * TODO: lock this route behind admin auth.
  */
 export async function POST(req: Request) {
   let body: unknown;
@@ -53,13 +55,13 @@ export async function POST(req: Request) {
     );
   }
 
-  if (debate.muxLiveStreamId) {
+  if (debate.muxLiveStreamIdA || debate.muxLiveStreamIdB || debate.muxLiveStreamId) {
     return NextResponse.json(
       {
         error:
-          "A live stream already exists for this debate. Roll the stream key in the Mux dashboard if you need a fresh one.",
-        existingStreamId: debate.muxLiveStreamId,
-        existingPlaybackId: debate.muxPlaybackId,
+          "Live streams already exist for this debate. Roll the stream keys in the Mux dashboard if you need fresh ones.",
+        existingPlaybackIdA: debate.muxPlaybackIdA,
+        existingPlaybackIdB: debate.muxPlaybackIdB,
       },
       { status: 409 },
     );
@@ -67,21 +69,26 @@ export async function POST(req: Request) {
 
   try {
     const mux = getMux();
-    const stream = await mux.video.liveStreams.create({
-      playback_policy: ["public"],
-      // The auto-recorded asset (created when the stream ends) gets the
-      // same public playback policy so the on-demand replay works.
-      new_asset_settings: { playback_policy: ["public"] },
-      // "low" = ~5s glass-to-glass on Mux. "standard" is cheaper but
-      // slower — switch later if cost matters more than latency.
-      latency_mode: "low",
-      // Allow up to 60s of disconnection before the stream is considered
-      // ended (matches Mux default; explicit for clarity).
-      reconnect_window: 60,
-    });
 
-    const playbackId = stream.playback_ids?.[0]?.id;
-    if (!playbackId || !stream.id) {
+    // Create both streams in parallel.
+    const [streamA, streamB] = await Promise.all([
+      mux.video.liveStreams.create({
+        playback_policy: ["public"],
+        new_asset_settings: { playback_policy: ["public"] },
+        latency_mode: "low",
+        reconnect_window: 60,
+      }),
+      mux.video.liveStreams.create({
+        playback_policy: ["public"],
+        new_asset_settings: { playback_policy: ["public"] },
+        latency_mode: "low",
+        reconnect_window: 60,
+      }),
+    ]);
+
+    const playbackIdA = streamA.playback_ids?.[0]?.id;
+    const playbackIdB = streamB.playback_ids?.[0]?.id;
+    if (!streamA.id || !playbackIdA || !streamB.id || !playbackIdB) {
       return NextResponse.json(
         { error: "Mux did not return expected stream IDs" },
         { status: 502 },
@@ -89,19 +96,29 @@ export async function POST(req: Request) {
     }
 
     updateDebate(debateId, {
-      muxLiveStreamId: stream.id,
-      muxPlaybackId: playbackId,
+      muxLiveStreamIdA: streamA.id,
+      muxPlaybackIdA: playbackIdA,
+      muxLiveStreamIdB: streamB.id,
+      muxPlaybackIdB: playbackIdB,
     });
 
-    // Re-render pages that depend on the new IDs.
     revalidatePath(`/debates/${debateId}`);
     revalidatePath("/admin");
 
     return NextResponse.json({
-      streamId: stream.id,
-      playbackId,
-      streamKey: stream.stream_key, // SECRET — show once, do not log.
       rtmpUrl: MUX_RTMP_URL,
+      a: {
+        debaterName: debate.debaterA.name,
+        streamId: streamA.id,
+        playbackId: playbackIdA,
+        streamKey: streamA.stream_key,
+      },
+      b: {
+        debaterName: debate.debaterB.name,
+        streamId: streamB.id,
+        playbackId: playbackIdB,
+        streamKey: streamB.stream_key,
+      },
     });
   } catch (err) {
     console.error("[admin/streams] Mux error:", err);
@@ -110,7 +127,7 @@ export async function POST(req: Request) {
         error:
           err instanceof Error
             ? err.message
-            : "Failed to create live stream",
+            : "Failed to create live streams",
       },
       { status: 500 },
     );

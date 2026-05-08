@@ -7,35 +7,40 @@ interface Props {
   hasStream: boolean;
 }
 
-interface CreatedStream {
+interface StreamCreds {
+  debaterName: string;
   streamId: string;
   playbackId: string;
   streamKey: string;
+}
+
+interface CreatedStreams {
   rtmpUrl: string;
+  a: StreamCreds;
+  b: StreamCreds;
 }
 
 /**
  * CreateStreamButton — admin-only control that POSTs to /api/admin/streams
- * to spin up a Mux live stream for a debate. On success, reveals the
- * RTMP URL + stream key for the operator to paste into OBS / studio
- * software. The stream key is shown ONCE — it's not persisted on the
- * debate. If lost, roll a new one in the Mux dashboard.
+ * and reveals the RTMP URL + per-debater stream keys for OBS / studio
+ * software. Stream keys are shown ONCE — they are not persisted on the
+ * debate. If lost, roll a new key in the Mux dashboard.
  */
 export default function CreateStreamButton({ debateId, hasStream }: Props) {
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [created, setCreated] = useState<CreatedStream | null>(null);
+  const [created, setCreated] = useState<CreatedStreams | null>(null);
 
   if (hasStream && !created) {
     return (
       <span className="inline-flex items-center gap-1.5 px-3 py-2 rounded-md border border-emerald-200 bg-emerald-50 text-emerald-700 text-[10px] font-bold uppercase tracking-widest whitespace-nowrap">
         <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
-        Stream ready
+        Streams ready
       </span>
     );
   }
 
-  async function createStream() {
+  async function createStreams() {
     setSubmitting(true);
     setError(null);
     try {
@@ -48,30 +53,32 @@ export default function CreateStreamButton({ debateId, hasStream }: Props) {
       if (!res.ok) {
         throw new Error(data.error || `Request failed (${res.status})`);
       }
-      setCreated(data as CreatedStream);
+      setCreated(data as CreatedStreams);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Failed to create stream");
+      setError(err instanceof Error ? err.message : "Failed to create streams");
     } finally {
       setSubmitting(false);
     }
   }
 
   if (created) {
-    return <StreamCredsPanel data={created} onClose={() => setCreated(null)} />;
+    return (
+      <CredsPanel data={created} onClose={() => setCreated(null)} />
+    );
   }
 
   return (
     <div className="flex flex-col items-end gap-1">
       <button
         type="button"
-        onClick={createStream}
+        onClick={createStreams}
         disabled={submitting}
         className="text-xs font-black uppercase tracking-widest text-white bg-brand-red hover:bg-red-700 disabled:opacity-50 px-3 py-2 rounded-md transition whitespace-nowrap"
       >
-        {submitting ? "Creating…" : "Create stream"}
+        {submitting ? "Creating…" : "Create streams"}
       </button>
       {error && (
-        <p className="text-brand-red text-[10px] font-semibold max-w-[200px] text-right">
+        <p className="text-brand-red text-[10px] font-semibold max-w-[240px] text-right">
           {error}
         </p>
       )}
@@ -79,11 +86,13 @@ export default function CreateStreamButton({ debateId, hasStream }: Props) {
   );
 }
 
-function StreamCredsPanel({
+/* ─────────────────────────────────────────────────────────────────── */
+
+function CredsPanel({
   data,
   onClose,
 }: {
-  data: CreatedStream;
+  data: CreatedStreams;
   onClose: () => void;
 }) {
   return (
@@ -91,12 +100,13 @@ function StreamCredsPanel({
       <div className="flex items-start justify-between gap-3 mb-3">
         <div>
           <p className="text-amber-900 text-[10px] font-black uppercase tracking-widest">
-            Stream key — shown once
+            Stream keys — shown once
           </p>
-          <p className="text-amber-800 text-xs mt-1">
-            Copy these into OBS / studio software now. Once you dismiss
-            this panel, the key is gone — roll a new one in the Mux
-            dashboard if you need it again.
+          <p className="text-amber-800 text-xs mt-1 leading-snug">
+            Each debater gets their own stream key. Send them privately
+            (signal/email) — never paste in a shared channel. Once you
+            dismiss this panel, the keys are gone. Roll fresh ones in
+            the Mux dashboard if needed.
           </p>
         </div>
         <button
@@ -108,8 +118,47 @@ function StreamCredsPanel({
           ×
         </button>
       </div>
-      <div className="grid grid-cols-1 gap-2">
-        <CopyRow label="RTMP URL" value={data.rtmpUrl} />
+
+      <div className="mb-3">
+        <CopyRow label="Shared RTMP URL" value={data.rtmpUrl} />
+      </div>
+
+      <SideCreds side="A" accent="brand-red" data={data.a} />
+      <div className="h-3" />
+      <SideCreds side="B" accent="brand-blue" data={data.b} />
+    </div>
+  );
+}
+
+function SideCreds({
+  side,
+  accent,
+  data,
+}: {
+  side: "A" | "B";
+  accent: "brand-red" | "brand-blue";
+  data: StreamCreds;
+}) {
+  const accentBorder =
+    accent === "brand-red" ? "border-brand-red/30" : "border-brand-blue/30";
+  const accentBg =
+    accent === "brand-red" ? "bg-brand-red/5" : "bg-brand-blue/5";
+  const accentText =
+    accent === "brand-red" ? "text-brand-red" : "text-brand-blue";
+
+  return (
+    <div className={`border ${accentBorder} ${accentBg} rounded-md p-3`}>
+      <div className="flex items-baseline gap-2 mb-2">
+        <span
+          className={`${accentText} text-[10px] font-black uppercase tracking-widest`}
+        >
+          Debater {side}
+        </span>
+        <span className="text-zinc-700 font-bold text-sm truncate">
+          {data.debaterName}
+        </span>
+      </div>
+      <div className="flex flex-col gap-1.5">
         <CopyRow label="Stream key" value={data.streamKey} mono />
         <CopyRow label="Playback ID" value={data.playbackId} mono />
       </div>

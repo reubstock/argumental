@@ -170,7 +170,13 @@ export default function AdminPage() {
                 </Link>
                 <CreateStreamButton
                   debateId={debate.id}
-                  hasStream={!!debate.muxLiveStreamId}
+                  hasStream={
+                    !!(
+                      debate.muxLiveStreamIdA ||
+                      debate.muxLiveStreamIdB ||
+                      debate.muxLiveStreamId
+                    )
+                  }
                 />
               </div>
             </div>

@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { getDebate } from "@/lib/debates";
 import VotePanel from "@/components/debate/VotePanel";
 import DebateTimer from "@/components/debate/DebateTimer";
+import PhasedDebatePlayer from "@/components/debate/PhasedDebatePlayer";
 import Panel from "@/components/Panel";
 import VideoPlayer from "@/components/VideoPlayer";
 import MuxPlayer from "@mux/mux-player-react";
@@ -17,6 +18,14 @@ export default async function DebatePage({ params }: Props) {
 
   const isLive = debate.status === "live";
   const isFinished = debate.status === "finished";
+
+  // Use the dual-stream phased player when both streams + a clock anchor
+  // exist. Otherwise fall back to single-stream Mux or the YouTube placeholder.
+  const isPhased = !!(
+    debate.muxPlaybackIdA &&
+    debate.muxPlaybackIdB &&
+    debate.liveStartedAt
+  );
 
   return (
     <div className="max-w-6xl mx-auto px-4 md:px-6 py-10 md:py-12 w-full">
@@ -76,8 +85,10 @@ export default async function DebatePage({ params }: Props) {
             </div>
           </div>
 
-          {/* Timer (live only) */}
-          {isLive && debate.currentPhase && (
+          {/* Timer (live only, single-stream / legacy mode) — the
+              dual-stream PhasedDebatePlayer has its own built-in
+              countdown overlay so we hide this panel in that mode. */}
+          {isLive && !isPhased && debate.currentPhase && (
             <Panel label="Live Clock" variant="dark">
               <div className="p-6 flex justify-center">
                 <DebateTimer
@@ -88,10 +99,19 @@ export default async function DebatePage({ params }: Props) {
             </Panel>
           )}
 
-          {/* Video player — Mux when a real stream exists, otherwise a
-              VideoPlayer whose pre-roll cover composes from the actual
-              debaters' photos so each bout reflects its participants. */}
-          {debate.muxPlaybackId ? (
+          {/* Video player — preference order:
+                1. Dual-stream phased player (auto-switches every 6 min)
+                2. Legacy single Mux stream
+                3. YouTube placeholder with debater pre-roll cover */}
+          {isPhased ? (
+            <PhasedDebatePlayer
+              playbackIdA={debate.muxPlaybackIdA!}
+              playbackIdB={debate.muxPlaybackIdB!}
+              debaterAName={debate.debaterA.name}
+              debaterBName={debate.debaterB.name}
+              liveStartedAt={debate.liveStartedAt!}
+            />
+          ) : debate.muxPlaybackId ? (
             <div className="rounded-md overflow-hidden bg-black aspect-video">
               <MuxPlayer
                 playbackId={debate.muxPlaybackId}
