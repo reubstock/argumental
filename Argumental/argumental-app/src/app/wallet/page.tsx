@@ -1,16 +1,29 @@
 import Panel from "@/components/Panel";
+import WalletCheckout from "@/components/WalletCheckout";
 
 export const metadata = {
   title: "Argumental — Load Wallet",
   description:
-    "How wallet loading works on Argumental. Powered by Stripe. $10/week vote cap, preload up to $100 for future weeks.",
+    "Load your Argumental wallet via Stripe Checkout. $10/week vote cap, preload up to $100 for future weeks.",
 };
 
 const WEEKLY_CAP = 10;
 const PRELOAD_MAX = 100;
 const WEEKS_COVERED = PRELOAD_MAX / WEEKLY_CAP;
 
-export default function WalletPage() {
+export default async function WalletPage({
+  searchParams,
+}: {
+  searchParams: Promise<{
+    status?: string;
+    amount?: string;
+    session_id?: string;
+  }>;
+}) {
+  const sp = await searchParams;
+  const status = sp.status;
+  const amount = sp.amount;
+
   return (
     <div className="max-w-5xl mx-auto px-4 md:px-6 py-5 md:py-8 w-full">
       {/* Header */}
@@ -19,11 +32,24 @@ export default function WalletPage() {
           Load Wallet
         </h1>
         <p className="text-zinc-500 text-xs md:text-sm flex items-center gap-1.5 flex-wrap">
-          Vote on bouts you care about · powered by <StripeBadge />.
+          Vote on bouts you care about · powered by{" "}
+          <span className="text-[#635BFF] font-black tracking-tight">
+            stripe
+          </span>
+          .
         </p>
       </div>
 
-      {/* 3-step process */}
+      {/* Return-from-Stripe status banner */}
+      {status === "success" && <SuccessBanner amount={amount} />}
+      {status === "cancelled" && <CancelledBanner />}
+
+      {/* PRIMARY ACTION — amount picker + Stripe redirect */}
+      <div className="mb-6">
+        <WalletCheckout />
+      </div>
+
+      {/* 3-step process explainer */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-6">
         <StepCard
           n="01"
@@ -76,25 +102,81 @@ export default function WalletPage() {
           />
         </div>
       </Panel>
+    </div>
+  );
+}
 
-      {/* CTA */}
-      <div className="mt-6 flex flex-col sm:flex-row items-start sm:items-center gap-3">
-        <button
-          type="button"
-          className="bg-black hover:bg-zinc-800 text-white font-black uppercase tracking-widest text-xs px-5 py-3 rounded-md transition inline-flex items-center gap-2"
-        >
-          Load wallet with <StripeBadge inverted />
-          <span aria-hidden>→</span>
-        </button>
-        <p className="text-zinc-400 text-[11px] uppercase tracking-widest font-bold">
-          PCI-compliant · 100 % handled by Stripe
+/* ─────────────────────────────────────────────────────────────────── */
+
+function SuccessBanner({ amount }: { amount?: string }) {
+  const safe = amount && /^\d+$/.test(amount) ? amount : null;
+  return (
+    <div
+      role="status"
+      className="border border-emerald-200 bg-emerald-50 text-emerald-800 px-4 py-3 rounded-md mb-6 flex items-start gap-3"
+    >
+      <svg
+        width="20"
+        height="20"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        className="mt-0.5 shrink-0"
+      >
+        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+        <polyline points="22 4 12 14.01 9 11.01" />
+      </svg>
+      <div className="flex-1 min-w-0">
+        <p className="font-black uppercase tracking-widest text-[11px]">
+          Wallet loaded
+        </p>
+        <p className="text-sm mt-0.5">
+          {safe
+            ? `Thanks — $${safe} is now on your wallet, good for ~${
+                Number(safe) / WEEKLY_CAP
+              } week${Number(safe) / WEEKLY_CAP === 1 ? "" : "s"} of voting.`
+            : "Thanks — your wallet is loaded and ready to vote."}
         </p>
       </div>
     </div>
   );
 }
 
-/* ─────────────────────────────────────────────────────────────────── */
+function CancelledBanner() {
+  return (
+    <div
+      role="status"
+      className="border border-zinc-200 bg-zinc-50 text-zinc-700 px-4 py-3 rounded-md mb-6 flex items-start gap-3"
+    >
+      <svg
+        width="20"
+        height="20"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        className="mt-0.5 shrink-0"
+      >
+        <circle cx="12" cy="12" r="10" />
+        <line x1="12" y1="8" x2="12" y2="12" />
+        <line x1="12" y1="16" x2="12.01" y2="16" />
+      </svg>
+      <div>
+        <p className="font-black uppercase tracking-widest text-[11px]">
+          Checkout cancelled
+        </p>
+        <p className="text-sm mt-0.5">
+          No charge was made. Pick an amount below to try again.
+        </p>
+      </div>
+    </div>
+  );
+}
 
 function StepCard({
   n,
@@ -118,7 +200,9 @@ function StepCard({
   return (
     <div className="border border-zinc-200 rounded-md bg-white p-5 flex flex-col gap-3">
       <div className="flex items-start justify-between">
-        <span className={`${numCls} font-black tabular-nums text-2xl leading-none`}>
+        <span
+          className={`${numCls} font-black tabular-nums text-2xl leading-none`}
+        >
           {n}
         </span>
         <div className="text-zinc-300">{children}</div>
@@ -148,24 +232,6 @@ function LimitStat({
       </p>
       <p className="text-zinc-500 text-[11px] mt-1">{sub}</p>
     </div>
-  );
-}
-
-/**
- * StripeBadge — uses Stripe's brand purple (#635BFF). The lowercase
- * "stripe" wordmark is widely-recognized; we render it as text in
- * their brand color rather than embedding their full SVG mark.
- */
-function StripeBadge({ inverted = false }: { inverted?: boolean }) {
-  if (inverted) {
-    return (
-      <span className="inline-flex items-center bg-[#635BFF] text-white px-2 py-0.5 rounded text-xs font-bold lowercase tracking-tight">
-        stripe
-      </span>
-    );
-  }
-  return (
-    <span className="text-[#635BFF] font-black tracking-tight">stripe</span>
   );
 }
 
