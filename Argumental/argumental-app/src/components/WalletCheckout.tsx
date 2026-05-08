@@ -85,7 +85,7 @@ export default function WalletCheckout() {
             type="button"
             onClick={loadWallet}
             disabled={submitting}
-            className="bg-black hover:bg-zinc-800 disabled:opacity-50 text-white font-black uppercase tracking-widest text-xs px-5 py-3 rounded-md transition inline-flex items-center justify-center gap-2"
+            className="bg-[#635BFF] hover:bg-[#5147E5] disabled:opacity-50 text-white font-black uppercase tracking-widest text-xs px-5 py-3 rounded-md transition inline-flex items-center justify-center gap-2 shadow-sm shadow-[#635BFF]/20"
           >
             {submitting ? (
               <>Redirecting…</>
