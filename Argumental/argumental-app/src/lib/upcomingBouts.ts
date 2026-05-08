@@ -53,6 +53,26 @@ export const UPCOMING_BOUTS: UpcomingBout[] = [
   },
   {
     scheduledAt: sundayAt8pmEdt(2026, 5, 17),
+    topic: "The US Should Support Universal Basic Income for All Citizens",
+    // Yang (FOR UBI) on the blue side per the founder's call —
+    // breaking the usual debaterA=FOR convention deliberately.
+    debaterA: {
+      name: "Vivek Ramaswamy",
+      position: "AGAINST",
+      photo: "/debaters/ramaswamy.jpg",
+    },
+    debaterB: {
+      name: "Andrew Yang",
+      position: "FOR",
+      photo: "/debaters/yang.jpg",
+    },
+    debateId: "ubi-001",
+    // Public polling on UBI runs net-negative; Yang (blue) starts an
+    // underdog. oddsB = 38 → needle leans toward Vivek (red).
+    oddsB: 38,
+  },
+  {
+    scheduledAt: sundayAt8pmEdt(2026, 5, 24),
     topic: "A Woman is a Person with 2 X Chromosomes",
     debaterA: {
       name: "Matt Walsh",
@@ -68,7 +88,7 @@ export const UPCOMING_BOUTS: UpcomingBout[] = [
     oddsB: 65,
   },
   {
-    scheduledAt: sundayAt8pmEdt(2026, 5, 24),
+    scheduledAt: sundayAt8pmEdt(2026, 5, 31),
     topic: "The US Should Defund the Police",
     debaterA: {
       name: "Ilhan Omar",
@@ -83,7 +103,6 @@ export const UPCOMING_BOUTS: UpcomingBout[] = [
     debateId: "defund-001",
     oddsB: 76,
   },
-  { scheduledAt: sundayAt8pmEdt(2026, 5, 31) },
   { scheduledAt: sundayAt8pmEdt(2026, 6, 7) },
   { scheduledAt: sundayAt8pmEdt(2026, 6, 14) },
   { scheduledAt: sundayAt8pmEdt(2026, 6, 21) },
