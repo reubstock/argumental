@@ -212,7 +212,7 @@ export default function UpcomingPage() {
               Upcoming Bouts
             </h1>
             <p className="text-zinc-500 text-sm mt-2">
-              Every Sunday at 8 PM ET. {future.length} bouts on the board.
+              Every Sunday at 8 PM ET. {future.length} bouts scheduled.
             </p>
           </div>
           <div className="flex items-center gap-2">
@@ -237,7 +237,7 @@ export default function UpcomingPage() {
         <div className="max-w-5xl mx-auto flex flex-col gap-2">
           {future.length === 0 ? (
             <div className="text-center text-zinc-500 py-12 border border-zinc-200 rounded-md bg-white">
-              No upcoming bouts on the board.
+              No upcoming bouts scheduled.
             </div>
           ) : (
             future.map((b) => <BoutRow key={b.scheduledAt} bout={b} />)
