@@ -3,6 +3,7 @@ import { getDebate } from "@/lib/debates";
 import VotePanel from "@/components/debate/VotePanel";
 import DebateTimer from "@/components/debate/DebateTimer";
 import Panel from "@/components/Panel";
+import VideoPlayer from "@/components/VideoPlayer";
 import MuxPlayer from "@mux/mux-player-react";
 
 interface Props {
@@ -87,7 +88,9 @@ export default async function DebatePage({ params }: Props) {
             </Panel>
           )}
 
-          {/* Video player */}
+          {/* Video player — Mux when a real stream exists, otherwise the
+              same Shapiro/AOC cover-graphic VideoPlayer used on the
+              homepage and the /outcomes Current verdict. */}
           {debate.muxPlaybackId ? (
             <div className="rounded-md overflow-hidden bg-black aspect-video">
               <MuxPlayer
@@ -99,20 +102,16 @@ export default async function DebatePage({ params }: Props) {
               />
             </div>
           ) : (
-            <Panel variant="dark">
-              <div className="aspect-video flex items-center justify-center">
-                <div className="text-center">
-                  <p className="text-zinc-300 font-semibold text-lg">
-                    {isLive ? "Stream starting…" : "Stream not yet available"}
-                  </p>
-                  {!isLive && (
-                    <p className="text-zinc-500 text-sm mt-1">
-                      Live video will appear here when the debate begins.
-                    </p>
-                  )}
-                </div>
-              </div>
-            </Panel>
+            <VideoPlayer
+              youtubeId="YQ7IudJBpf0"
+              debaterAName={debate.debaterA.name}
+              debaterAPhoto="/shapiro.jpg"
+              debaterAPosition={debate.debaterA.position}
+              debaterBName={debate.debaterB.name}
+              debaterBPhoto="/aoc.jpg"
+              debaterBPosition={debate.debaterB.position}
+              isLive={isLive}
+            />
           )}
         </div>
 
