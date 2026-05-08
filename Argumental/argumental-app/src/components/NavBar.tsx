@@ -22,7 +22,7 @@ export default function NavBar() {
     "block px-4 py-3 uppercase tracking-wide text-sm font-medium text-zinc-900 hover:bg-zinc-50";
 
   return (
-    <nav className="border-b border-zinc-200 px-3 md:px-6 py-2.5 md:py-4 relative">
+    <nav className="sticky top-0 z-30 bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/80 border-b border-zinc-200 px-3 md:px-6 py-2.5 md:py-4">
       <div className="max-w-6xl mx-auto flex items-center justify-between gap-2">
         <Link
           href="/"
