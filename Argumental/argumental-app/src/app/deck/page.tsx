@@ -4,10 +4,10 @@ import Image from "next/image";
 export const metadata = {
   title: "Argumental — Investor Deck",
   description:
-    "The Path to Peace Begins with an Argument. A 12-section investor brief on the world's first professional debate league.",
+    "The Path to Peace Begins with an Argument. A 14-section investor brief on the world's first professional debate league.",
 };
 
-const TOTAL = 12;
+const TOTAL = 14;
 
 /**
  * Editorial-style single-page deck. Numbered badges, HR dividers, whitespace-
@@ -649,18 +649,137 @@ export default function DeckPage() {
         </p>
       </Section>
 
-      {/* 12 — Ask */}
+      {/* 12 — Growth Plan */}
+      <Section
+        n={12}
+        kicker="Growth Plan"
+        title="Hand-picked debaters with audiences. Paid search to amplify."
+      >
+        <ul className="divide-y divide-zinc-200 border-y border-zinc-200 mb-8">
+          {[
+            {
+              h: "Pay top-of-class debaters",
+              p: "Per-bout honorariums tied to category seniority — the league pays its talent. Signals seriousness, attracts the names that move ratings, and lets us book them across multiple bouts to compound momentum.",
+            },
+            {
+              h: "$10K / month paid search",
+              p: "Google + Meta acquisition aimed at the topical demand that already exists for every bout — \"is Israel justified\", \"defund the police\", \"UBI\". We meet that intent with the bout, not a think-piece.",
+            },
+            {
+              h: "High-profile recruits with audiences",
+              p: "Each debater brings 100K–10M followers on day one. They promote their own bouts to their own audiences — every booking is a built-in distribution event. Net new viewers without traditional media spend.",
+            },
+            {
+              h: "The flywheel",
+              p: "Bigger names → bigger audiences → bigger sponsor packages → bigger honorariums → bigger names. Paid search and creator marketing seed the loop until it spins on its own.",
+            },
+          ].map((c, i) => (
+            <li key={i} className="py-5 grid grid-cols-1 md:grid-cols-3 gap-2 md:gap-6">
+              <p className="text-zinc-900 font-bold text-base md:text-lg">
+                {c.h}
+              </p>
+              <p className="text-zinc-600 text-sm md:text-base md:col-span-2 leading-relaxed">
+                {c.p}
+              </p>
+            </li>
+          ))}
+        </ul>
+        <p className="text-zinc-700 text-base md:text-lg leading-relaxed max-w-3xl">
+          Acquisition cost falls to{" "}
+          <span className="text-zinc-900 font-bold">near zero per viewer</span>{" "}
+          once the format compounds — debaters do the work of an unpaid sales
+          team, in public, every Sunday.
+        </p>
+      </Section>
+
+      {/* 13 — Financial Model */}
+      <Section
+        n={13}
+        kicker="The Numbers"
+        title="Three-year model. Investor-grade."
+      >
+        {/* Headline year-by-year */}
+        <div className="grid grid-cols-2 md:grid-cols-4 border-y border-zinc-200 mb-6 md:mb-8">
+          {[
+            { kicker: "Y1 Revenue", value: "$173K", sub: "Voting only" },
+            { kicker: "Y2 Revenue", value: "$1.56M", sub: "First sponsors" },
+            { kicker: "Y3 Revenue", value: "$5.9M", sub: "Full sponsor cadence" },
+            { kicker: "3-Yr Total", value: "$7.6M", sub: "Pre-tax, pre-IP" },
+          ].map((s) => (
+            <div
+              key={s.kicker}
+              className="border-r last:border-r-0 border-zinc-200 px-3 md:px-4 py-4 md:py-5"
+            >
+              <p className="text-zinc-400 text-[10px] uppercase tracking-widest font-black">
+                {s.kicker}
+              </p>
+              <p className="text-zinc-900 font-black text-2xl md:text-4xl tabular-nums leading-none mt-1.5">
+                {s.value}
+              </p>
+              <p className="text-zinc-500 text-[11px] mt-1.5">{s.sub}</p>
+            </div>
+          ))}
+        </div>
+
+        {/* What's in / what's out */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 mb-6 md:mb-8">
+          <div className="border border-zinc-200 rounded-md p-4 md:p-5">
+            <p className="text-brand-red text-[10px] uppercase tracking-widest font-black mb-2">
+              Built into the model
+            </p>
+            <ul className="text-zinc-700 text-sm md:text-base space-y-1.5 leading-relaxed">
+              <li>· Voting revenue gated by viewer reach</li>
+              <li>· Sponsor revenue ramping in Year 2</li>
+              <li>· Mux delivery scaling with viewers</li>
+              <li>· 18% charity payout as COGS</li>
+              <li>· Debater honorariums per bout</li>
+              <li>· $10K/mo paid search Year 1, ramping</li>
+              <li>· Headcount, G&amp;A, legal, infra</li>
+            </ul>
+          </div>
+          <div className="border border-zinc-200 rounded-md p-4 md:p-5">
+            <p className="text-brand-blue text-[10px] uppercase tracking-widest font-black mb-2">
+              Treated as upside, not assumed
+            </p>
+            <ul className="text-zinc-700 text-sm md:text-base space-y-1.5 leading-relaxed">
+              <li>· International format licensing</li>
+              <li>· On-demand archive monetization</li>
+              <li>· White-label league for institutions</li>
+              <li>· Live-event ticketing (championship bouts)</li>
+              <li>· Branded merch + book deals</li>
+            </ul>
+          </div>
+        </div>
+
+        <div className="flex flex-col sm:flex-row gap-3 items-start">
+          <a
+            href="/argumental-financial-model.xlsx"
+            download
+            className="bg-black hover:bg-zinc-800 text-white font-black uppercase tracking-widest text-xs md:text-sm px-5 py-3 rounded-md transition inline-flex items-center gap-2"
+          >
+            Download model (.xlsx)
+            <span aria-hidden>↓</span>
+          </a>
+          <p className="text-zinc-500 text-xs md:text-sm leading-relaxed max-w-2xl pt-2">
+            Five tabs: assumptions, audience ramp, P&amp;L, unit economics.
+            Every input is a pale-blue cell — change one, the whole model
+            re-flows. Stress-test the case yourself.
+          </p>
+        </div>
+      </Section>
+
+      {/* 14 — Ask */}
       <section
-        id="s12"
+        id="s14"
         className="border-t border-zinc-200 px-4 md:px-12 py-12 md:py-28"
       >
         <div className="max-w-4xl mx-auto">
           <header className="flex items-baseline gap-3 md:gap-6 mb-5 md:mb-10">
             <span className="text-zinc-400 text-base md:text-lg font-black tabular-nums">
-              12
+              14
             </span>
             <span className="text-zinc-400 text-[10px] md:text-xs uppercase tracking-widest font-black">
-              12 / {String(TOTAL).padStart(2, "0")}
+              14 / {String(TOTAL).padStart(2, "0")}
             </span>
           </header>
           <p className="text-black text-[11px] md:text-xs uppercase tracking-widest font-black mb-3">
