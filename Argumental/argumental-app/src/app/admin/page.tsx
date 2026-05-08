@@ -2,6 +2,7 @@ import { getAllDebates } from "@/lib/debates";
 import { hasPersistentStorage } from "@/lib/charities";
 import Link from "next/link";
 import Panel from "@/components/Panel";
+import CreateStreamButton from "@/components/admin/CreateStreamButton";
 
 export const dynamic = "force-dynamic";
 
@@ -154,7 +155,7 @@ export default function AdminPage() {
                   total votes
                 </p>
               </div>
-              <div className="flex gap-2 shrink-0">
+              <div className="flex gap-2 shrink-0 items-start">
                 <Link
                   href={`/debates/${debate.id}`}
                   className="text-xs font-black uppercase tracking-widest text-zinc-700 bg-white hover:bg-zinc-50 border border-zinc-300 hover:border-black px-3 py-2 rounded-md transition"
@@ -167,6 +168,10 @@ export default function AdminPage() {
                 >
                   Studio
                 </Link>
+                <CreateStreamButton
+                  debateId={debate.id}
+                  hasStream={!!debate.muxLiveStreamId}
+                />
               </div>
             </div>
           </Panel>
