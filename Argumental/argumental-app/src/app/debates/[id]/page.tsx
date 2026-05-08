@@ -88,9 +88,9 @@ export default async function DebatePage({ params }: Props) {
             </Panel>
           )}
 
-          {/* Video player — Mux when a real stream exists, otherwise the
-              same Shapiro/AOC cover-graphic VideoPlayer used on the
-              homepage and the /outcomes Current verdict. */}
+          {/* Video player — Mux when a real stream exists, otherwise a
+              VideoPlayer whose pre-roll cover composes from the actual
+              debaters' photos so each bout reflects its participants. */}
           {debate.muxPlaybackId ? (
             <div className="rounded-md overflow-hidden bg-black aspect-video">
               <MuxPlayer
@@ -105,10 +105,10 @@ export default async function DebatePage({ params }: Props) {
             <VideoPlayer
               youtubeId="YQ7IudJBpf0"
               debaterAName={debate.debaterA.name}
-              debaterAPhoto="/shapiro.jpg"
+              debaterAPhoto={debate.debaterA.photoUrl ?? "/shapiro.jpg"}
               debaterAPosition={debate.debaterA.position}
               debaterBName={debate.debaterB.name}
-              debaterBPhoto="/aoc.jpg"
+              debaterBPhoto={debate.debaterB.photoUrl ?? "/aoc.jpg"}
               debaterBPosition={debate.debaterB.position}
               isLive={isLive}
             />
