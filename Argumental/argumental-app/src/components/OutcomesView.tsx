@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Panel from "@/components/Panel";
+import VideoPlayer from "@/components/VideoPlayer";
 
 type Tab = "current" | "historical";
 
@@ -73,17 +74,22 @@ function CurrentVerdicts() {
           </h2>
         </div>
 
-        {/* Watch + scoreboard: thumbnail player on the left, stacked
-            debater cards on the right. Stacks on mobile. */}
-        <div className="grid grid-cols-1 md:grid-cols-5 gap-4 md:gap-5">
-          <div className="md:col-span-3">
-            <ArgumentalPlayer
-              videoId="YQ7IudJBpf0"
-              title="Replay · Does Israel Have the Right to Exist?"
-              status="Replay"
+        {/* Watch + scoreboard: half-size replay player on the left
+            (uses the same Shapiro/AOC cover graphic as the homepage),
+            stacked debater cards on the right. Stacks on mobile. */}
+        <div className="grid grid-cols-1 md:grid-cols-5 gap-4 md:gap-5 items-start">
+          <div className="md:col-span-2 max-w-xs md:max-w-none">
+            <VideoPlayer
+              youtubeId="YQ7IudJBpf0"
+              debaterAName="Ben Shapiro"
+              debaterAPhoto="/shapiro.jpg"
+              debaterAPosition="FOR"
+              debaterBName="Alexandria Ocasio-Cortez"
+              debaterBPhoto="/aoc.jpg"
+              debaterBPosition="AGAINST"
             />
           </div>
-          <div className="md:col-span-2 flex flex-col gap-3">
+          <div className="md:col-span-3 flex flex-col gap-3">
             <DebaterPanel
               side="A"
               name="Ben Shapiro"
