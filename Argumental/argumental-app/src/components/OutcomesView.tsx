@@ -73,28 +73,35 @@ function CurrentVerdicts() {
           </h2>
         </div>
 
-        {/* Two debater cards with the winner-side highlighted */}
-        <div className="grid grid-cols-1 md:grid-cols-[1fr_auto_1fr] gap-4 md:gap-5 items-stretch">
-          <DebaterPanel
-            side="A"
-            name="Ben Shapiro"
-            position="FOR"
-            photo="/shapiro.jpg"
-            votes={VOTES_A}
-            pct={PCT_A}
-            isWinner
-          />
-          <div className="hidden md:flex items-center justify-center text-zinc-300 text-2xl font-black">
-            vs
+        {/* Watch + scoreboard: thumbnail player on the left, stacked
+            debater cards on the right. Stacks on mobile. */}
+        <div className="grid grid-cols-1 md:grid-cols-5 gap-4 md:gap-5">
+          <div className="md:col-span-3">
+            <ArgumentalPlayer
+              videoId="YQ7IudJBpf0"
+              title="Replay · Does Israel Have the Right to Exist?"
+              status="Replay"
+            />
           </div>
-          <DebaterPanel
-            side="B"
-            name="Alexandria Ocasio-Cortez"
-            position="AGAINST"
-            photo="/aoc.jpg"
-            votes={VOTES_B}
-            pct={PCT_B}
-          />
+          <div className="md:col-span-2 flex flex-col gap-3">
+            <DebaterPanel
+              side="A"
+              name="Ben Shapiro"
+              position="FOR"
+              photo="/shapiro.jpg"
+              votes={VOTES_A}
+              pct={PCT_A}
+              isWinner
+            />
+            <DebaterPanel
+              side="B"
+              name="Alexandria Ocasio-Cortez"
+              position="AGAINST"
+              photo="/aoc.jpg"
+              votes={VOTES_B}
+              pct={PCT_B}
+            />
+          </div>
         </div>
 
         {/* Tally bar */}
@@ -370,20 +377,22 @@ function HistoricalDebates() {
 
 /**
  * ArgumentalPlayer — a 16:9 YouTube embed framed as an Argumental player:
- * dark surface, small "● ARCHIVE" status pill, title below the video.
+ * dark surface, small status pill, title beside it.
  */
 function ArgumentalPlayer({
   videoId,
   title,
+  status = "Archive",
 }: {
   videoId: string;
   title: string;
+  status?: string;
 }) {
   return (
-    <div className="flex flex-col h-full">
+    <div className="flex flex-col rounded-md overflow-hidden border border-zinc-800 bg-black">
       <div className="px-3 py-1.5 flex items-center gap-2 bg-zinc-950 border-b border-zinc-800">
         <span className="bg-zinc-700 text-white text-[9px] font-black uppercase tracking-widest px-2 py-0.5 rounded-full">
-          ● Archive
+          ● {status}
         </span>
         <span className="text-zinc-400 text-[10px] uppercase tracking-widest font-black truncate">
           {title}
