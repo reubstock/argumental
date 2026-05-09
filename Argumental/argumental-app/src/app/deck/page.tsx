@@ -762,7 +762,7 @@ export default function DeckPage() {
               <li>· Sponsor revenue ramping in Year 2</li>
               <li>· Mux delivery scaling with live + replay</li>
               <li>· 18% charity payout as COGS</li>
-              <li>· Debater honorariums per bout</li>
+              <li>· Debater honorariums capped at $25K/bout</li>
               <li>· $10K/mo paid search Year 1, ramping</li>
               <li>· Headcount, G&amp;A, legal, infra</li>
             </ul>
@@ -781,19 +781,25 @@ export default function DeckPage() {
           </div>
         </div>
 
-        <div className="flex flex-col sm:flex-row gap-3 items-start">
+        <div className="flex flex-col sm:flex-row gap-3 items-start flex-wrap">
+          <a
+            href="/model"
+            className="bg-black hover:bg-zinc-800 text-white font-black uppercase tracking-widest text-xs md:text-sm px-5 py-3 rounded-md transition inline-flex items-center gap-2"
+          >
+            View on-page summary
+            <span aria-hidden>→</span>
+          </a>
           <a
             href="/argumental-financial-model.xlsx"
             download
-            className="bg-black hover:bg-zinc-800 text-white font-black uppercase tracking-widest text-xs md:text-sm px-5 py-3 rounded-md transition inline-flex items-center gap-2"
+            className="border border-zinc-300 hover:border-black text-zinc-900 font-black uppercase tracking-widest text-xs md:text-sm px-5 py-3 rounded-md transition inline-flex items-center gap-2"
           >
-            Download model (.xlsx)
+            Download .xlsx
             <span aria-hidden>↓</span>
           </a>
           <p className="text-zinc-500 text-xs md:text-sm leading-relaxed max-w-2xl pt-2">
-            Five tabs: assumptions, audience ramp, P&amp;L, unit economics.
-            Every input is a pale-blue cell — change one, the whole model
-            re-flows. Stress-test the case yourself.
+            On-page summary shows inputs, revenue, variable costs, gross
+            margin. Spreadsheet adds fixed opex, EBITDA, unit economics.
           </p>
         </div>
       </Section>
