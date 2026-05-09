@@ -1,14 +1,59 @@
 import type { ReactNode } from "react";
 import Image from "next/image";
-import Link from "next/link";
 import {
   INPUTS,
   TARGETS,
-  TOTAL_REVENUE,
   fmtNumCompact,
-  fmtUSD,
-  sum3,
+  getModel,
 } from "@/lib/financialModel";
+import FinancialModelSection, {
+  type DeckCase,
+} from "@/components/deck/FinancialModelSection";
+
+// Pre-compute both scenarios for the client-side toggle on slide 13.
+const aggressiveModel = getModel("aggressive");
+const conservativeModel = getModel("conservative");
+
+const AGGRESSIVE_CASE: DeckCase = {
+  key: "aggressive",
+  label: "Aggressive",
+  totalRevenue: aggressiveModel.totalRevenue,
+  builtInLabel: "Built into the aggressive case",
+  builtInItems: [
+    "Voting revenue gated by live viewer reach",
+    "Sponsorship — title slots, category exclusives",
+    "Premium tier — $7/mo archive + AMAs",
+    "Live championship ticketing",
+    "Merch + international licensing",
+    "80% off-platform replay (FB · TikTok · YouTube)",
+    "YouTube ad share at $1.50 CPM",
+    "Honoraria: $10K Y1, then 5%/3% of purse",
+    "Lean headcount: 4 → 7 → 10 FTE",
+    "Mux enterprise rate by Y3",
+  ],
+  altSummary:
+    "Voting revenue only. No sponsorship, no platform extensions, no off-platform distribution. Headcount runs full at 14 FTE by Y3. Shows the league's economics before any growth lever is pulled.",
+};
+
+const CONSERVATIVE_CASE: DeckCase = {
+  key: "conservative",
+  label: "Conservative",
+  totalRevenue: conservativeModel.totalRevenue,
+  builtInLabel: "Built into the conservative case",
+  builtInItems: [
+    "Voting revenue gated by live viewer reach",
+    "18% charity payout as COGS",
+    "Honoraria: $10K Y1, then 5%/3% of purse",
+    "Mux delivers 100% of viewing (live + replay)",
+    "Headcount runs full: 4 → 8 → 14 FTE",
+    "$10K/mo paid search Y1, ramping",
+    "No sponsorship modeled",
+    "No premium subs · ticketing · merch · licensing",
+    "No off-platform distribution or ad share",
+  ],
+  altSummary:
+    "All Tier 1+2+3 levers active: sponsorship, premium tier, ticketing, merch, licensing, 80% off-platform replay, YouTube ad share, lean headcount, Mux enterprise rate by Y3. Closes the EBITDA gap.",
+};
 
 export const metadata = {
   title: "Argumental — Investor Deck",
@@ -721,107 +766,13 @@ export default function DeckPage() {
         kicker="The Numbers"
         title="Three-year model. Investor-grade."
       >
-        {/* Headline year-by-year (sourced from lib/financialModel) */}
-        <div className="grid grid-cols-2 md:grid-cols-4 border-y border-zinc-200 mb-4">
-          {[
-            { kicker: "Y1 Revenue", value: fmtUSD(TOTAL_REVENUE[0]), sub: "Voting only" },
-            { kicker: "Y2 Revenue", value: fmtUSD(TOTAL_REVENUE[1]), sub: "Audience compounding" },
-            { kicker: "Y3 Revenue", value: fmtUSD(TOTAL_REVENUE[2]), sub: "Full league cadence" },
-            { kicker: "3-Yr Total", value: fmtUSD(sum3(TOTAL_REVENUE)), sub: "Voting · pre-sponsor" },
-          ].map((s) => (
-            <div
-              key={s.kicker}
-              className="border-r last:border-r-0 border-zinc-200 px-3 md:px-4 py-4 md:py-5"
-            >
-              <p className="text-zinc-400 text-[10px] uppercase tracking-widest font-black">
-                {s.kicker}
-              </p>
-              <p className="text-zinc-900 font-black text-2xl md:text-4xl tabular-nums leading-none mt-1.5">
-                {s.value}
-              </p>
-              <p className="text-zinc-500 text-[11px] mt-1.5">{s.sub}</p>
-            </div>
-          ))}
-        </div>
-
-        {/* Reach context — anchors the revenue ramp in audience numbers
-            (all figures sourced from lib/financialModel) */}
-        <p className="text-zinc-500 text-xs md:text-sm leading-relaxed mb-6 md:mb-8">
-          Driven by{" "}
-          <span className="text-zinc-900 font-bold">
-            {fmtNumCompact(INPUTS.liveViewers[0])} →{" "}
-            {fmtNumCompact(TARGETS.liveViewersEOY1)} live viewers / bout
-          </span>{" "}
-          across Y1, with a{" "}
-          <span className="text-zinc-900 font-bold">
-            {INPUTS.replayMultiplier[0]}× replay multiplier
-          </span>
-          {" "}— total reach of{" "}
-          <span className="text-zinc-900 font-bold">
-            {1 + INPUTS.replayMultiplier[0]}× live
-          </span>{" "}
-          per bout. Revenue is voting only; sponsorship is upside.
-        </p>
-
-        {/* What's in / what's out */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 mb-6 md:mb-8">
-          <div className="border border-zinc-200 rounded-md p-4 md:p-5">
-            <p className="text-brand-red text-[10px] uppercase tracking-widest font-black mb-2">
-              Built into the aggressive case
-            </p>
-            <ul className="text-zinc-700 text-sm md:text-base space-y-1.5 leading-relaxed">
-              <li>· Voting revenue gated by live viewer reach</li>
-              <li>· Sponsorship — title slots, category exclusives</li>
-              <li>· Premium tier — $7/mo archive + AMAs</li>
-              <li>· Live championship ticketing</li>
-              <li>· Merch + international licensing</li>
-              <li>· 80% off-platform replay (FB · TikTok · YouTube)</li>
-              <li>· YouTube ad share at $1.50 CPM</li>
-              <li>· Honoraria: $10K Y1, then 5%/3% of purse</li>
-              <li>· Lean headcount: 4 → 7 → 10 FTE</li>
-              <li>· Mux enterprise rate by Y3</li>
-            </ul>
-          </div>
-          <div className="border border-zinc-200 rounded-md p-4 md:p-5">
-            <p className="text-brand-blue text-[10px] uppercase tracking-widest font-black mb-2">
-              Conservative floor case
-            </p>
-            <p className="text-zinc-700 text-sm md:text-base leading-relaxed">
-              Voting revenue only. No sponsorship, no platform extensions,
-              no off-platform distribution. Headcount runs full at 14 FTE
-              by Y3. The floor case shows the league&apos;s economics
-              before any growth lever is pulled.
-            </p>
-            <Link
-              href="/model?scenario=conservative"
-              className="text-brand-blue hover:text-blue-700 text-xs font-black uppercase tracking-widest mt-3 inline-flex items-center gap-1.5"
-            >
-              See conservative numbers →
-            </Link>
-          </div>
-        </div>
-
-        <div className="flex flex-col sm:flex-row gap-3 items-start flex-wrap">
-          <a
-            href="/model"
-            className="bg-black hover:bg-zinc-800 text-white font-black uppercase tracking-widest text-xs md:text-sm px-5 py-3 rounded-md transition inline-flex items-center gap-2"
-          >
-            View on-page summary
-            <span aria-hidden>→</span>
-          </a>
-          <a
-            href="/argumental-financial-model.xlsx"
-            download
-            className="border border-zinc-300 hover:border-black text-zinc-900 font-black uppercase tracking-widest text-xs md:text-sm px-5 py-3 rounded-md transition inline-flex items-center gap-2"
-          >
-            Download .xlsx
-            <span aria-hidden>↓</span>
-          </a>
-          <p className="text-zinc-500 text-xs md:text-sm leading-relaxed max-w-2xl pt-2">
-            On-page summary shows inputs, revenue, variable costs, gross
-            margin. Spreadsheet adds fixed opex, EBITDA, unit economics.
-          </p>
-        </div>
+        <FinancialModelSection
+          aggressive={AGGRESSIVE_CASE}
+          conservative={CONSERVATIVE_CASE}
+          liveViewersY1Avg={INPUTS.liveViewers[0]}
+          liveViewersEOY1Target={TARGETS.liveViewersEOY1}
+          replayMultiplier={INPUTS.replayMultiplier[0]}
+        />
       </Section>
 
       {/* 14 — Ask */}
