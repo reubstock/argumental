@@ -341,7 +341,7 @@ function HistoricalDebates() {
         <div className="grid grid-cols-1 md:grid-cols-5">
           <div className="md:col-span-2 bg-black">
             <ArgumentalPlayer
-              videoId="X43cYpLnlu8"
+              videoId="AYP8-oxq8ig"
               title="Kennedy vs. Nixon — 1960 Presidential Debate"
             />
           </div>
