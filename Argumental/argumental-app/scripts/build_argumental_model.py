@@ -41,6 +41,7 @@ A = DATA["audience"]
 V = DATA["variableCosts"]
 FX = DATA["fixedCosts"]
 B = DATA["audienceBehavior"]
+H = V["honorarium"]
 
 # ── Style ─────────────────────────────────────────────────────────────────
 RED = "EB2C35"
@@ -155,8 +156,7 @@ readme_lines = [
     "  · All dollar figures are in USD.  Years labeled 2026 / 2027 / 2028.",
     "",
     "Year 1 stated goal",
-    "  · 100,000 live viewers per bout by end of Year 1. The Y1 average of",
-    "    30,000 reflects a back-weighted ramp toward that target.",
+    "  · 60,000 live viewers per bout by end of Year 1.",
     "",
     "Reach assumption — the 41× multiplier",
     "  · Live + post-live replay = 41× total impressions per bout. Each",
@@ -170,7 +170,9 @@ readme_lines = [
     "  · Mux delivery cost scales with viewers (live + replay); included as a",
     "    real per-bout COGS.",
     "  · Charity payout is 18% of gross voting revenue, accounted as COGS.",
-    "  · Debater honorariums capped at $25K / bout (covers both debaters).",
+    "  · Debater honorariums: Y1 flat $10K / bout (cash to attract talent),",
+    "    Y2/Y3 revenue share — 5% / 3% of per-bout voting purse — to align",
+    "    debater incentives with audience growth as the league matures.",
     "",
     "What this model deliberately omits",
     "  · Sponsorship revenue. Title slots, category exclusives, and brand",
@@ -263,14 +265,40 @@ write_input_block(
         {"row": 21, "label": "Charity payout (% of vote rev)",
          "values": V["charityPct"], "fmt": "0%",
          "note": "18% donor model"},
-        {"row": 22, "label": "Debater honorarium / bout",
-         "values": V["honorariumPerBout"], "fmt": '"$"#,##0',
-         "note": "Capped at $25K (both)"},
+        # Honorarium row gets a special structure: Y1 is a flat input,
+        # Y2/Y3 are formulas tied to per-bout voting purse. Written
+        # below this block — placeholder here so row 22 exists with
+        # its label.
         {"row": 23, "label": "Production / bout",
          "values": V["productionPerBout"], "fmt": '"$"#,##0',
          "note": "Studio + crew"},
     ],
 )
+
+# Debater honorarium / bout — Y1 is a flat input, Y2/Y3 are formulas
+# tied to per-bout voting purse (= viewers × conversion × vote price)
+# so they auto-update when the audience drivers change.
+labeled_row(ws, 22, "Debater honorarium / bout")
+input_cell(ws, 22, 2, H["y1FlatUSD"], '"$"#,##0')
+# Y2: =live viewers × voter conv × vote price × 5%
+calc_cell(
+    ws, 22, 3,
+    f"=C8*C9*C10*{H['y2PctOfBoutPurse']}",
+    '"$"#,##0',
+)
+# Y3: =live viewers × voter conv × vote price × 3%
+calc_cell(
+    ws, 22, 4,
+    f"=D8*D9*D10*{H['y3PctOfBoutPurse']}",
+    '"$"#,##0',
+)
+ws.cell(
+    row=22, column=5,
+    value=(
+        f"Y1 flat ${H['y1FlatUSD']:,} · Y2 {H['y2PctOfBoutPurse']:.0%} of purse "
+        f"· Y3 {H['y3PctOfBoutPurse']:.0%} of purse"
+    ),
+).font = NOTE
 
 # FIXED COSTS
 write_input_block(

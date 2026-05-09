@@ -116,7 +116,7 @@ export default function ModelPage() {
             {
               label: "Debater honorarium / bout",
               v: INPUTS.honorariumPerBout.map(fmtUSD),
-              note: "Capped at $25K (both)",
+              note: "Y1 flat · Y2/Y3 % of purse",
             },
             {
               label: "Production cost / bout",

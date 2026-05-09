@@ -573,17 +573,13 @@ export default function DeckPage() {
       <Section
         n={10}
         kicker="Model"
-        title="Three lines of revenue. One civic license."
+        title="Two lines of revenue. One civic license."
       >
         <ul className="divide-y divide-zinc-200 border-y border-zinc-200 mb-8">
           {[
             {
               h: "Pay-per-vote",
               p: "$5 per vote · scales with audience · zero CAC at the unit level.",
-            },
-            {
-              h: "Sponsorships",
-              p: "Title sponsors per knowledge class. Brand-safe by design.",
             },
             {
               h: "Media rights & licensing",
@@ -777,7 +773,7 @@ export default function DeckPage() {
               <li>· 40× post-live replay multiplier</li>
               <li>· Mux delivery scaling with live + replay</li>
               <li>· 18% charity payout as COGS</li>
-              <li>· Debater honorariums capped at $25K/bout</li>
+              <li>· Honoraria: $10K/bout Y1, then 5%/3% of purse</li>
               <li>· $10K/mo paid search Year 1, ramping</li>
               <li>· Headcount, G&amp;A, legal, infra</li>
             </ul>

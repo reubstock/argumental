@@ -6,7 +6,7 @@
   },
   "audience": {
     "boutsPerYear": [48, 48, 48],
-    "liveViewers": [30000, 100000, 250000],
+    "liveViewers": [60000, 100000, 125000],
     "voterConversion": [0.06, 0.08, 0.09],
     "votePrice": [5, 5, 5]
   },
@@ -16,8 +16,13 @@
     "stripePct": [0.029, 0.029, 0.029],
     "stripePerVote": [0.3, 0.3, 0.3],
     "charityPct": [0.18, 0.18, 0.18],
-    "honorariumPerBout": [25000, 25000, 25000],
-    "productionPerBout": [12000, 18000, 25000]
+    "honorarium": {
+      "_comment": "Y1 flat cash to attract talent; Y2/Y3 shift to revenue share against per-bout voting purse to align debater incentives with audience growth.",
+      "y1FlatUSD": 10000,
+      "y2PctOfBoutPurse": 0.05,
+      "y3PctOfBoutPurse": 0.03
+    },
+    "productionPerBout": [10000, 10000, 10000]
   },
   "fixedCosts": {
     "headcount": [4, 8, 14],
@@ -33,6 +38,6 @@
     "avgReplayMins": [4, 5, 6]
   },
   "targets": {
-    "liveViewersEOY1": 100000
+    "liveViewersEOY1": 60000
   }
 }

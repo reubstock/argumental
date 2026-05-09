@@ -16,6 +16,20 @@
 
 import raw from "./financialModelInputs.json";
 
+// ── Honorarium rule → per-bout values ──────────────────────────────────
+// Y1 = flat cash to attract talent on day one.
+// Y2/Y3 = revenue share against per-bout voting purse to align incentives.
+const honorariumRule = raw.variableCosts.honorarium;
+const boutPurse = (i: number) =>
+  raw.audience.liveViewers[i] *
+  raw.audience.voterConversion[i] *
+  raw.audience.votePrice[i];
+const honorariumPerBout = [
+  honorariumRule.y1FlatUSD,
+  boutPurse(1) * honorariumRule.y2PctOfBoutPurse,
+  boutPurse(2) * honorariumRule.y3PctOfBoutPurse,
+];
+
 // ── Inputs (flattened) ─────────────────────────────────────────────────
 // Keep this object's shape stable — /deck and /model both consume it.
 //
@@ -25,7 +39,7 @@ export const INPUTS = {
   liveViewers: raw.audience.liveViewers,
   voterConversion: raw.audience.voterConversion,
   votePrice: raw.audience.votePrice,
-  honorariumPerBout: raw.variableCosts.honorariumPerBout,
+  honorariumPerBout,
   productionPerBout: raw.variableCosts.productionPerBout,
   muxDeliveryRate: raw.variableCosts.muxDeliveryRate,
   muxIngestPerBout: raw.variableCosts.muxIngestPerBout,
@@ -35,6 +49,13 @@ export const INPUTS = {
   avgLiveMins: raw.audienceBehavior.avgLiveMins,
   replayMultiplier: raw.audienceBehavior.replayMultiplier,
   avgReplayMins: raw.audienceBehavior.avgReplayMins,
+};
+
+/** Honorarium rule for display on /model and /deck. */
+export const HONORARIUM_RULE = {
+  y1FlatUSD: honorariumRule.y1FlatUSD,
+  y2PctOfBoutPurse: honorariumRule.y2PctOfBoutPurse,
+  y3PctOfBoutPurse: honorariumRule.y3PctOfBoutPurse,
 };
 
 /** Strategic targets — used as goals on the deck, not as model drivers. */
