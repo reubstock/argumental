@@ -1,5 +1,19 @@
 import Panel from "@/components/Panel";
 import Link from "next/link";
+import {
+  COSTS,
+  GROSS_PROFIT,
+  INPUTS,
+  REVENUE,
+  TOTAL_REACH_PER_BOUT,
+  TOTAL_REVENUE,
+  TOTAL_VARIABLE,
+  fmtNum,
+  fmtPct,
+  fmtUSD,
+  fmtUSDExact,
+  sum3,
+} from "@/lib/financialModel";
 
 export const metadata = {
   title: "Argumental — Financial Model",
@@ -8,113 +22,15 @@ export const metadata = {
 };
 
 /**
- * /model — a single-page summary of the 3-year investor model.
+ * /model — single-page summary of the 3-year investor model.
  *
- * Numbers here MUST stay in lockstep with:
- *   1. /deck financial-model slide (headline strip)
- *   2. /public/argumental-financial-model.xlsx (built by build_argumental_model.py)
+ * All numbers come from `lib/financialModel.ts`. Edit there; this page
+ * re-renders. The deck headline strip imports from the same module.
  *
- * If you change a driver, update all three. The spreadsheet is the
- * artifact investors edit; this page is the dashboard view of the
- * same numbers; the deck slide is the elevator pitch of the same.
+ * The .xlsx is built by /scripts/build_argumental_model.py and ships
+ * to /public/argumental-financial-model.xlsx — Python keeps its own
+ * copy of the inputs (see lib's top comment).
  */
-
-// ── Inputs (per year) ────────────────────────────────────────────────────
-const INPUTS = {
-  boutsPerYear: [48, 48, 48],
-  liveViewers: [30_000, 100_000, 250_000],
-  replayMultiplier: [40, 40, 40],
-  voterConversion: [0.06, 0.08, 0.09],
-  votePrice: [5, 5, 5],
-  sponsorPerBout: [0, 30_000, 75_000],
-  sponsoredPct: [0, 0.5, 1.0],
-  honorariumPerBout: [25_000, 25_000, 25_000], // capped at $25K / bout (both debaters)
-  productionPerBout: [12_000, 18_000, 25_000],
-  avgLiveMins: [16, 18, 20],
-  avgReplayMins: [4, 5, 6],
-  muxDeliveryRate: [0.06, 0.06, 0.05], // $/viewer-hour
-  muxIngestPerBout: [8, 8, 8],
-  stripePct: [0.029, 0.029, 0.029],
-  stripePerVote: [0.3, 0.3, 0.3],
-  charityPct: [0.18, 0.18, 0.18],
-};
-
-const YEARS = [0, 1, 2] as const;
-type YearIdx = (typeof YEARS)[number];
-
-// ── Computed series ──────────────────────────────────────────────────────
-const votersPerBout = YEARS.map(
-  (i) => INPUTS.liveViewers[i] * INPUTS.voterConversion[i],
-);
-const annualVotes = YEARS.map((i) => INPUTS.boutsPerYear[i] * votersPerBout[i]);
-
-const REVENUE = {
-  voting: YEARS.map((i) => annualVotes[i] * INPUTS.votePrice[i]),
-  sponsor: YEARS.map(
-    (i) => INPUTS.boutsPerYear[i] * INPUTS.sponsoredPct[i] * INPUTS.sponsorPerBout[i],
-  ),
-};
-const totalRevenue = YEARS.map((i) => REVENUE.voting[i] + REVENUE.sponsor[i]);
-
-const annualMuxDelivery = YEARS.map((i) => {
-  const liveMinPerBout = INPUTS.liveViewers[i] * INPUTS.avgLiveMins[i];
-  const replayMinPerBout =
-    INPUTS.liveViewers[i] * INPUTS.replayMultiplier[i] * INPUTS.avgReplayMins[i];
-  const totalMinAnnual =
-    INPUTS.boutsPerYear[i] * (liveMinPerBout + replayMinPerBout);
-  return (totalMinAnnual / 60) * INPUTS.muxDeliveryRate[i];
-});
-
-const COSTS = {
-  muxDelivery: annualMuxDelivery,
-  muxIngest: YEARS.map((i) => INPUTS.boutsPerYear[i] * INPUTS.muxIngestPerBout[i]),
-  stripe: YEARS.map(
-    (i) =>
-      REVENUE.voting[i] * INPUTS.stripePct[i] +
-      annualVotes[i] * INPUTS.stripePerVote[i],
-  ),
-  charity: YEARS.map((i) => REVENUE.voting[i] * INPUTS.charityPct[i]),
-  honoraria: YEARS.map(
-    (i) => INPUTS.boutsPerYear[i] * INPUTS.honorariumPerBout[i],
-  ),
-  production: YEARS.map(
-    (i) => INPUTS.boutsPerYear[i] * INPUTS.productionPerBout[i],
-  ),
-};
-const totalVariable = YEARS.map(
-  (i) =>
-    COSTS.muxDelivery[i] +
-    COSTS.muxIngest[i] +
-    COSTS.stripe[i] +
-    COSTS.charity[i] +
-    COSTS.honoraria[i] +
-    COSTS.production[i],
-);
-const grossProfit = YEARS.map((i) => totalRevenue[i] - totalVariable[i]);
-
-// ── Formatters ───────────────────────────────────────────────────────────
-function fmtUSD(n: number): string {
-  const sign = n < 0 ? "-" : "";
-  const a = Math.abs(n);
-  if (a >= 1_000_000) return `${sign}$${(a / 1_000_000).toFixed(2)}M`;
-  if (a >= 1_000) return `${sign}$${(a / 1_000).toFixed(0)}K`;
-  return `${sign}$${a.toFixed(0)}`;
-}
-function fmtUSDExact(n: number): string {
-  const sign = n < 0 ? "-" : "";
-  return `${sign}$${Math.abs(Math.round(n)).toLocaleString()}`;
-}
-function fmtNum(n: number): string {
-  return Math.round(n).toLocaleString();
-}
-function fmtPct(n: number, digits = 0): string {
-  return `${(n * 100).toFixed(digits)}%`;
-}
-function sum3(arr: number[]): number {
-  return arr[0] + arr[1] + arr[2];
-}
-
-// ── Page ─────────────────────────────────────────────────────────────────
 export default function ModelPage() {
   return (
     <div className="max-w-6xl mx-auto px-4 md:px-6 py-5 md:py-10 w-full">
@@ -138,10 +54,10 @@ export default function ModelPage() {
       {/* Headline strip */}
       <div className="grid grid-cols-2 md:grid-cols-4 border-y-2 border-zinc-900 mb-6 md:mb-8">
         {[
-          { kicker: "Y1 Revenue (2026)", value: fmtUSD(totalRevenue[0]), sub: "Voting only" },
-          { kicker: "Y2 Revenue (2027)", value: fmtUSD(totalRevenue[1]), sub: "First sponsors" },
-          { kicker: "Y3 Revenue (2028)", value: fmtUSD(totalRevenue[2]), sub: "Full sponsor cadence" },
-          { kicker: "3-Yr Total", value: fmtUSD(sum3(totalRevenue)), sub: "Pre-tax, pre-IP" },
+          { kicker: "Y1 Revenue (2026)", value: fmtUSD(TOTAL_REVENUE[0]), sub: "Voting only" },
+          { kicker: "Y2 Revenue (2027)", value: fmtUSD(TOTAL_REVENUE[1]), sub: "First sponsors" },
+          { kicker: "Y3 Revenue (2028)", value: fmtUSD(TOTAL_REVENUE[2]), sub: "Full sponsor cadence" },
+          { kicker: "3-Yr Total", value: fmtUSD(sum3(TOTAL_REVENUE)), sub: "Pre-tax, pre-IP" },
         ].map((s) => (
           <div
             key={s.kicker}
@@ -183,9 +99,7 @@ export default function ModelPage() {
             },
             {
               label: "Total reach / bout",
-              v: YEARS.map((i) =>
-                fmtNum(INPUTS.liveViewers[i] * (1 + INPUTS.replayMultiplier[i])),
-              ),
+              v: TOTAL_REACH_PER_BOUT.map(fmtNum),
               note: "Live + replay impressions",
             },
             {
@@ -211,7 +125,7 @@ export default function ModelPage() {
             {
               label: "Debater honorarium / bout",
               v: INPUTS.honorariumPerBout.map(fmtUSD),
-              note: "Both debaters",
+              note: "Capped at $25K (both)",
             },
             {
               label: "Production cost / bout",
@@ -244,8 +158,8 @@ export default function ModelPage() {
           <Row3
             cols={[
               "Total revenue",
-              ...totalRevenue.map(fmtUSDExact),
-              fmtUSDExact(sum3(totalRevenue)),
+              ...TOTAL_REVENUE.map(fmtUSDExact),
+              fmtUSDExact(sum3(TOTAL_REVENUE)),
             ]}
             isTotal
           />
@@ -276,8 +190,8 @@ export default function ModelPage() {
           <Row3
             cols={[
               "Total variable cost",
-              ...totalVariable.map(fmtUSDExact),
-              fmtUSDExact(sum3(totalVariable)),
+              ...TOTAL_VARIABLE.map(fmtUSDExact),
+              fmtUSDExact(sum3(TOTAL_VARIABLE)),
             ]}
             isTotal
           />
@@ -294,18 +208,18 @@ export default function ModelPage() {
           <Row3
             cols={[
               "Gross profit",
-              ...grossProfit.map(fmtUSDExact),
-              fmtUSDExact(sum3(grossProfit)),
+              ...GROSS_PROFIT.map(fmtUSDExact),
+              fmtUSDExact(sum3(GROSS_PROFIT)),
             ]}
             isTotal
           />
           <Row3
             cols={[
               "Gross margin %",
-              ...grossProfit.map((g, i) =>
-                totalRevenue[i] > 0 ? fmtPct(g / totalRevenue[i], 1) : "—",
+              ...GROSS_PROFIT.map((g, i) =>
+                TOTAL_REVENUE[i] > 0 ? fmtPct(g / TOTAL_REVENUE[i], 1) : "—",
               ),
-              fmtPct(sum3(grossProfit) / sum3(totalRevenue), 1),
+              fmtPct(sum3(GROSS_PROFIT) / sum3(TOTAL_REVENUE), 1),
             ]}
           />
         </Panel>
@@ -352,7 +266,6 @@ function Row3({
   isTotal?: boolean;
   accent?: "brand-red" | "brand-blue";
 }) {
-  // 5 columns total — Driver | Y1 | Y2 | Y3 | (Notes or 3-Yr Total)
   const labelCls = isHeader
     ? `text-[10px] uppercase tracking-widest font-black ${
         accent === "brand-red"
@@ -375,7 +288,7 @@ function Row3({
     ? "text-[10px] uppercase tracking-widest font-black text-zinc-500 text-right md:text-left"
     : "text-zinc-500 text-xs text-right md:text-left";
 
-  const rowBg = isTotal ? "bg-zinc-50" : isHeader ? "bg-white" : "bg-white";
+  const rowBg = isTotal ? "bg-zinc-50" : "bg-white";
   const border = isHeader ? "border-b-2 border-zinc-900" : "border-b border-zinc-100";
 
   return (

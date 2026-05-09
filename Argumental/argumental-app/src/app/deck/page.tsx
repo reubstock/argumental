@@ -1,5 +1,13 @@
 import type { ReactNode } from "react";
 import Image from "next/image";
+import {
+  INPUTS,
+  TARGETS,
+  TOTAL_REVENUE,
+  fmtNumCompact,
+  fmtUSD,
+  sum3,
+} from "@/lib/financialModel";
 
 export const metadata = {
   title: "Argumental — Investor Deck",
@@ -655,18 +663,20 @@ export default function DeckPage() {
         kicker="Growth Plan"
         title="Hand-picked debaters with audiences. Paid search to amplify."
       >
-        {/* Hero stat — the EOY1 goal */}
+        {/* Hero stat — the EOY1 goal (sourced from lib/financialModel) */}
         <div className="border-y-2 border-zinc-900 mb-8 py-6 md:py-8">
           <p className="text-zinc-500 text-[10px] md:text-xs uppercase tracking-widest font-black mb-2">
             Year 1 Goal
           </p>
           <p className="text-zinc-900 font-black text-5xl md:text-7xl tabular-nums leading-none">
-            100K
+            {fmtNumCompact(TARGETS.liveViewersEOY1)}
           </p>
           <p className="text-zinc-700 text-base md:text-lg mt-3 leading-relaxed">
             Live viewers per bout by end of Year 1 — base case for the 3-year
             model. Each bout is then replayed{" "}
-            <span className="text-zinc-900 font-bold">40× more times</span>{" "}
+            <span className="text-zinc-900 font-bold">
+              {INPUTS.replayMultiplier[0]}× more times
+            </span>{" "}
             in clips and on-demand archive.
           </p>
         </div>
@@ -714,13 +724,13 @@ export default function DeckPage() {
         kicker="The Numbers"
         title="Three-year model. Investor-grade."
       >
-        {/* Headline year-by-year */}
+        {/* Headline year-by-year (sourced from lib/financialModel) */}
         <div className="grid grid-cols-2 md:grid-cols-4 border-y border-zinc-200 mb-4">
           {[
-            { kicker: "Y1 Revenue", value: "$432K", sub: "Voting only" },
-            { kicker: "Y2 Revenue", value: "$2.6M", sub: "First sponsors" },
-            { kicker: "Y3 Revenue", value: "$9.0M", sub: "Full sponsor cadence" },
-            { kicker: "3-Yr Total", value: "$12.1M", sub: "Pre-tax, pre-IP" },
+            { kicker: "Y1 Revenue", value: fmtUSD(TOTAL_REVENUE[0]), sub: "Voting only" },
+            { kicker: "Y2 Revenue", value: fmtUSD(TOTAL_REVENUE[1]), sub: "First sponsors" },
+            { kicker: "Y3 Revenue", value: fmtUSD(TOTAL_REVENUE[2]), sub: "Full sponsor cadence" },
+            { kicker: "3-Yr Total", value: fmtUSD(sum3(TOTAL_REVENUE)), sub: "Pre-tax, pre-IP" },
           ].map((s) => (
             <div
               key={s.kicker}
@@ -737,17 +747,23 @@ export default function DeckPage() {
           ))}
         </div>
 
-        {/* Reach context — anchors the revenue ramp in audience numbers */}
+        {/* Reach context — anchors the revenue ramp in audience numbers
+            (all figures sourced from lib/financialModel) */}
         <p className="text-zinc-500 text-xs md:text-sm leading-relaxed mb-6 md:mb-8">
           Driven by{" "}
           <span className="text-zinc-900 font-bold">
-            30K → 100K live viewers / bout
+            {fmtNumCompact(INPUTS.liveViewers[0])} →{" "}
+            {fmtNumCompact(TARGETS.liveViewersEOY1)} live viewers / bout
           </span>{" "}
           across Y1, with a{" "}
-          <span className="text-zinc-900 font-bold">40× replay multiplier</span>
-          {" "}— total reach of <span className="text-zinc-900 font-bold">
-            41× live
-          </span>{" "}per bout flows through Mux delivery cost and sponsor pricing.
+          <span className="text-zinc-900 font-bold">
+            {INPUTS.replayMultiplier[0]}× replay multiplier
+          </span>
+          {" "}— total reach of{" "}
+          <span className="text-zinc-900 font-bold">
+            {1 + INPUTS.replayMultiplier[0]}× live
+          </span>{" "}
+          per bout flows through Mux delivery cost and sponsor pricing.
         </p>
 
         {/* What's in / what's out */}
