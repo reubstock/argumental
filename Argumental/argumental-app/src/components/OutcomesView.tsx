@@ -283,7 +283,8 @@ function Stat({
 }
 
 /* ────────────────────────────────────────────────────────────────────── */
-/* HISTORICAL — Lincoln/Douglas (1858) + Kennedy/Nixon (1960).             */
+/* HISTORICAL — Lincoln/Douglas (1858) · Kennedy/Nixon (1960) ·            */
+/* Wolff/Epstein (2019).                                                   */
 /* ────────────────────────────────────────────────────────────────────── */
 
 function HistoricalDebates() {
@@ -373,6 +374,49 @@ function HistoricalDebates() {
               language, all became debate substance overnight. Kennedy went
               on to win one of the closest popular-vote elections in U.S.
               history.
+            </p>
+          </div>
+        </div>
+      </Panel>
+
+      {/* Wolff vs Epstein — Soho Forum, capitalism vs. socialism (2019) */}
+      <Panel className="overflow-hidden">
+        <div className="grid grid-cols-1 md:grid-cols-5">
+          <div className="md:col-span-2 bg-black">
+            <ArgumentalPlayer
+              videoId="YJQSuUZdcV4"
+              title="Wolff vs. Epstein — Socialism vs. Capitalism"
+            />
+          </div>
+          <div className="md:col-span-3 p-5 md:p-6 flex flex-col gap-3">
+            <div className="flex items-baseline gap-3 flex-wrap">
+              <span className="text-zinc-500 text-[10px] uppercase tracking-widest font-black tabular-nums">
+                2019
+              </span>
+              <span className="text-zinc-300">·</span>
+              <span className="text-zinc-500 text-[10px] uppercase tracking-widest font-black">
+                Economics · Political Economy
+              </span>
+            </div>
+            <h3 className="text-zinc-900 font-black text-xl md:text-2xl leading-tight">
+              Wolff vs. Epstein
+            </h3>
+            <p className="text-zinc-700 text-sm md:text-base leading-relaxed">
+              The Soho Forum&apos;s signature head-to-head: Marxist
+              economist Richard Wolff against libertarian-leaning
+              Gene Epstein on whether socialism is preferable to
+              capitalism as an economic system. Oxford-style format,
+              live audience, no moderator wrap-up — the case had to
+              stand on its own.
+            </p>
+            <p className="text-zinc-700 text-sm md:text-base leading-relaxed">
+              <span className="font-bold text-zinc-900">Outcome:</span>{" "}
+              The Soho Forum scores winners by{" "}
+              <span className="text-zinc-900 font-bold">vote shift</span>{" "}
+              — audience polls before and after; whichever side moves
+              the room more wins. The format converts an argument into
+              a measurable result. Argumental is built on the same
+              premise.
             </p>
           </div>
         </div>
