@@ -283,60 +283,13 @@ function Stat({
 }
 
 /* ────────────────────────────────────────────────────────────────────── */
-/* HISTORICAL — Lincoln/Douglas (1858) · Kennedy/Nixon (1960) ·            */
-/* Wolff/Epstein (2019).                                                   */
+/* HISTORICAL — Kennedy/Nixon (1960) · Wolff/Epstein (2019) ·              */
+/* Lincoln/Douglas (1858).                                                 */
 /* ────────────────────────────────────────────────────────────────────── */
 
 function HistoricalDebates() {
   return (
     <div className="flex flex-col gap-4">
-      {/* Lincoln vs Douglas */}
-      <Panel className="overflow-hidden">
-        <div className="grid grid-cols-1 md:grid-cols-5">
-          <div className="md:col-span-2 bg-zinc-50 border-b md:border-b-0 md:border-r border-zinc-200">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src="/outcomes/lincoln-douglas.jpg"
-              alt="Lincoln–Douglas Debates commemorative imagery"
-              className="w-full h-full object-cover aspect-[16/9] md:aspect-auto"
-              loading="lazy"
-            />
-          </div>
-          <div className="md:col-span-3 p-5 md:p-6 flex flex-col gap-3">
-            <div className="flex items-baseline gap-3 flex-wrap">
-              <span className="text-zinc-500 text-[10px] uppercase tracking-widest font-black tabular-nums">
-                1858
-              </span>
-              <span className="text-zinc-300">·</span>
-              <span className="text-zinc-500 text-[10px] uppercase tracking-widest font-black">
-                Slavery · Federalism
-              </span>
-            </div>
-            <h3 className="text-zinc-900 font-black text-xl md:text-2xl leading-tight">
-              Lincoln vs. Douglas
-            </h3>
-            <p className="text-zinc-700 text-sm md:text-base leading-relaxed">
-              Seven debates across Illinois — three hours each, no moderator,
-              the Senate seat as the prize. Stephen Douglas was the
-              architect of the Kansas-Nebraska Act and the favorite to keep
-              his seat. Abraham Lincoln, the lesser-known challenger,
-              pressed him on whether popular sovereignty could survive the
-              Dred Scott decision.
-            </p>
-            <p className="text-zinc-700 text-sm md:text-base leading-relaxed">
-              <span className="font-bold text-zinc-900">Outcome:</span>{" "}
-              Douglas held the Senate. But the&nbsp;
-              <span className="text-zinc-900 font-bold">Freeport Doctrine</span>{" "}
-              he was forced to articulate split the Democratic Party two
-              years later — and Lincoln&apos;s national name recognition out
-              of the debates is what carried him to the 1860 presidency.
-              The format set the template every modern American political
-              debate has copied ever since.
-            </p>
-          </div>
-        </div>
-      </Panel>
-
       {/* Kennedy vs Nixon — YouTube embed in an Argumental-style player */}
       <Panel className="overflow-hidden">
         <div className="grid grid-cols-1 md:grid-cols-5">
@@ -417,6 +370,53 @@ function HistoricalDebates() {
               the room more wins. The format converts an argument into
               a measurable result. Argumental is built on the same
               premise.
+            </p>
+          </div>
+        </div>
+      </Panel>
+
+      {/* Lincoln vs Douglas */}
+      <Panel className="overflow-hidden">
+        <div className="grid grid-cols-1 md:grid-cols-5">
+          <div className="md:col-span-2 bg-zinc-50 border-b md:border-b-0 md:border-r border-zinc-200">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/outcomes/lincoln-douglas.jpg"
+              alt="Lincoln–Douglas Debates commemorative imagery"
+              className="w-full h-full object-cover aspect-[16/9] md:aspect-auto"
+              loading="lazy"
+            />
+          </div>
+          <div className="md:col-span-3 p-5 md:p-6 flex flex-col gap-3">
+            <div className="flex items-baseline gap-3 flex-wrap">
+              <span className="text-zinc-500 text-[10px] uppercase tracking-widest font-black tabular-nums">
+                1858
+              </span>
+              <span className="text-zinc-300">·</span>
+              <span className="text-zinc-500 text-[10px] uppercase tracking-widest font-black">
+                Slavery · Federalism
+              </span>
+            </div>
+            <h3 className="text-zinc-900 font-black text-xl md:text-2xl leading-tight">
+              Lincoln vs. Douglas
+            </h3>
+            <p className="text-zinc-700 text-sm md:text-base leading-relaxed">
+              Seven debates across Illinois — three hours each, no moderator,
+              the Senate seat as the prize. Stephen Douglas was the
+              architect of the Kansas-Nebraska Act and the favorite to keep
+              his seat. Abraham Lincoln, the lesser-known challenger,
+              pressed him on whether popular sovereignty could survive the
+              Dred Scott decision.
+            </p>
+            <p className="text-zinc-700 text-sm md:text-base leading-relaxed">
+              <span className="font-bold text-zinc-900">Outcome:</span>{" "}
+              Douglas held the Senate. But the&nbsp;
+              <span className="text-zinc-900 font-bold">Freeport Doctrine</span>{" "}
+              he was forced to articulate split the Democratic Party two
+              years later — and Lincoln&apos;s national name recognition out
+              of the debates is what carried him to the 1860 presidency.
+              The format set the template every modern American political
+              debate has copied ever since.
             </p>
           </div>
         </div>
