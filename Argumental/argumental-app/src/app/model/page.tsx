@@ -47,7 +47,8 @@ export default function ModelPage() {
           Goal: <span className="text-zinc-900 font-bold">100K live viewers</span>{" "}
           per bout by end of Year 1, with a{" "}
           <span className="text-zinc-900 font-bold">40× post-live replay</span>{" "}
-          multiplier flowing through delivery cost and sponsor pricing.
+          multiplier flowing through delivery cost. Revenue is voting only;
+          sponsorship is treated as upside.
         </p>
       </div>
 
@@ -55,9 +56,9 @@ export default function ModelPage() {
       <div className="grid grid-cols-2 md:grid-cols-4 border-y-2 border-zinc-900 mb-6 md:mb-8">
         {[
           { kicker: "Y1 Revenue (2026)", value: fmtUSD(TOTAL_REVENUE[0]), sub: "Voting only" },
-          { kicker: "Y2 Revenue (2027)", value: fmtUSD(TOTAL_REVENUE[1]), sub: "First sponsors" },
-          { kicker: "Y3 Revenue (2028)", value: fmtUSD(TOTAL_REVENUE[2]), sub: "Full sponsor cadence" },
-          { kicker: "3-Yr Total", value: fmtUSD(sum3(TOTAL_REVENUE)), sub: "Pre-tax, pre-IP" },
+          { kicker: "Y2 Revenue (2027)", value: fmtUSD(TOTAL_REVENUE[1]), sub: "Audience compounding" },
+          { kicker: "Y3 Revenue (2028)", value: fmtUSD(TOTAL_REVENUE[2]), sub: "Full league cadence" },
+          { kicker: "3-Yr Total", value: fmtUSD(sum3(TOTAL_REVENUE)), sub: "Voting · pre-sponsor" },
         ].map((s) => (
           <div
             key={s.kicker}
@@ -113,16 +114,6 @@ export default function ModelPage() {
               note: "Fixed · $10/wk cap",
             },
             {
-              label: "Sponsor revenue / bout",
-              v: INPUTS.sponsorPerBout.map(fmtUSD),
-              note: "Title slot · 41× reach",
-            },
-            {
-              label: "Sponsored bouts (% of cadence)",
-              v: INPUTS.sponsoredPct.map((n) => fmtPct(n)),
-              note: "Brand fit ramps to full",
-            },
-            {
               label: "Debater honorarium / bout",
               v: INPUTS.honorariumPerBout.map(fmtUSD),
               note: "Capped at $25K (both)",
@@ -146,15 +137,13 @@ export default function ModelPage() {
             isHeader
             accent="brand-red"
           />
-          {[
-            { label: "Voting revenue", v: REVENUE.voting },
-            { label: "Sponsor revenue", v: REVENUE.sponsor },
-          ].map((r) => (
-            <Row3
-              key={r.label}
-              cols={[r.label, ...r.v.map(fmtUSDExact), fmtUSDExact(sum3(r.v))]}
-            />
-          ))}
+          <Row3
+            cols={[
+              "Voting revenue",
+              ...REVENUE.voting.map(fmtUSDExact),
+              fmtUSDExact(sum3(REVENUE.voting)),
+            ]}
+          />
           <Row3
             cols={[
               "Total revenue",
@@ -163,6 +152,11 @@ export default function ModelPage() {
             ]}
             isTotal
           />
+          <div className="px-3 md:px-5 py-3 bg-zinc-50 border-t border-zinc-100 text-zinc-500 text-xs leading-relaxed">
+            Sponsorship not included. Treated as upside — the 41× total
+            reach per bout justifies sponsor packages, but conservative
+            modeling here assumes none.
+          </div>
         </Panel>
       </div>
 

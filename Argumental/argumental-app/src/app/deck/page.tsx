@@ -728,9 +728,9 @@ export default function DeckPage() {
         <div className="grid grid-cols-2 md:grid-cols-4 border-y border-zinc-200 mb-4">
           {[
             { kicker: "Y1 Revenue", value: fmtUSD(TOTAL_REVENUE[0]), sub: "Voting only" },
-            { kicker: "Y2 Revenue", value: fmtUSD(TOTAL_REVENUE[1]), sub: "First sponsors" },
-            { kicker: "Y3 Revenue", value: fmtUSD(TOTAL_REVENUE[2]), sub: "Full sponsor cadence" },
-            { kicker: "3-Yr Total", value: fmtUSD(sum3(TOTAL_REVENUE)), sub: "Pre-tax, pre-IP" },
+            { kicker: "Y2 Revenue", value: fmtUSD(TOTAL_REVENUE[1]), sub: "Audience compounding" },
+            { kicker: "Y3 Revenue", value: fmtUSD(TOTAL_REVENUE[2]), sub: "Full league cadence" },
+            { kicker: "3-Yr Total", value: fmtUSD(sum3(TOTAL_REVENUE)), sub: "Voting · pre-sponsor" },
           ].map((s) => (
             <div
               key={s.kicker}
@@ -763,7 +763,7 @@ export default function DeckPage() {
           <span className="text-zinc-900 font-bold">
             {1 + INPUTS.replayMultiplier[0]}× live
           </span>{" "}
-          per bout flows through Mux delivery cost and sponsor pricing.
+          per bout. Revenue is voting only; sponsorship is upside.
         </p>
 
         {/* What's in / what's out */}
@@ -775,7 +775,6 @@ export default function DeckPage() {
             <ul className="text-zinc-700 text-sm md:text-base space-y-1.5 leading-relaxed">
               <li>· Voting revenue gated by live viewer reach</li>
               <li>· 40× post-live replay multiplier</li>
-              <li>· Sponsor revenue ramping in Year 2</li>
               <li>· Mux delivery scaling with live + replay</li>
               <li>· 18% charity payout as COGS</li>
               <li>· Debater honorariums capped at $25K/bout</li>
@@ -788,6 +787,7 @@ export default function DeckPage() {
               Treated as upside, not assumed
             </p>
             <ul className="text-zinc-700 text-sm md:text-base space-y-1.5 leading-relaxed">
+              <li>· Sponsorship · title slots, category exclusives</li>
               <li>· International format licensing</li>
               <li>· On-demand archive monetization</li>
               <li>· White-label league for institutions</li>

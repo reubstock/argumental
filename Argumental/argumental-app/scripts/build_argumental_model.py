@@ -38,7 +38,6 @@ with INPUTS_PATH.open("r") as f:
     DATA = json.load(f)
 
 A = DATA["audience"]
-S = DATA["sponsorship"]
 V = DATA["variableCosts"]
 FX = DATA["fixedCosts"]
 B = DATA["audienceBehavior"]
@@ -168,15 +167,17 @@ readme_lines = [
     "",
     "What this model is honest about",
     "  · Voting revenue is gated by live viewer reach, not by price.",
-    "  · Sponsor revenue ramps in Year 2.  Year 1 carries no sponsor income.",
     "  · Mux delivery cost scales with viewers (live + replay); included as a",
     "    real per-bout COGS.",
     "  · Charity payout is 18% of gross voting revenue, accounted as COGS.",
     "  · Debater honorariums capped at $25K / bout (covers both debaters).",
     "",
     "What this model deliberately omits",
+    "  · Sponsorship revenue. Title slots, category exclusives, and brand",
+    "    integrations are real revenue lines for the league but treated as",
+    "    upside here — the conservative case is voting revenue only.",
     "  · IP / licensing revenue (international territories, format licensing).",
-    "    Treated as upside, not assumed.",
+    "  · On-demand archive monetization, white-label league, ticketing, merch.",
     "  · Working-capital and payment-processor float.",
     "  · Tax — model is pre-tax EBITDA only.",
 ]
@@ -244,19 +245,8 @@ write_input_block(
     ],
 )
 
-# SPONSORSHIP
-write_input_block(
-    ws, "SPONSORSHIP", 12, INK,
-    [
-        {"row": 13, "label": "Sponsor revenue / bout (USD)",
-         "values": S["sponsorPerBout"], "fmt": '"$"#,##0',
-         "note": "Title slot · 41× reach"},
-        {"row": 14, "label": "Sponsored bouts (% of cadence)",
-         "values": S["sponsoredPct"], "fmt": "0%", "note": "Brand fit"},
-    ],
-)
-
 # VARIABLE COSTS
+# (rows 12-15 intentionally left blank — sponsorship was here, now upside)
 write_input_block(
     ws, "VARIABLE COSTS  ·  PER BOUT", 16, INK,
     [
@@ -457,16 +447,12 @@ calc_cell(ws, 7, 3, "='Bouts & Audience'!C11*Assumptions!C10", USD)
 calc_cell(ws, 7, 4, "='Bouts & Audience'!D11*Assumptions!D10", USD)
 calc_cell(ws, 7, 5, "=SUM(B7:D7)", USD)
 
-labeled_row(ws, 8, "Sponsor revenue")
-calc_cell(ws, 8, 2, "=Assumptions!B7*Assumptions!B14*Assumptions!B13", USD)
-calc_cell(ws, 8, 3, "=Assumptions!C7*Assumptions!C14*Assumptions!C13", USD)
-calc_cell(ws, 8, 4, "=Assumptions!D7*Assumptions!D14*Assumptions!D13", USD)
-calc_cell(ws, 8, 5, "=SUM(B8:D8)", USD)
+# Sponsor revenue intentionally omitted — treated as upside, not modeled.
 
 labeled_row(ws, 9, "Total revenue", is_total=True)
-calc_cell(ws, 9, 2, "=SUM(B7:B8)", USD, total=True)
-calc_cell(ws, 9, 3, "=SUM(C7:C8)", USD, total=True)
-calc_cell(ws, 9, 4, "=SUM(D7:D8)", USD, total=True)
+calc_cell(ws, 9, 2, "=B7", USD, total=True)
+calc_cell(ws, 9, 3, "=C7", USD, total=True)
+calc_cell(ws, 9, 4, "=D7", USD, total=True)
 calc_cell(ws, 9, 5, "=SUM(B9:D9)", USD, total=True)
 
 section_header(ws, 11, "VARIABLE COSTS  ·  COGS", color=BLUE)
@@ -612,15 +598,12 @@ calc_cell(ws, 10, 2, "=B7*Assumptions!B10", USD)
 calc_cell(ws, 10, 3, "=C7*Assumptions!C10", USD)
 calc_cell(ws, 10, 4, "=D7*Assumptions!D10", USD)
 
-labeled_row(ws, 11, "Sponsor share")
-calc_cell(ws, 11, 2, "=Assumptions!B13*Assumptions!B14", USD)
-calc_cell(ws, 11, 3, "=Assumptions!C13*Assumptions!C14", USD)
-calc_cell(ws, 11, 4, "=Assumptions!D13*Assumptions!D14", USD)
+# Sponsor share intentionally omitted — treated as upside, not modeled.
 
 labeled_row(ws, 12, "Total revenue / bout", is_total=True)
-calc_cell(ws, 12, 2, "=SUM(B10:B11)", USD, total=True)
-calc_cell(ws, 12, 3, "=SUM(C10:C11)", USD, total=True)
-calc_cell(ws, 12, 4, "=SUM(D10:D11)", USD, total=True)
+calc_cell(ws, 12, 2, "=B10", USD, total=True)
+calc_cell(ws, 12, 3, "=C10", USD, total=True)
+calc_cell(ws, 12, 4, "=D10", USD, total=True)
 
 section_header(ws, 14, "VARIABLE COST / BOUT", color=BLUE)
 

@@ -18,13 +18,13 @@ import raw from "./financialModelInputs.json";
 
 // ── Inputs (flattened) ─────────────────────────────────────────────────
 // Keep this object's shape stable — /deck and /model both consume it.
+//
+// Sponsorship is intentionally NOT modeled. Treated as upside on the deck.
 export const INPUTS = {
   boutsPerYear: raw.audience.boutsPerYear,
   liveViewers: raw.audience.liveViewers,
   voterConversion: raw.audience.voterConversion,
   votePrice: raw.audience.votePrice,
-  sponsorPerBout: raw.sponsorship.sponsorPerBout,
-  sponsoredPct: raw.sponsorship.sponsoredPct,
   honorariumPerBout: raw.variableCosts.honorariumPerBout,
   productionPerBout: raw.variableCosts.productionPerBout,
   muxDeliveryRate: raw.variableCosts.muxDeliveryRate,
@@ -54,17 +54,10 @@ const annualVotes = Y.map(
 
 export const REVENUE = {
   voting: Y.map((i) => annualVotes[i] * INPUTS.votePrice[i]),
-  sponsor: Y.map(
-    (i) =>
-      INPUTS.boutsPerYear[i] *
-      INPUTS.sponsoredPct[i] *
-      INPUTS.sponsorPerBout[i],
-  ),
 };
 
-export const TOTAL_REVENUE = Y.map(
-  (i) => REVENUE.voting[i] + REVENUE.sponsor[i],
-);
+/** Total revenue = voting only. Sponsorship treated as upside, not modeled. */
+export const TOTAL_REVENUE = REVENUE.voting;
 
 const annualMuxDelivery = Y.map((i) => {
   const liveMinPerBout = INPUTS.liveViewers[i] * INPUTS.avgLiveMins[i];

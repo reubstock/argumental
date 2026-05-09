@@ -10,10 +10,6 @@
     "voterConversion": [0.06, 0.08, 0.09],
     "votePrice": [5, 5, 5]
   },
-  "sponsorship": {
-    "sponsorPerBout": [0, 30000, 75000],
-    "sponsoredPct": [0, 0.5, 1.0]
-  },
   "variableCosts": {
     "muxDeliveryRate": [0.06, 0.06, 0.05],
     "muxIngestPerBout": [8, 8, 8],
