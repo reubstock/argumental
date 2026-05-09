@@ -283,8 +283,8 @@ function Stat({
 }
 
 /* ────────────────────────────────────────────────────────────────────── */
-/* HISTORICAL — Kennedy/Nixon (1960) · Wolff/Epstein (2019) ·              */
-/* Lincoln/Douglas (1858).                                                 */
+/* HISTORICAL — Kennedy/Nixon · Wolff/Epstein · Hasan/Phillips ·           */
+/* Lincoln/Douglas.                                                        */
 /* ────────────────────────────────────────────────────────────────────── */
 
 function HistoricalDebates() {
@@ -370,6 +370,47 @@ function HistoricalDebates() {
               the room more wins. The format converts an argument into
               a measurable result. Argumental is built on the same
               premise.
+            </p>
+          </div>
+        </div>
+      </Panel>
+
+      {/* Hasan vs Phillips — Anti-Zionism is Anti-Semitism */}
+      <Panel className="overflow-hidden">
+        <div className="grid grid-cols-1 md:grid-cols-5">
+          <div className="md:col-span-2 bg-black">
+            <ArgumentalPlayer
+              videoId="K1VTt_THL4A"
+              title="Hasan vs. Phillips — Anti-Zionism is Anti-Semitism"
+            />
+          </div>
+          <div className="md:col-span-3 p-5 md:p-6 flex flex-col gap-3">
+            <div className="flex items-baseline gap-3 flex-wrap">
+              <span className="text-zinc-500 text-[10px] uppercase tracking-widest font-black">
+                Cambridge Union
+              </span>
+              <span className="text-zinc-300">·</span>
+              <span className="text-zinc-500 text-[10px] uppercase tracking-widest font-black">
+                Israel · Anti-Semitism
+              </span>
+            </div>
+            <h3 className="text-zinc-900 font-black text-xl md:text-2xl leading-tight">
+              Hasan vs. Phillips
+            </h3>
+            <p className="text-zinc-700 text-sm md:text-base leading-relaxed">
+              Mehdi Hasan and Melanie Phillips on whether anti-Zionism
+              is anti-Semitism — one of the most charged framings in
+              modern political debate. Hasan opposing the motion,
+              Phillips for. Union-house format, audience votes before
+              and after, no moderator wrap-up.
+            </p>
+            <p className="text-zinc-700 text-sm md:text-base leading-relaxed">
+              <span className="font-bold text-zinc-900">Outcome:</span>{" "}
+              Both names came in established. The format — same{" "}
+              <span className="text-zinc-900 font-bold">vote-shift</span>{" "}
+              methodology Argumental is built on — let the room decide
+              which case actually moved minds. The verdict is on the
+              tape.
             </p>
           </div>
         </div>
