@@ -655,6 +655,22 @@ export default function DeckPage() {
         kicker="Growth Plan"
         title="Hand-picked debaters with audiences. Paid search to amplify."
       >
+        {/* Hero stat — the EOY1 goal */}
+        <div className="border-y-2 border-zinc-900 mb-8 py-6 md:py-8">
+          <p className="text-zinc-500 text-[10px] md:text-xs uppercase tracking-widest font-black mb-2">
+            Year 1 Goal
+          </p>
+          <p className="text-zinc-900 font-black text-5xl md:text-7xl tabular-nums leading-none">
+            100K
+          </p>
+          <p className="text-zinc-700 text-base md:text-lg mt-3 leading-relaxed">
+            Live viewers per bout by end of Year 1 — base case for the 3-year
+            model. Each bout is then replayed{" "}
+            <span className="text-zinc-900 font-bold">40× more times</span>{" "}
+            in clips and on-demand archive.
+          </p>
+        </div>
+
         <ul className="divide-y divide-zinc-200 border-y border-zinc-200 mb-8">
           {[
             {
@@ -699,12 +715,12 @@ export default function DeckPage() {
         title="Three-year model. Investor-grade."
       >
         {/* Headline year-by-year */}
-        <div className="grid grid-cols-2 md:grid-cols-4 border-y border-zinc-200 mb-6 md:mb-8">
+        <div className="grid grid-cols-2 md:grid-cols-4 border-y border-zinc-200 mb-4">
           {[
-            { kicker: "Y1 Revenue", value: "$173K", sub: "Voting only" },
-            { kicker: "Y2 Revenue", value: "$1.56M", sub: "First sponsors" },
-            { kicker: "Y3 Revenue", value: "$5.9M", sub: "Full sponsor cadence" },
-            { kicker: "3-Yr Total", value: "$7.6M", sub: "Pre-tax, pre-IP" },
+            { kicker: "Y1 Revenue", value: "$432K", sub: "Voting only" },
+            { kicker: "Y2 Revenue", value: "$2.6M", sub: "First sponsors" },
+            { kicker: "Y3 Revenue", value: "$9.0M", sub: "Full sponsor cadence" },
+            { kicker: "3-Yr Total", value: "$12.1M", sub: "Pre-tax, pre-IP" },
           ].map((s) => (
             <div
               key={s.kicker}
@@ -721,6 +737,19 @@ export default function DeckPage() {
           ))}
         </div>
 
+        {/* Reach context — anchors the revenue ramp in audience numbers */}
+        <p className="text-zinc-500 text-xs md:text-sm leading-relaxed mb-6 md:mb-8">
+          Driven by{" "}
+          <span className="text-zinc-900 font-bold">
+            30K → 100K live viewers / bout
+          </span>{" "}
+          across Y1, with a{" "}
+          <span className="text-zinc-900 font-bold">40× replay multiplier</span>
+          {" "}— total reach of <span className="text-zinc-900 font-bold">
+            41× live
+          </span>{" "}per bout flows through Mux delivery cost and sponsor pricing.
+        </p>
+
         {/* What's in / what's out */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 mb-6 md:mb-8">
           <div className="border border-zinc-200 rounded-md p-4 md:p-5">
@@ -728,9 +757,10 @@ export default function DeckPage() {
               Built into the model
             </p>
             <ul className="text-zinc-700 text-sm md:text-base space-y-1.5 leading-relaxed">
-              <li>· Voting revenue gated by viewer reach</li>
+              <li>· Voting revenue gated by live viewer reach</li>
+              <li>· 40× post-live replay multiplier</li>
               <li>· Sponsor revenue ramping in Year 2</li>
-              <li>· Mux delivery scaling with viewers</li>
+              <li>· Mux delivery scaling with live + replay</li>
               <li>· 18% charity payout as COGS</li>
               <li>· Debater honorariums per bout</li>
               <li>· $10K/mo paid search Year 1, ramping</li>
