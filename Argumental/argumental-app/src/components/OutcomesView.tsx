@@ -467,8 +467,16 @@ function HistoricalDebates() {
 }
 
 /**
- * ArgumentalPlayer — a 16:9 YouTube embed framed as an Argumental player:
- * dark surface, small status pill, title beside it.
+ * ArgumentalPlayer — YouTube embed framed as an Argumental player.
+ *
+ * Sizing: the player fills its container's height (h-full + flex-1 on
+ * the iframe wrapper). On the historical /outcomes panels the column
+ * is taller than a natural 16:9 player would be, so we let the iframe
+ * stretch — YouTube's player letterboxes the video inside, and the
+ * letterbox bars match our black surround for a seamless look.
+ *
+ * Falls back to a sensible 16:9 minimum so the player still has shape
+ * if its container has no defined height (e.g. when standalone).
  */
 function ArgumentalPlayer({
   videoId,
@@ -480,8 +488,8 @@ function ArgumentalPlayer({
   status?: string;
 }) {
   return (
-    <div className="flex flex-col rounded-md overflow-hidden border border-zinc-800 bg-black">
-      <div className="px-3 py-1.5 flex items-center gap-2 bg-zinc-950 border-b border-zinc-800">
+    <div className="flex flex-col h-full rounded-md overflow-hidden border border-zinc-800 bg-black">
+      <div className="px-3 py-1.5 flex items-center gap-2 bg-zinc-950 border-b border-zinc-800 shrink-0">
         <span className="bg-zinc-700 text-white text-[9px] font-black uppercase tracking-widest px-2 py-0.5 rounded-full">
           ● {status}
         </span>
@@ -489,7 +497,7 @@ function ArgumentalPlayer({
           {title}
         </span>
       </div>
-      <div className="relative aspect-video">
+      <div className="relative flex-1 min-h-[260px] aspect-video md:aspect-auto">
         <iframe
           src={`https://www.youtube-nocookie.com/embed/${videoId}?rel=0&modestbranding=1`}
           title={title}
