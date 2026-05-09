@@ -1,0 +1,42 @@
+{
+  "_meta": {
+    "comment": "Single source of truth for /deck, /model, and the .xlsx. Edit here. lib/financialModel.ts imports this for the deck and dashboard; scripts/build_argumental_model.py reads this to regenerate the spreadsheet.",
+    "horizonYears": 3,
+    "yearLabels": ["2026 (Y1)", "2027 (Y2)", "2028 (Y3)"]
+  },
+  "audience": {
+    "boutsPerYear": [48, 48, 48],
+    "liveViewers": [30000, 100000, 250000],
+    "voterConversion": [0.06, 0.08, 0.09],
+    "votePrice": [5, 5, 5]
+  },
+  "sponsorship": {
+    "sponsorPerBout": [0, 30000, 75000],
+    "sponsoredPct": [0, 0.5, 1.0]
+  },
+  "variableCosts": {
+    "muxDeliveryRate": [0.06, 0.06, 0.05],
+    "muxIngestPerBout": [8, 8, 8],
+    "stripePct": [0.029, 0.029, 0.029],
+    "stripePerVote": [0.3, 0.3, 0.3],
+    "charityPct": [0.18, 0.18, 0.18],
+    "honorariumPerBout": [25000, 25000, 25000],
+    "productionPerBout": [12000, 18000, 25000]
+  },
+  "fixedCosts": {
+    "headcount": [4, 8, 14],
+    "loadedCostPerFTE": [180000, 180000, 195000],
+    "paidSearch": [120000, 240000, 360000],
+    "brandMarketing": [60000, 240000, 480000],
+    "gAndA": [60000, 120000, 200000],
+    "legalAccounting": [50000, 90000, 140000]
+  },
+  "audienceBehavior": {
+    "avgLiveMins": [16, 18, 20],
+    "replayMultiplier": [40, 40, 40],
+    "avgReplayMins": [4, 5, 6]
+  },
+  "targets": {
+    "liveViewersEOY1": 100000
+  }
+}

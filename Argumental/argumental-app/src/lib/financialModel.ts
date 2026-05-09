@@ -1,47 +1,46 @@
 /**
  * Argumental — single source of truth for the 3-year financial model.
  *
- * Every number that flows through:
- *   1. /deck slide 13 (headline strip + reach context)
+ * Inputs live in `./financialModelInputs.json` so a single canonical file
+ * drives:
+ *   1. /deck slide 13 (headline strip + reach context + Y1 hero)
  *   2. /model dashboard (every table)
- * derives from the INPUTS constant below. Change one cell here and
- * both views update on next render.
+ *   3. /public/argumental-financial-model.xlsx (built by
+ *      `scripts/build_argumental_model.py`, which reads the same JSON)
  *
- * NOTE on the .xlsx: /scripts/build_argumental_model.py keeps its own
- * copy of these inputs because Python can't import a TS file directly.
- * If you change a driver here, mirror it there and re-run the script
- * to regenerate /public/argumental-financial-model.xlsx. (A future
- * refactor could emit a JSON inputs file from this module that the
- * Python script reads at build time — not done yet.)
+ * Edit the JSON.  /deck + /model re-flow on the next request; for the
+ * spreadsheet, run:
+ *
+ *   python3 argumental-app/scripts/build_argumental_model.py
  */
 
-// ── Inputs (per year, indexed 0 = Y1, 1 = Y2, 2 = Y3) ──────────────────
+import raw from "./financialModelInputs.json";
+
+// ── Inputs (flattened) ─────────────────────────────────────────────────
+// Keep this object's shape stable — /deck and /model both consume it.
 export const INPUTS = {
-  boutsPerYear: [48, 48, 48],
-  liveViewers: [30_000, 100_000, 250_000],
-  replayMultiplier: [40, 40, 40],
-  voterConversion: [0.06, 0.08, 0.09],
-  votePrice: [5, 5, 5],
-  sponsorPerBout: [0, 30_000, 75_000],
-  sponsoredPct: [0, 0.5, 1.0],
-  honorariumPerBout: [25_000, 25_000, 25_000], // capped, both debaters
-  productionPerBout: [12_000, 18_000, 25_000],
-  avgLiveMins: [16, 18, 20],
-  avgReplayMins: [4, 5, 6],
-  muxDeliveryRate: [0.06, 0.06, 0.05], // $/viewer-hour
-  muxIngestPerBout: [8, 8, 8],
-  stripePct: [0.029, 0.029, 0.029],
-  stripePerVote: [0.3, 0.3, 0.3],
-  charityPct: [0.18, 0.18, 0.18],
+  boutsPerYear: raw.audience.boutsPerYear,
+  liveViewers: raw.audience.liveViewers,
+  voterConversion: raw.audience.voterConversion,
+  votePrice: raw.audience.votePrice,
+  sponsorPerBout: raw.sponsorship.sponsorPerBout,
+  sponsoredPct: raw.sponsorship.sponsoredPct,
+  honorariumPerBout: raw.variableCosts.honorariumPerBout,
+  productionPerBout: raw.variableCosts.productionPerBout,
+  muxDeliveryRate: raw.variableCosts.muxDeliveryRate,
+  muxIngestPerBout: raw.variableCosts.muxIngestPerBout,
+  stripePct: raw.variableCosts.stripePct,
+  stripePerVote: raw.variableCosts.stripePerVote,
+  charityPct: raw.variableCosts.charityPct,
+  avgLiveMins: raw.audienceBehavior.avgLiveMins,
+  replayMultiplier: raw.audienceBehavior.replayMultiplier,
+  avgReplayMins: raw.audienceBehavior.avgReplayMins,
 };
 
 /** Strategic targets — used as goals on the deck, not as model drivers. */
-export const TARGETS = {
-  /** Y1 stated goal — average ramps back-weighted to hit this by year end. */
-  liveViewersEOY1: 100_000,
-};
+export const TARGETS = raw.targets;
 
-export const YEAR_LABELS = ["2026 (Y1)", "2027 (Y2)", "2028 (Y3)"] as const;
+export const YEAR_LABELS = raw._meta.yearLabels;
 
 // ── Computed series ────────────────────────────────────────────────────
 const Y = [0, 1, 2];
@@ -109,7 +108,7 @@ export const GROSS_PROFIT = Y.map(
   (i) => TOTAL_REVENUE[i] - TOTAL_VARIABLE[i],
 );
 
-/** Voters / bout — used by /model Inputs table and Unit Economics. */
+/** Voters / bout — used by /model Inputs table. */
 export const VOTERS_PER_BOUT = votersPerBout;
 export const ANNUAL_VOTES = annualVotes;
 
