@@ -1,139 +1,342 @@
 /**
  * Argumental — single source of truth for the 3-year financial model.
  *
- * Inputs live in `./financialModelInputs.json` so a single canonical file
- * drives:
- *   1. /deck slide 13 (headline strip + reach context + Y1 hero)
- *   2. /model dashboard (every table)
- *   3. /public/argumental-financial-model.xlsx (built by
- *      `scripts/build_argumental_model.py`, which reads the same JSON)
+ * Two scenarios live in `./financialModelInputs.json`:
+ *   - aggressive   (default — all Tier 1+2+3 levers on)
+ *   - conservative (voting-only floor case)
  *
- * Edit the JSON.  /deck + /model re-flow on the next request; for the
- * spreadsheet, run:
+ * The default scenario powers the deck headline + the .xlsx; `/model`
+ * supports a `?scenario=` toggle to flip between them.
  *
- *   python3 argumental-app/scripts/build_argumental_model.py
+ * Edit the JSON. /deck + /model re-flow on the next request. Run
+ * `python3 argumental-app/scripts/build_argumental_model.py` to refresh
+ * /public/argumental-financial-model.xlsx (which renders the default
+ * scenario).
  */
 
 import raw from "./financialModelInputs.json";
 
-// ── Honorarium rule → per-bout values ──────────────────────────────────
-// Y1 = flat cash to attract talent on day one.
-// Y2/Y3 = revenue share against per-bout voting purse to align incentives.
-const honorariumRule = raw.variableCosts.honorarium;
-const boutPurse = (i: number) =>
-  raw.audience.liveViewers[i] *
-  raw.audience.voterConversion[i] *
-  raw.audience.votePrice[i];
-const honorariumPerBout = [
-  honorariumRule.y1FlatUSD,
-  boutPurse(1) * honorariumRule.y2PctOfBoutPurse,
-  boutPurse(2) * honorariumRule.y3PctOfBoutPurse,
-];
+export type ScenarioKey = "aggressive" | "conservative";
 
-// ── Inputs (flattened) ─────────────────────────────────────────────────
-// Keep this object's shape stable — /deck and /model both consume it.
-//
-// Sponsorship is intentionally NOT modeled. Treated as upside on the deck.
-export const INPUTS = {
-  boutsPerYear: raw.audience.boutsPerYear,
-  liveViewers: raw.audience.liveViewers,
-  voterConversion: raw.audience.voterConversion,
-  votePrice: raw.audience.votePrice,
-  honorariumPerBout,
-  productionPerBout: raw.variableCosts.productionPerBout,
-  muxDeliveryRate: raw.variableCosts.muxDeliveryRate,
-  muxIngestPerBout: raw.variableCosts.muxIngestPerBout,
-  stripePct: raw.variableCosts.stripePct,
-  stripePerVote: raw.variableCosts.stripePerVote,
-  charityPct: raw.variableCosts.charityPct,
-  avgLiveMins: raw.audienceBehavior.avgLiveMins,
-  replayMultiplier: raw.audienceBehavior.replayMultiplier,
-  avgReplayMins: raw.audienceBehavior.avgReplayMins,
-};
-
-/** Honorarium rule for display on /model and /deck. */
-export const HONORARIUM_RULE = {
-  y1FlatUSD: honorariumRule.y1FlatUSD,
-  y2PctOfBoutPurse: honorariumRule.y2PctOfBoutPurse,
-  y3PctOfBoutPurse: honorariumRule.y3PctOfBoutPurse,
-};
-
-/** Strategic targets — used as goals on the deck, not as model drivers. */
-export const TARGETS = raw.targets;
-
-export const YEAR_LABELS = raw._meta.yearLabels;
-
-// ── Computed series ────────────────────────────────────────────────────
 const Y = [0, 1, 2];
 
-const votersPerBout = Y.map(
-  (i) => INPUTS.liveViewers[i] * INPUTS.voterConversion[i],
-);
-const annualVotes = Y.map(
-  (i) => INPUTS.boutsPerYear[i] * votersPerBout[i],
-);
+// ── Scenario type (matches the JSON shape) ─────────────────────────────
+interface Scenario {
+  label: string;
+  description: string;
+  audience: {
+    boutsPerYear: number[];
+    liveViewers: number[];
+    voterConversion: number[];
+    votePrice: number[];
+  };
+  sponsorship: {
+    sponsorPerBout: number[];
+    sponsoredPct: number[];
+  };
+  premium: {
+    subscribersByYear: number[];
+    monthlyPrice: number;
+  };
+  ticketing: {
+    eventsByYear: number[];
+    seatsPerEvent: number;
+    avgTicketPrice: number;
+  };
+  merch: { annualRevenue: number[] };
+  licensing: { annualRevenue: number[] };
+  adShare: { offPlatformPctOfReplay: number; cpm: number };
+  variableCosts: {
+    muxDeliveryRate: number[];
+    muxIngestPerBout: number[];
+    stripePct: number[];
+    stripePerVote: number[];
+    charityPct: number[];
+    honorarium: {
+      y1FlatUSD: number;
+      y2PctOfBoutPurse: number;
+      y3PctOfBoutPurse: number;
+    };
+    productionPerBout: number[];
+  };
+  fixedCosts: {
+    headcount: number[];
+    loadedCostPerFTE: number[];
+    paidSearch: number[];
+    brandMarketing: number[];
+    gAndA: number[];
+    legalAccounting: number[];
+  };
+  audienceBehavior: {
+    avgLiveMins: number[];
+    replayMultiplier: number[];
+    avgReplayMins: number[];
+  };
+  targets: { liveViewersEOY1: number };
+}
 
-export const REVENUE = {
-  voting: Y.map((i) => annualVotes[i] * INPUTS.votePrice[i]),
-};
+const SCENARIOS_RAW = raw.scenarios as Record<ScenarioKey, Scenario>;
+export const DEFAULT_SCENARIO: ScenarioKey = raw._meta.defaultScenario as ScenarioKey;
+export const YEAR_LABELS = raw._meta.yearLabels;
 
-/** Total revenue = voting only. Sponsorship treated as upside, not modeled. */
-export const TOTAL_REVENUE = REVENUE.voting;
+// ── Computation ────────────────────────────────────────────────────────
+export interface ModelSeries {
+  scenario: Scenario;
+  /** Flattened input shape — same keys /model and /deck have always used. */
+  inputs: {
+    boutsPerYear: number[];
+    liveViewers: number[];
+    voterConversion: number[];
+    votePrice: number[];
+    honorariumPerBout: number[];
+    productionPerBout: number[];
+    muxDeliveryRate: number[];
+    muxIngestPerBout: number[];
+    stripePct: number[];
+    stripePerVote: number[];
+    charityPct: number[];
+    avgLiveMins: number[];
+    replayMultiplier: number[];
+    avgReplayMins: number[];
+    sponsorPerBout: number[];
+    sponsoredPct: number[];
+    premiumSubscribersByYear: number[];
+    premiumMonthlyPrice: number;
+    ticketingEventsByYear: number[];
+    ticketingSeatsPerEvent: number;
+    ticketingAvgTicketPrice: number;
+    merchAnnual: number[];
+    licensingAnnual: number[];
+    offPlatformReplayPct: number;
+    adShareCPM: number;
+  };
+  honorariumRule: {
+    y1FlatUSD: number;
+    y2PctOfBoutPurse: number;
+    y3PctOfBoutPurse: number;
+  };
+  revenue: {
+    voting: number[];
+    sponsor: number[];
+    premium: number[];
+    ticketing: number[];
+    merch: number[];
+    licensing: number[];
+    adShare: number[];
+  };
+  totalRevenue: number[];
+  costs: {
+    muxDelivery: number[];
+    muxIngest: number[];
+    stripe: number[];
+    charity: number[];
+    honoraria: number[];
+    production: number[];
+  };
+  totalVariable: number[];
+  grossProfit: number[];
+  fixed: {
+    headcount: number[];
+    paidSearch: number[];
+    brandMarketing: number[];
+    gAndA: number[];
+    legalAccounting: number[];
+  };
+  totalFixed: number[];
+  ebitda: number[];
+  votersPerBout: number[];
+  annualVotes: number[];
+  totalReachPerBout: number[];
+  targets: { liveViewersEOY1: number };
+}
 
-const annualMuxDelivery = Y.map((i) => {
-  const liveMinPerBout = INPUTS.liveViewers[i] * INPUTS.avgLiveMins[i];
-  const replayMinPerBout =
-    INPUTS.liveViewers[i] *
-    INPUTS.replayMultiplier[i] *
-    INPUTS.avgReplayMins[i];
-  const totalMinAnnual =
-    INPUTS.boutsPerYear[i] * (liveMinPerBout + replayMinPerBout);
-  return (totalMinAnnual / 60) * INPUTS.muxDeliveryRate[i];
-});
+export function getModel(key: ScenarioKey): ModelSeries {
+  const s = SCENARIOS_RAW[key];
 
-export const COSTS = {
-  muxDelivery: annualMuxDelivery,
-  muxIngest: Y.map((i) => INPUTS.boutsPerYear[i] * INPUTS.muxIngestPerBout[i]),
-  stripe: Y.map(
+  const votersPerBout = Y.map(
+    (i) => s.audience.liveViewers[i] * s.audience.voterConversion[i],
+  );
+  const annualVotes = Y.map(
+    (i) => s.audience.boutsPerYear[i] * votersPerBout[i],
+  );
+  const boutPurse = Y.map((i) => votersPerBout[i] * s.audience.votePrice[i]);
+
+  // Honoraria — Y1 flat, Y2/Y3 % of per-bout purse
+  const honorariumPerBout = [
+    s.variableCosts.honorarium.y1FlatUSD,
+    boutPurse[1] * s.variableCosts.honorarium.y2PctOfBoutPurse,
+    boutPurse[2] * s.variableCosts.honorarium.y3PctOfBoutPurse,
+  ];
+
+  // Revenue lines
+  const voting = Y.map((i) => annualVotes[i] * s.audience.votePrice[i]);
+  const sponsor = Y.map(
     (i) =>
-      REVENUE.voting[i] * INPUTS.stripePct[i] +
-      annualVotes[i] * INPUTS.stripePerVote[i],
-  ),
-  charity: Y.map((i) => REVENUE.voting[i] * INPUTS.charityPct[i]),
-  honoraria: Y.map(
-    (i) => INPUTS.boutsPerYear[i] * INPUTS.honorariumPerBout[i],
-  ),
-  production: Y.map(
-    (i) => INPUTS.boutsPerYear[i] * INPUTS.productionPerBout[i],
-  ),
+      s.audience.boutsPerYear[i] *
+      s.sponsorship.sponsoredPct[i] *
+      s.sponsorship.sponsorPerBout[i],
+  );
+  const premium = Y.map(
+    (i) => s.premium.subscribersByYear[i] * s.premium.monthlyPrice * 12,
+  );
+  const ticketing = Y.map(
+    (i) =>
+      s.ticketing.eventsByYear[i] *
+      s.ticketing.seatsPerEvent *
+      s.ticketing.avgTicketPrice,
+  );
+  const merch = s.merch.annualRevenue;
+  const licensing = s.licensing.annualRevenue;
+  const adShare = Y.map((i) => {
+    const replayImpressionsPerBout =
+      s.audience.liveViewers[i] * s.audienceBehavior.replayMultiplier[i];
+    const annualOffPlatform =
+      s.audience.boutsPerYear[i] *
+      replayImpressionsPerBout *
+      s.adShare.offPlatformPctOfReplay;
+    return (annualOffPlatform * s.adShare.cpm) / 1000;
+  });
+
+  const totalRevenue = Y.map(
+    (i) =>
+      voting[i] + sponsor[i] + premium[i] + ticketing[i] + merch[i] +
+      licensing[i] + adShare[i],
+  );
+
+  // Mux delivery — replay portion scaled by (1 - off-platform pct)
+  const onPlatformReplayPct = 1 - s.adShare.offPlatformPctOfReplay;
+  const muxDelivery = Y.map((i) => {
+    const liveMin =
+      s.audience.liveViewers[i] * s.audienceBehavior.avgLiveMins[i];
+    const replayMin =
+      s.audience.liveViewers[i] *
+      s.audienceBehavior.replayMultiplier[i] *
+      s.audienceBehavior.avgReplayMins[i] *
+      onPlatformReplayPct;
+    const totalMinAnnual =
+      s.audience.boutsPerYear[i] * (liveMin + replayMin);
+    return (totalMinAnnual / 60) * s.variableCosts.muxDeliveryRate[i];
+  });
+  const muxIngest = Y.map(
+    (i) => s.audience.boutsPerYear[i] * s.variableCosts.muxIngestPerBout[i],
+  );
+  const stripe = Y.map(
+    (i) =>
+      voting[i] * s.variableCosts.stripePct[i] +
+      annualVotes[i] * s.variableCosts.stripePerVote[i],
+  );
+  const charity = Y.map((i) => voting[i] * s.variableCosts.charityPct[i]);
+  const honoraria = Y.map(
+    (i) => s.audience.boutsPerYear[i] * honorariumPerBout[i],
+  );
+  const production = Y.map(
+    (i) => s.audience.boutsPerYear[i] * s.variableCosts.productionPerBout[i],
+  );
+  const totalVariable = Y.map(
+    (i) =>
+      muxDelivery[i] + muxIngest[i] + stripe[i] + charity[i] +
+      honoraria[i] + production[i],
+  );
+
+  const grossProfit = Y.map((i) => totalRevenue[i] - totalVariable[i]);
+
+  // Fixed opex
+  const headcount = Y.map(
+    (i) => s.fixedCosts.headcount[i] * s.fixedCosts.loadedCostPerFTE[i],
+  );
+  const totalFixed = Y.map(
+    (i) =>
+      headcount[i] +
+      s.fixedCosts.paidSearch[i] +
+      s.fixedCosts.brandMarketing[i] +
+      s.fixedCosts.gAndA[i] +
+      s.fixedCosts.legalAccounting[i],
+  );
+  const ebitda = Y.map((i) => grossProfit[i] - totalFixed[i]);
+
+  return {
+    scenario: s,
+    inputs: {
+      boutsPerYear: s.audience.boutsPerYear,
+      liveViewers: s.audience.liveViewers,
+      voterConversion: s.audience.voterConversion,
+      votePrice: s.audience.votePrice,
+      honorariumPerBout,
+      productionPerBout: s.variableCosts.productionPerBout,
+      muxDeliveryRate: s.variableCosts.muxDeliveryRate,
+      muxIngestPerBout: s.variableCosts.muxIngestPerBout,
+      stripePct: s.variableCosts.stripePct,
+      stripePerVote: s.variableCosts.stripePerVote,
+      charityPct: s.variableCosts.charityPct,
+      avgLiveMins: s.audienceBehavior.avgLiveMins,
+      replayMultiplier: s.audienceBehavior.replayMultiplier,
+      avgReplayMins: s.audienceBehavior.avgReplayMins,
+      sponsorPerBout: s.sponsorship.sponsorPerBout,
+      sponsoredPct: s.sponsorship.sponsoredPct,
+      premiumSubscribersByYear: s.premium.subscribersByYear,
+      premiumMonthlyPrice: s.premium.monthlyPrice,
+      ticketingEventsByYear: s.ticketing.eventsByYear,
+      ticketingSeatsPerEvent: s.ticketing.seatsPerEvent,
+      ticketingAvgTicketPrice: s.ticketing.avgTicketPrice,
+      merchAnnual: s.merch.annualRevenue,
+      licensingAnnual: s.licensing.annualRevenue,
+      offPlatformReplayPct: s.adShare.offPlatformPctOfReplay,
+      adShareCPM: s.adShare.cpm,
+    },
+    honorariumRule: s.variableCosts.honorarium,
+    revenue: { voting, sponsor, premium, ticketing, merch, licensing, adShare },
+    totalRevenue,
+    costs: { muxDelivery, muxIngest, stripe, charity, honoraria, production },
+    totalVariable,
+    grossProfit,
+    fixed: {
+      headcount,
+      paidSearch: s.fixedCosts.paidSearch,
+      brandMarketing: s.fixedCosts.brandMarketing,
+      gAndA: s.fixedCosts.gAndA,
+      legalAccounting: s.fixedCosts.legalAccounting,
+    },
+    totalFixed,
+    ebitda,
+    votersPerBout,
+    annualVotes,
+    totalReachPerBout: Y.map(
+      (i) =>
+        s.audience.liveViewers[i] *
+        (1 + s.audienceBehavior.replayMultiplier[i]),
+    ),
+    targets: s.targets,
+  };
+}
+
+// ── Default-scenario shortcuts (unchanged API for /deck etc.) ─────────
+const DEFAULT_MODEL = getModel(DEFAULT_SCENARIO);
+
+export const INPUTS = DEFAULT_MODEL.inputs;
+export const TARGETS = DEFAULT_MODEL.targets;
+export const REVENUE = DEFAULT_MODEL.revenue;
+export const TOTAL_REVENUE = DEFAULT_MODEL.totalRevenue;
+export const COSTS = DEFAULT_MODEL.costs;
+export const TOTAL_VARIABLE = DEFAULT_MODEL.totalVariable;
+export const GROSS_PROFIT = DEFAULT_MODEL.grossProfit;
+export const TOTAL_REACH_PER_BOUT = DEFAULT_MODEL.totalReachPerBout;
+export const ANNUAL_VOTES = DEFAULT_MODEL.annualVotes;
+export const VOTERS_PER_BOUT = DEFAULT_MODEL.votersPerBout;
+
+/** Human-readable scenario metadata for UI chrome. */
+export const SCENARIO_META: Record<ScenarioKey, { label: string; description: string }> = {
+  aggressive: {
+    label: SCENARIOS_RAW.aggressive.label,
+    description: SCENARIOS_RAW.aggressive.description,
+  },
+  conservative: {
+    label: SCENARIOS_RAW.conservative.label,
+    description: SCENARIOS_RAW.conservative.description,
+  },
 };
-
-export const TOTAL_VARIABLE = Y.map(
-  (i) =>
-    COSTS.muxDelivery[i] +
-    COSTS.muxIngest[i] +
-    COSTS.stripe[i] +
-    COSTS.charity[i] +
-    COSTS.honoraria[i] +
-    COSTS.production[i],
-);
-
-export const GROSS_PROFIT = Y.map(
-  (i) => TOTAL_REVENUE[i] - TOTAL_VARIABLE[i],
-);
-
-/** Voters / bout — used by /model Inputs table. */
-export const VOTERS_PER_BOUT = votersPerBout;
-export const ANNUAL_VOTES = annualVotes;
-
-/** Total reach per bout (live + replay). */
-export const TOTAL_REACH_PER_BOUT = Y.map(
-  (i) => INPUTS.liveViewers[i] * (1 + INPUTS.replayMultiplier[i]),
-);
 
 // ── Format helpers ────────────────────────────────────────────────────
 
-/** "$1.23M" / "$432K" / "-$5". Compact, deck-friendly. */
 export function fmtUSD(n: number): string {
   const sign = n < 0 ? "-" : "";
   const a = Math.abs(n);
@@ -142,18 +345,15 @@ export function fmtUSD(n: number): string {
   return `${sign}$${a.toFixed(0)}`;
 }
 
-/** "$1,234,567" — full precision, dashboard-friendly. */
 export function fmtUSDExact(n: number): string {
   const sign = n < 0 ? "-" : "";
   return `${sign}$${Math.abs(Math.round(n)).toLocaleString()}`;
 }
 
-/** "1,234,567" */
 export function fmtNum(n: number): string {
   return Math.round(n).toLocaleString();
 }
 
-/** "30K" / "100K" / "1.5M" — compact viewer / impression counts. */
 export function fmtNumCompact(n: number): string {
   if (n >= 1_000_000)
     return `${(n / 1_000_000).toFixed(n >= 10_000_000 ? 0 : 1)}M`;
@@ -161,12 +361,10 @@ export function fmtNumCompact(n: number): string {
   return `${n}`;
 }
 
-/** "8.0%" */
 export function fmtPct(n: number, digits = 0): string {
   return `${(n * 100).toFixed(digits)}%`;
 }
 
-/** Sum the three-year series. */
 export function sum3(arr: readonly number[]): number {
   return arr[0] + arr[1] + arr[2];
 }

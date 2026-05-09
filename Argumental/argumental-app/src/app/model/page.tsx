@@ -1,64 +1,73 @@
 import Panel from "@/components/Panel";
 import Link from "next/link";
 import {
-  COSTS,
-  GROSS_PROFIT,
-  INPUTS,
-  REVENUE,
-  TOTAL_REACH_PER_BOUT,
-  TOTAL_REVENUE,
-  TOTAL_VARIABLE,
+  DEFAULT_SCENARIO,
+  SCENARIO_META,
+  type ScenarioKey,
   fmtNum,
   fmtPct,
   fmtUSD,
   fmtUSDExact,
+  getModel,
   sum3,
 } from "@/lib/financialModel";
 
 export const metadata = {
   title: "Argumental — Financial Model",
   description:
-    "Three-year financial model summary: inputs, revenue, variable costs, gross margin. Source for the deck and the downloadable spreadsheet.",
+    "Three-year financial model: aggressive vs conservative scenarios. Inputs, revenue, variable costs, fixed opex, EBITDA.",
 };
+
+const ALL_SCENARIOS: ScenarioKey[] = ["aggressive", "conservative"];
+
+function isScenario(k: string | undefined): k is ScenarioKey {
+  return k === "aggressive" || k === "conservative";
+}
+
+interface Props {
+  searchParams: Promise<{ scenario?: string }>;
+}
 
 /**
  * /model — single-page summary of the 3-year investor model.
  *
- * All numbers come from `lib/financialModel.ts`. Edit there; this page
- * re-renders. The deck headline strip imports from the same module.
+ * Two scenarios:
+ *   /model                       → default (aggressive)
+ *   /model?scenario=conservative → voting-only floor case
  *
- * The .xlsx is built by /scripts/build_argumental_model.py and ships
- * to /public/argumental-financial-model.xlsx — Python keeps its own
- * copy of the inputs (see lib's top comment).
+ * All numbers come from `lib/financialModel.ts` which reads
+ * `lib/financialModelInputs.json`. Edit the JSON; this page re-flows.
  */
-export default function ModelPage() {
+export default async function ModelPage({ searchParams }: Props) {
+  const sp = await searchParams;
+  const key: ScenarioKey = isScenario(sp.scenario) ? sp.scenario : DEFAULT_SCENARIO;
+  const m = getModel(key);
+
   return (
     <div className="max-w-6xl mx-auto px-4 md:px-6 py-5 md:py-10 w-full">
       {/* Hero */}
-      <div className="mb-6 md:mb-8">
+      <div className="mb-4 md:mb-5">
         <p className="text-zinc-500 text-[10px] md:text-xs uppercase tracking-widest font-black mb-2">
           Three-Year Financial Model
         </p>
         <h1 className="text-3xl md:text-4xl font-black text-zinc-900 leading-tight">
-          Inputs · Revenue · Variable Costs.
+          {SCENARIO_META[key].label} case.
         </h1>
-        <p className="text-zinc-600 text-sm md:text-base mt-2 max-w-2xl">
-          The same numbers powering the deck and the spreadsheet, on one page.
-          Goal: <span className="text-zinc-900 font-bold">100K live viewers</span>{" "}
-          per bout by end of Year 1, with a{" "}
-          <span className="text-zinc-900 font-bold">40× post-live replay</span>{" "}
-          multiplier flowing through delivery cost. Revenue is voting only;
-          sponsorship is treated as upside.
+        <p className="text-zinc-600 text-sm md:text-base mt-2 max-w-3xl">
+          {SCENARIO_META[key].description}
         </p>
       </div>
+
+      {/* Scenario tabs */}
+      <ScenarioTabs current={key} />
 
       {/* Headline strip */}
       <div className="grid grid-cols-2 md:grid-cols-4 border-y-2 border-zinc-900 mb-6 md:mb-8">
         {[
-          { kicker: "Y1 Revenue (2026)", value: fmtUSD(TOTAL_REVENUE[0]), sub: "Voting only" },
-          { kicker: "Y2 Revenue (2027)", value: fmtUSD(TOTAL_REVENUE[1]), sub: "Audience compounding" },
-          { kicker: "Y3 Revenue (2028)", value: fmtUSD(TOTAL_REVENUE[2]), sub: "Full league cadence" },
-          { kicker: "3-Yr Total", value: fmtUSD(sum3(TOTAL_REVENUE)), sub: "Voting · pre-sponsor" },
+          { kicker: "Y1 Revenue (2026)", value: fmtUSD(m.totalRevenue[0]) },
+          { kicker: "Y2 Revenue (2027)", value: fmtUSD(m.totalRevenue[1]) },
+          { kicker: "Y3 Revenue (2028)", value: fmtUSD(m.totalRevenue[2]) },
+          { kicker: "3-Yr Total", value: fmtUSD(sum3(m.totalRevenue)) },
         ].map((s) => (
           <div
             key={s.kicker}
@@ -70,7 +79,6 @@ export default function ModelPage() {
             <p className="text-zinc-900 font-black text-2xl md:text-4xl tabular-nums leading-none mt-1.5">
               {s.value}
             </p>
-            <p className="text-zinc-500 text-[11px] mt-1.5">{s.sub}</p>
           </div>
         ))}
       </div>
@@ -78,53 +86,27 @@ export default function ModelPage() {
       {/* INPUTS */}
       <div className="mb-6 md:mb-8">
         <Panel label="Inputs">
-          <Row3
+          <Row5
             cols={["Driver", "2026 (Y1)", "2027 (Y2)", "2028 (Y3)", "Notes"]}
             isHeader
           />
           {[
-            {
-              label: "Bouts / year",
-              v: INPUTS.boutsPerYear.map(fmtNum),
-              note: "1 / Sunday",
-            },
-            {
-              label: "Avg live viewers / bout",
-              v: INPUTS.liveViewers.map(fmtNum),
-              note: "Y1 ramps to 100K EOY",
-            },
-            {
-              label: "Post-live replay multiplier",
-              v: INPUTS.replayMultiplier.map((n) => `${n}×`),
-              note: "Replay views = live × this",
-            },
-            {
-              label: "Total reach / bout",
-              v: TOTAL_REACH_PER_BOUT.map(fmtNum),
-              note: "Live + replay impressions",
-            },
-            {
-              label: "Voter conversion",
-              v: INPUTS.voterConversion.map((n) => fmtPct(n, 1)),
-              note: "% of live viewers who vote",
-            },
-            {
-              label: "Vote price",
-              v: INPUTS.votePrice.map((n) => fmtUSD(n)),
-              note: "Fixed · $10/wk cap",
-            },
-            {
-              label: "Debater honorarium / bout",
-              v: INPUTS.honorariumPerBout.map(fmtUSD),
-              note: "Y1 flat · Y2/Y3 % of purse",
-            },
-            {
-              label: "Production cost / bout",
-              v: INPUTS.productionPerBout.map(fmtUSD),
-              note: "Studio + crew",
-            },
+            { label: "Bouts / year", v: m.inputs.boutsPerYear.map(fmtNum), note: "1 / Sunday" },
+            { label: "Avg live viewers / bout", v: m.inputs.liveViewers.map(fmtNum), note: "Y1 EOY peak target" },
+            { label: "Post-live replay multiplier", v: m.inputs.replayMultiplier.map((n) => `${n}×`), note: "Replay views = live × this" },
+            { label: "Off-platform replay %", v: [m.inputs.offPlatformReplayPct, m.inputs.offPlatformReplayPct, m.inputs.offPlatformReplayPct].map((n) => fmtPct(n)), note: "FB · TikTok · YouTube share" },
+            { label: "Total reach / bout", v: m.totalReachPerBout.map(fmtNum), note: "Live + replay impressions" },
+            { label: "Voter conversion", v: m.inputs.voterConversion.map((n) => fmtPct(n, 1)), note: "% of live viewers who vote" },
+            { label: "Vote price", v: m.inputs.votePrice.map((n) => fmtUSD(n)), note: "Fixed · $10/wk cap" },
+            { label: "Sponsor revenue / bout", v: m.inputs.sponsorPerBout.map(fmtUSD), note: "Title slot · 41× reach" },
+            { label: "Sponsored bouts (% cadence)", v: m.inputs.sponsoredPct.map((n) => fmtPct(n)), note: "Brand fit ramps to full" },
+            { label: "Premium subscribers", v: m.inputs.premiumSubscribersByYear.map(fmtNum), note: `$${m.inputs.premiumMonthlyPrice}/mo · archive + AMAs` },
+            { label: "Ticketed events", v: m.inputs.ticketingEventsByYear.map((n) => `${n}`), note: `${m.inputs.ticketingSeatsPerEvent} seats × $${m.inputs.ticketingAvgTicketPrice}` },
+            { label: "Debater honorarium / bout", v: m.inputs.honorariumPerBout.map(fmtUSD), note: "Y1 flat · Y2/Y3 % of purse" },
+            { label: "Production cost / bout", v: m.inputs.productionPerBout.map(fmtUSD), note: "Studio + crew" },
+            { label: "Headcount (FTE)", v: m.scenario.fixedCosts.headcount.map(fmtNum), note: "Loaded ~$185K each" },
           ].map((r) => (
-            <Row3 key={r.label} cols={[r.label, ...r.v, r.note]} />
+            <Row5 key={r.label} cols={[r.label, ...r.v, r.note]} />
           ))}
         </Panel>
       </div>
@@ -132,60 +114,64 @@ export default function ModelPage() {
       {/* REVENUE */}
       <div className="mb-6 md:mb-8">
         <Panel label="Revenue">
-          <Row3
+          <Row5
             cols={["Line", "2026 (Y1)", "2027 (Y2)", "2028 (Y3)", "3-Yr Total"]}
             isHeader
             accent="brand-red"
           />
-          <Row3
-            cols={[
-              "Voting revenue",
-              ...REVENUE.voting.map(fmtUSDExact),
-              fmtUSDExact(sum3(REVENUE.voting)),
-            ]}
-          />
-          <Row3
+          {[
+            { label: "Voting", v: m.revenue.voting },
+            { label: "Sponsorship", v: m.revenue.sponsor },
+            { label: "Premium subscriptions", v: m.revenue.premium },
+            { label: "Live event ticketing", v: m.revenue.ticketing },
+            { label: "Merch", v: m.revenue.merch },
+            { label: "International licensing", v: m.revenue.licensing },
+            { label: "YouTube ad share", v: m.revenue.adShare },
+          ]
+            .filter((r) => sum3(r.v) > 0 || r.label === "Voting")
+            .map((r) => (
+              <Row5
+                key={r.label}
+                cols={[r.label, ...r.v.map(fmtUSDExact), fmtUSDExact(sum3(r.v))]}
+              />
+            ))}
+          <Row5
             cols={[
               "Total revenue",
-              ...TOTAL_REVENUE.map(fmtUSDExact),
-              fmtUSDExact(sum3(TOTAL_REVENUE)),
+              ...m.totalRevenue.map(fmtUSDExact),
+              fmtUSDExact(sum3(m.totalRevenue)),
             ]}
             isTotal
           />
-          <div className="px-3 md:px-5 py-3 bg-zinc-50 border-t border-zinc-100 text-zinc-500 text-xs leading-relaxed">
-            Sponsorship not included. Treated as upside — the 41× total
-            reach per bout justifies sponsor packages, but conservative
-            modeling here assumes none.
-          </div>
         </Panel>
       </div>
 
       {/* VARIABLE COSTS */}
       <div className="mb-6 md:mb-8">
         <Panel label="Variable Costs">
-          <Row3
+          <Row5
             cols={["Line", "2026 (Y1)", "2027 (Y2)", "2028 (Y3)", "3-Yr Total"]}
             isHeader
             accent="brand-blue"
           />
           {[
-            { label: "Mux delivery (live + replay)", v: COSTS.muxDelivery },
-            { label: "Mux ingest", v: COSTS.muxIngest },
-            { label: "Stripe processing", v: COSTS.stripe },
-            { label: "Charity payout (18% of vote rev)", v: COSTS.charity },
-            { label: "Debater honorariums", v: COSTS.honoraria },
-            { label: "Production", v: COSTS.production },
+            { label: "Mux delivery (live + on-platform replay)", v: m.costs.muxDelivery },
+            { label: "Mux ingest", v: m.costs.muxIngest },
+            { label: "Stripe processing", v: m.costs.stripe },
+            { label: "Charity payout (18% of vote rev)", v: m.costs.charity },
+            { label: "Debater honorariums", v: m.costs.honoraria },
+            { label: "Production", v: m.costs.production },
           ].map((r) => (
-            <Row3
+            <Row5
               key={r.label}
               cols={[r.label, ...r.v.map(fmtUSDExact), fmtUSDExact(sum3(r.v))]}
             />
           ))}
-          <Row3
+          <Row5
             cols={[
               "Total variable cost",
-              ...TOTAL_VARIABLE.map(fmtUSDExact),
-              fmtUSDExact(sum3(TOTAL_VARIABLE)),
+              ...m.totalVariable.map(fmtUSDExact),
+              fmtUSDExact(sum3(m.totalVariable)),
             ]}
             isTotal
           />
@@ -195,38 +181,100 @@ export default function ModelPage() {
       {/* GROSS MARGIN */}
       <div className="mb-6 md:mb-8">
         <Panel label="Gross Margin">
-          <Row3
+          <Row5
             cols={["", "2026 (Y1)", "2027 (Y2)", "2028 (Y3)", "3-Yr Total"]}
             isHeader
           />
-          <Row3
+          <Row5
             cols={[
               "Gross profit",
-              ...GROSS_PROFIT.map(fmtUSDExact),
-              fmtUSDExact(sum3(GROSS_PROFIT)),
+              ...m.grossProfit.map(fmtUSDExact),
+              fmtUSDExact(sum3(m.grossProfit)),
             ]}
             isTotal
           />
-          <Row3
+          <Row5
             cols={[
               "Gross margin %",
-              ...GROSS_PROFIT.map((g, i) =>
-                TOTAL_REVENUE[i] > 0 ? fmtPct(g / TOTAL_REVENUE[i], 1) : "—",
+              ...m.grossProfit.map((g, i) =>
+                m.totalRevenue[i] > 0 ? fmtPct(g / m.totalRevenue[i], 1) : "—",
               ),
-              fmtPct(sum3(GROSS_PROFIT) / sum3(TOTAL_REVENUE), 1),
+              sum3(m.totalRevenue) > 0
+                ? fmtPct(sum3(m.grossProfit) / sum3(m.totalRevenue), 1)
+                : "—",
             ]}
           />
         </Panel>
       </div>
 
-      {/* CTAs + footnote */}
+      {/* FIXED OPEX */}
+      <div className="mb-6 md:mb-8">
+        <Panel label="Fixed Opex">
+          <Row5
+            cols={["Line", "2026 (Y1)", "2027 (Y2)", "2028 (Y3)", "3-Yr Total"]}
+            isHeader
+            accent="brand-blue"
+          />
+          {[
+            { label: "Headcount", v: m.fixed.headcount },
+            { label: "Paid search & acquisition", v: m.fixed.paidSearch },
+            { label: "Brand & creator marketing", v: m.fixed.brandMarketing },
+            { label: "G&A, tooling, infra", v: m.fixed.gAndA },
+            { label: "Legal, accounting, insurance", v: m.fixed.legalAccounting },
+          ].map((r) => (
+            <Row5
+              key={r.label}
+              cols={[r.label, ...r.v.map(fmtUSDExact), fmtUSDExact(sum3(r.v))]}
+            />
+          ))}
+          <Row5
+            cols={[
+              "Total fixed opex",
+              ...m.totalFixed.map(fmtUSDExact),
+              fmtUSDExact(sum3(m.totalFixed)),
+            ]}
+            isTotal
+          />
+        </Panel>
+      </div>
+
+      {/* EBITDA */}
+      <div className="mb-6 md:mb-8">
+        <Panel label="EBITDA">
+          <Row5
+            cols={["", "2026 (Y1)", "2027 (Y2)", "2028 (Y3)", "3-Yr Total"]}
+            isHeader
+          />
+          <Row5
+            cols={[
+              "EBITDA",
+              ...m.ebitda.map(fmtUSDExact),
+              fmtUSDExact(sum3(m.ebitda)),
+            ]}
+            isTotal
+          />
+          <Row5
+            cols={[
+              "EBITDA margin %",
+              ...m.ebitda.map((e, i) =>
+                m.totalRevenue[i] > 0 ? fmtPct(e / m.totalRevenue[i], 1) : "—",
+              ),
+              sum3(m.totalRevenue) > 0
+                ? fmtPct(sum3(m.ebitda) / sum3(m.totalRevenue), 1)
+                : "—",
+            ]}
+          />
+        </Panel>
+      </div>
+
+      {/* CTAs */}
       <div className="flex flex-col sm:flex-row gap-3 items-start mb-3">
         <a
           href="/argumental-financial-model.xlsx"
           download
           className="bg-black hover:bg-zinc-800 text-white font-black uppercase tracking-widest text-xs md:text-sm px-5 py-3 rounded-md transition inline-flex items-center gap-2"
         >
-          Download full model (.xlsx)
+          Download model (.xlsx)
           <span aria-hidden>↓</span>
         </a>
         <Link
@@ -237,11 +285,8 @@ export default function ModelPage() {
         </Link>
       </div>
       <p className="text-zinc-500 text-xs md:text-sm leading-relaxed max-w-3xl">
-        Pre-tax. Excludes IP / licensing upside, on-demand archive monetization,
-        white-label league for institutions, championship-bout ticketing, and
-        merch — all deliberately omitted from the model and treated as upside.
-        Full P&amp;L (with fixed opex and EBITDA) plus per-bout unit economics
-        live in the spreadsheet.
+        Pre-tax. The .xlsx renders the {SCENARIO_META[DEFAULT_SCENARIO].label.toLowerCase()}{" "}
+        case (default). Toggle scenarios above to see the conservative floor.
       </p>
     </div>
   );
@@ -249,7 +294,30 @@ export default function ModelPage() {
 
 /* ────────────────────────────────────────────────────────────────────── */
 
-function Row3({
+function ScenarioTabs({ current }: { current: ScenarioKey }) {
+  return (
+    <div className="inline-flex border border-zinc-300 rounded-md bg-white p-0.5 mb-5 md:mb-6">
+      {ALL_SCENARIOS.map((s) => {
+        const active = s === current;
+        return (
+          <Link
+            key={s}
+            href={s === DEFAULT_SCENARIO ? "/model" : `/model?scenario=${s}`}
+            className={`px-4 md:px-5 py-2 rounded-md text-[11px] font-black uppercase tracking-widest transition whitespace-nowrap ${
+              active
+                ? "bg-black text-white"
+                : "text-zinc-500 hover:text-zinc-900 hover:bg-zinc-50"
+            }`}
+          >
+            {SCENARIO_META[s].label}
+          </Link>
+        );
+      })}
+    </div>
+  );
+}
+
+function Row5({
   cols,
   isHeader = false,
   isTotal = false,

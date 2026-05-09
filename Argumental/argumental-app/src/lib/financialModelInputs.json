@@ -1,43 +1,134 @@
 {
   "_meta": {
-    "comment": "Single source of truth for /deck, /model, and the .xlsx. Edit here. lib/financialModel.ts imports this for the deck and dashboard; scripts/build_argumental_model.py reads this to regenerate the spreadsheet.",
+    "comment": "Two scenarios. /model toggles between them; /deck shows the default (aggressive); the .xlsx renders the default. Edit either scenario to stress-test that case in isolation.",
     "horizonYears": 3,
-    "yearLabels": ["2026 (Y1)", "2027 (Y2)", "2028 (Y3)"]
+    "yearLabels": ["2026 (Y1)", "2027 (Y2)", "2028 (Y3)"],
+    "defaultScenario": "aggressive"
   },
-  "audience": {
-    "boutsPerYear": [48, 48, 48],
-    "liveViewers": [60000, 100000, 125000],
-    "voterConversion": [0.06, 0.08, 0.09],
-    "votePrice": [5, 5, 5]
-  },
-  "variableCosts": {
-    "muxDeliveryRate": [0.06, 0.06, 0.05],
-    "muxIngestPerBout": [8, 8, 8],
-    "stripePct": [0.029, 0.029, 0.029],
-    "stripePerVote": [0.3, 0.3, 0.3],
-    "charityPct": [0.18, 0.18, 0.18],
-    "honorarium": {
-      "_comment": "Y1 flat cash to attract talent; Y2/Y3 shift to revenue share against per-bout voting purse to align debater incentives with audience growth.",
-      "y1FlatUSD": 10000,
-      "y2PctOfBoutPurse": 0.05,
-      "y3PctOfBoutPurse": 0.03
+  "scenarios": {
+    "aggressive": {
+      "label": "Aggressive",
+      "description": "All Tier 1+2+3 levers active: sponsorship, off-platform replay distribution, premium tier, ticketing, merch, licensing, YouTube ad share, lean headcount, Mux enterprise rate by Y3.",
+      "audience": {
+        "boutsPerYear": [48, 48, 48],
+        "liveViewers": [60000, 100000, 125000],
+        "voterConversion": [0.06, 0.10, 0.12],
+        "votePrice": [5, 5, 5]
+      },
+      "sponsorship": {
+        "sponsorPerBout": [0, 25000, 50000],
+        "sponsoredPct": [0, 0.5, 1.0]
+      },
+      "premium": {
+        "subscribersByYear": [0, 5000, 10000],
+        "monthlyPrice": 7
+      },
+      "ticketing": {
+        "eventsByYear": [0, 1, 2],
+        "seatsPerEvent": 1500,
+        "avgTicketPrice": 150
+      },
+      "merch": {
+        "annualRevenue": [0, 50000, 150000]
+      },
+      "licensing": {
+        "annualRevenue": [0, 0, 250000]
+      },
+      "adShare": {
+        "offPlatformPctOfReplay": 0.8,
+        "cpm": 1.5
+      },
+      "variableCosts": {
+        "muxDeliveryRate": [0.06, 0.05, 0.025],
+        "muxIngestPerBout": [8, 8, 8],
+        "stripePct": [0.029, 0.029, 0.029],
+        "stripePerVote": [0.3, 0.3, 0.3],
+        "charityPct": [0.18, 0.18, 0.18],
+        "honorarium": {
+          "y1FlatUSD": 10000,
+          "y2PctOfBoutPurse": 0.05,
+          "y3PctOfBoutPurse": 0.03
+        },
+        "productionPerBout": [10000, 10000, 10000]
+      },
+      "fixedCosts": {
+        "headcount": [4, 7, 10],
+        "loadedCostPerFTE": [180000, 185000, 190000],
+        "paidSearch": [120000, 240000, 360000],
+        "brandMarketing": [60000, 240000, 480000],
+        "gAndA": [60000, 120000, 200000],
+        "legalAccounting": [50000, 90000, 140000]
+      },
+      "audienceBehavior": {
+        "avgLiveMins": [16, 18, 20],
+        "replayMultiplier": [40, 40, 40],
+        "avgReplayMins": [4, 5, 6]
+      },
+      "targets": {
+        "liveViewersEOY1": 60000
+      }
     },
-    "productionPerBout": [10000, 10000, 10000]
-  },
-  "fixedCosts": {
-    "headcount": [4, 8, 14],
-    "loadedCostPerFTE": [180000, 180000, 195000],
-    "paidSearch": [120000, 240000, 360000],
-    "brandMarketing": [60000, 240000, 480000],
-    "gAndA": [60000, 120000, 200000],
-    "legalAccounting": [50000, 90000, 140000]
-  },
-  "audienceBehavior": {
-    "avgLiveMins": [16, 18, 20],
-    "replayMultiplier": [40, 40, 40],
-    "avgReplayMins": [4, 5, 6]
-  },
-  "targets": {
-    "liveViewersEOY1": 60000
+    "conservative": {
+      "label": "Conservative",
+      "description": "Voting only. All platform extensions, sponsorship, and licensing treated as upside. Mux delivers 100% of viewing.",
+      "audience": {
+        "boutsPerYear": [48, 48, 48],
+        "liveViewers": [60000, 100000, 125000],
+        "voterConversion": [0.06, 0.08, 0.09],
+        "votePrice": [5, 5, 5]
+      },
+      "sponsorship": {
+        "sponsorPerBout": [0, 0, 0],
+        "sponsoredPct": [0, 0, 0]
+      },
+      "premium": {
+        "subscribersByYear": [0, 0, 0],
+        "monthlyPrice": 0
+      },
+      "ticketing": {
+        "eventsByYear": [0, 0, 0],
+        "seatsPerEvent": 0,
+        "avgTicketPrice": 0
+      },
+      "merch": {
+        "annualRevenue": [0, 0, 0]
+      },
+      "licensing": {
+        "annualRevenue": [0, 0, 0]
+      },
+      "adShare": {
+        "offPlatformPctOfReplay": 0,
+        "cpm": 0
+      },
+      "variableCosts": {
+        "muxDeliveryRate": [0.06, 0.06, 0.05],
+        "muxIngestPerBout": [8, 8, 8],
+        "stripePct": [0.029, 0.029, 0.029],
+        "stripePerVote": [0.3, 0.3, 0.3],
+        "charityPct": [0.18, 0.18, 0.18],
+        "honorarium": {
+          "y1FlatUSD": 10000,
+          "y2PctOfBoutPurse": 0.05,
+          "y3PctOfBoutPurse": 0.03
+        },
+        "productionPerBout": [10000, 10000, 10000]
+      },
+      "fixedCosts": {
+        "headcount": [4, 8, 14],
+        "loadedCostPerFTE": [180000, 180000, 195000],
+        "paidSearch": [120000, 240000, 360000],
+        "brandMarketing": [60000, 240000, 480000],
+        "gAndA": [60000, 120000, 200000],
+        "legalAccounting": [50000, 90000, 140000]
+      },
+      "audienceBehavior": {
+        "avgLiveMins": [16, 18, 20],
+        "replayMultiplier": [40, 40, 40],
+        "avgReplayMins": [4, 5, 6]
+      },
+      "targets": {
+        "liveViewersEOY1": 60000
+      }
+    }
   }
 }

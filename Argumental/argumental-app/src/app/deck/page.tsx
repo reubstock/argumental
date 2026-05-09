@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import {
   INPUTS,
   TARGETS,
@@ -766,30 +767,37 @@ export default function DeckPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 mb-6 md:mb-8">
           <div className="border border-zinc-200 rounded-md p-4 md:p-5">
             <p className="text-brand-red text-[10px] uppercase tracking-widest font-black mb-2">
-              Built into the model
+              Built into the aggressive case
             </p>
             <ul className="text-zinc-700 text-sm md:text-base space-y-1.5 leading-relaxed">
               <li>· Voting revenue gated by live viewer reach</li>
-              <li>· 40× post-live replay multiplier</li>
-              <li>· Mux delivery scaling with live + replay</li>
-              <li>· 18% charity payout as COGS</li>
-              <li>· Honoraria: $10K/bout Y1, then 5%/3% of purse</li>
-              <li>· $10K/mo paid search Year 1, ramping</li>
-              <li>· Headcount, G&amp;A, legal, infra</li>
+              <li>· Sponsorship — title slots, category exclusives</li>
+              <li>· Premium tier — $7/mo archive + AMAs</li>
+              <li>· Live championship ticketing</li>
+              <li>· Merch + international licensing</li>
+              <li>· 80% off-platform replay (FB · TikTok · YouTube)</li>
+              <li>· YouTube ad share at $1.50 CPM</li>
+              <li>· Honoraria: $10K Y1, then 5%/3% of purse</li>
+              <li>· Lean headcount: 4 → 7 → 10 FTE</li>
+              <li>· Mux enterprise rate by Y3</li>
             </ul>
           </div>
           <div className="border border-zinc-200 rounded-md p-4 md:p-5">
             <p className="text-brand-blue text-[10px] uppercase tracking-widest font-black mb-2">
-              Treated as upside, not assumed
+              Conservative floor case
             </p>
-            <ul className="text-zinc-700 text-sm md:text-base space-y-1.5 leading-relaxed">
-              <li>· Sponsorship · title slots, category exclusives</li>
-              <li>· International format licensing</li>
-              <li>· On-demand archive monetization</li>
-              <li>· White-label league for institutions</li>
-              <li>· Live-event ticketing (championship bouts)</li>
-              <li>· Branded merch + book deals</li>
-            </ul>
+            <p className="text-zinc-700 text-sm md:text-base leading-relaxed">
+              Voting revenue only. No sponsorship, no platform extensions,
+              no off-platform distribution. Headcount runs full at 14 FTE
+              by Y3. The floor case shows the league&apos;s economics
+              before any growth lever is pulled.
+            </p>
+            <Link
+              href="/model?scenario=conservative"
+              className="text-brand-blue hover:text-blue-700 text-xs font-black uppercase tracking-widest mt-3 inline-flex items-center gap-1.5"
+            >
+              See conservative numbers →
+            </Link>
           </div>
         </div>
 
