@@ -67,10 +67,43 @@ Specific licenses can be confirmed on each Commons file page linked above.
 For CC BY/BY-SA images, attribution is provided by inclusion in this file
 and by the link back to the Commons source.
 
+## Charity logos (`/charities/`)
+
+Each backed charity uses its organization's logo as the hero image,
+sourced from the org's own homepage `og:image` meta tag (the canonical
+share-preview asset they publish for embedding). FIDF's logo was
+unavailable through that path (Cloudflare blocks programmatic fetches);
+it was sourced from the public Wikipedia article infobox.
+
+Logos are displayed for nominative reference — to identify the org
+the user is being linked to — which is the standard well-established
+use case for organization marks. Each card links back to the org's
+own URL.
+
+- **fidf.jpg** — Friends of the Israel Defense Forces, official logo.
+  Sourced from the Wikipedia infobox; composited onto a white 1200×600
+  canvas for the hero strip.
+- **unrwa-usa.jpg** — UNRWA USA homepage share image.
+- **job-creators-network.jpg** — Job Creators Network homepage share image.
+- **humanity-forward.jpg** — Humanity Forward homepage share image.
+- **alliance-defending-freedom.jpg** — ADF homepage default share image.
+- **trans-lifeline.jpg** — Trans Lifeline favicon (the homepage og:image),
+  centered on a white 1200×600 canvas.
+- **equal-justice-initiative.jpg** — Equal Justice Initiative homepage
+  share image (campaign banner).
+- **cops-survivors.jpg** — Concerns of Police Survivors org logo,
+  centered on a white 1200×600 canvas.
+
 ## Refreshing
 
-To re-pull from Wikipedia (e.g. if a subject's article gets a better photo):
+Debater portraits (Wikipedia Commons articles):
 
 ```bash
 python3 argumental-app/scripts/fetch_debater_portraits.py
+```
+
+Charity logos (org homepage og:image):
+
+```bash
+python3 argumental-app/scripts/fetch_charity_logos.py
 ```
