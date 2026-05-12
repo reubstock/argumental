@@ -84,6 +84,7 @@ const CHARITY_SEED: Charity[] = [
     mission:
       "U.S.-based nonprofit funding wellbeing, education, and post-service support for Israeli soldiers and their families. Programs range from financial aid for lone soldiers to mental health services and veteran transition support.",
     metric: "Est. 1981",
+    heroImage: "/shapiro.jpg",
     backerName: "Ben Shapiro",
     backerSide: "A",
     backerDebateId: "israel-001",
@@ -97,6 +98,7 @@ const CHARITY_SEED: Charity[] = [
     mission:
       "American partner to the UN Relief and Works Agency providing food, education, primary healthcare, and emergency relief to Palestinian refugees across Gaza, the West Bank, Jordan, Lebanon, and Syria.",
     metric: "Serves 5.9M refugees",
+    heroImage: "/aoc.jpg",
     backerName: "AOC",
     backerSide: "B",
     backerDebateId: "israel-001",
@@ -111,6 +113,7 @@ const CHARITY_SEED: Charity[] = [
     mission:
       "Advocacy + education nonprofit pushing back on policies that suppress small-business hiring. Programs train owners on tax / regulatory navigation and rally Main Street voices into national policy debates.",
     metric: "Est. 2010",
+    heroImage: "/debaters/ramaswamy.jpg",
     backerName: "Vivek Ramaswamy",
     backerSide: "A",
     backerDebateId: "ubi-001",
@@ -123,6 +126,7 @@ const CHARITY_SEED: Charity[] = [
     mission:
       "Andrew Yang's policy nonprofit advancing universal basic income, direct cash relief, and data-driven government. Funded the largest U.S. private cash-transfer pilot to date during the early pandemic and continues to lobby for permanent income guarantees.",
     metric: "Founded 2020",
+    heroImage: "/debaters/yang.jpg",
     backerName: "Andrew Yang",
     backerSide: "B",
     backerDebateId: "ubi-001",
@@ -137,6 +141,7 @@ const CHARITY_SEED: Charity[] = [
     mission:
       "Conservative legal nonprofit litigating cases on religious freedom, parental rights, sex-based protections in sports and shelters, and free expression for traditional viewpoints. Represented multiple plaintiffs at the Supreme Court.",
     metric: "Est. 1994",
+    heroImage: "/debaters/walsh.jpg",
     backerName: "Matt Walsh",
     backerSide: "A",
     backerDebateId: "woman-001",
@@ -149,6 +154,7 @@ const CHARITY_SEED: Charity[] = [
     mission:
       "Peer-support hotline and microgrants program run by and for trans people. Provides judgment-free crisis calls 24/7 and emergency cash assistance to cover documents, medical care, and safety needs.",
     metric: "100K+ calls answered",
+    heroImage: "/debaters/butler.jpg",
     backerName: "Judith Butler",
     backerSide: "B",
     backerDebateId: "woman-001",
@@ -163,6 +169,7 @@ const CHARITY_SEED: Charity[] = [
     mission:
       "Montgomery-based legal nonprofit founded by Bryan Stevenson. Defends the wrongfully convicted, challenges excessive sentencing, and documents the racial history of American criminal justice through the Legacy Sites and reports on lynching, segregation, and the death penalty.",
     metric: "Est. 1989",
+    heroImage: "/debaters/omar.jpg",
     backerName: "Ilhan Omar",
     backerSide: "A",
     backerDebateId: "defund-001",
@@ -175,6 +182,7 @@ const CHARITY_SEED: Charity[] = [
     mission:
       "Provides resources, counseling, and peer programs to families and coworkers of law-enforcement officers killed in the line of duty. Runs camps for surviving children, retreats for spouses and parents, and trauma-response training nationwide.",
     metric: "Est. 1984",
+    heroImage: "/debaters/hegseth.jpg",
     backerName: "Pete Hegseth",
     backerSide: "B",
     backerDebateId: "defund-001",
