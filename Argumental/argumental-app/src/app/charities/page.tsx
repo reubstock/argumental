@@ -161,13 +161,10 @@ function HeroFallback({ charity }: { charity: Charity }) {
 
 /* ── Corner ribbon — diagonal stripe with backer name ────────────────── */
 
-function BackerRibbon({ name, side }: { name: string; side: "A" | "B" }) {
-  const bg = side === "A" ? "bg-brand-red" : "bg-brand-blue";
+function BackerRibbon({ name }: { name: string; side: "A" | "B" }) {
   return (
     <div className="absolute top-0 left-0 w-[140px] h-[140px] overflow-hidden pointer-events-none z-10">
-      <div
-        className={`absolute top-[26px] -left-[42px] w-[200px] py-1.5 text-center -rotate-45 shadow-md ${bg}`}
-      >
+      <div className="absolute top-[26px] -left-[42px] w-[200px] py-1.5 text-center -rotate-45 shadow-md bg-zinc-800">
         <span className="text-white text-[10px] font-black uppercase tracking-widest drop-shadow-sm">
           {name}
         </span>

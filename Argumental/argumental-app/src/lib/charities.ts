@@ -47,12 +47,34 @@ export interface Charity {
 
 /** Seeded entries — survive server restarts and deploys.
  *
- * Order is intentional: paired by bout (debater A / debater B), so each
- * bout's two charity picks sit next to each other on /charities. The
- * "Israel" bout opens the list because Shapiro is the current winner
- * (gold-star FIDF entry). Neutral / unaffiliated picks sit at the end.
+ * Order is intentional: AllMEP and FMEP (the two with uploaded hero
+ * photos) lead the list. After them come the bout-paired backer cards
+ * in chronological order, with Shapiro/FIDF carrying the gold-star
+ * winner badge from the settled Israel bout.
  */
 const CHARITY_SEED: Charity[] = [
+  // ─── Neutral / unaffiliated — with photos, lead the page ─────────────
+  {
+    id: "allmep",
+    name: "International Fund for Israeli-Palestinian Peace",
+    url: "https://www.allmep.org/international-fund-for-israeli-palestinian-peace/",
+    focus: "Israel · Palestine · Civil society",
+    mission:
+      "An ALLMEP initiative modelled on Northern Ireland's International Fund for Ireland. Resources and scales the field of Israeli-Palestinian peacebuilding NGOs that work across communities to advance dignity, equality, and a shared future.",
+    metric: "150+ partner orgs",
+    heroImage: "/charities/allmep.jpg",
+  },
+  {
+    id: "fmep",
+    name: "Foundation for Middle East Peace",
+    url: "https://fmep.org/",
+    focus: "Middle East · Peace policy",
+    mission:
+      "Independent foundation promoting a just resolution to the Israeli-Palestinian conflict through analysis, journalism, and advocacy. Funds reporting, research, and convenings that document the human cost of the occupation and the stakes of a two-state outcome.",
+    metric: "Est. 1979",
+    heroImage: "/charities/fmep.jpg",
+  },
+
   // ─── Israel bout — Shapiro (FOR · won) vs. AOC (AGAINST) ─────────────
   {
     id: "fidf",
@@ -158,27 +180,6 @@ const CHARITY_SEED: Charity[] = [
     backerDebateId: "defund-001",
   },
 
-  // ─── Neutral / unaffiliated ──────────────────────────────────────────
-  {
-    id: "allmep",
-    name: "International Fund for Israeli-Palestinian Peace",
-    url: "https://www.allmep.org/international-fund-for-israeli-palestinian-peace/",
-    focus: "Israel · Palestine · Civil society",
-    mission:
-      "An ALLMEP initiative modelled on Northern Ireland's International Fund for Ireland. Resources and scales the field of Israeli-Palestinian peacebuilding NGOs that work across communities to advance dignity, equality, and a shared future.",
-    metric: "150+ partner orgs",
-    heroImage: "/charities/allmep.jpg",
-  },
-  {
-    id: "fmep",
-    name: "Foundation for Middle East Peace",
-    url: "https://fmep.org/",
-    focus: "Middle East · Peace policy",
-    mission:
-      "Independent foundation promoting a just resolution to the Israeli-Palestinian conflict through analysis, journalism, and advocacy. Funds reporting, research, and convenings that document the human cost of the occupation and the stakes of a two-state outcome.",
-    metric: "Est. 1979",
-    heroImage: "/charities/fmep.jpg",
-  },
 ];
 
 const REDIS_KEY = "argumental:charities";
@@ -202,19 +203,35 @@ const memStore = new Map<string, Charity>(
   CHARITY_SEED.map((c) => [c.id, c]),
 );
 
-/** Read every charity. Merges in any missing seed entries on each read. */
+/** Read every charity. Seed order is canonical:
+ *
+ *   1. Every seed entry, in seed-array order. Prefers the stored copy
+ *      when present (so UI-edited fields survive), falling back to the
+ *      seed default otherwise.
+ *   2. Any non-seed entries (UI-added charities) appended at the end.
+ *
+ * Re-persists to Redis if the ordering changed.  This makes a seed-order
+ * change in code propagate to live data on next request without manual
+ * Redis surgery.
+ */
 async function readAll(): Promise<Charity[]> {
   if (redis) {
     try {
       const stored = (await redis.get<Charity[]>(REDIS_KEY)) ?? [];
-      const ids = new Set(stored.map((c) => c.id));
-      const missingSeeds = CHARITY_SEED.filter((c) => !ids.has(c.id));
-      if (missingSeeds.length > 0) {
-        const merged = [...stored, ...missingSeeds];
+      const storedById = new Map(stored.map((c) => [c.id, c]));
+      const seedIds = new Set(CHARITY_SEED.map((s) => s.id));
+
+      const seeded = CHARITY_SEED.map((s) => storedById.get(s.id) ?? s);
+      const extras = stored.filter((c) => !seedIds.has(c.id));
+      const merged = [...seeded, ...extras];
+
+      const changed =
+        merged.length !== stored.length ||
+        merged.some((c, i) => stored[i]?.id !== c.id);
+      if (changed) {
         await redis.set(REDIS_KEY, merged);
-        return merged;
       }
-      return stored;
+      return merged;
     } catch (err) {
       console.error("[charities] Redis read failed, using memory:", err);
     }
