@@ -35,10 +35,130 @@ export interface Charity {
   metric?: string;
   /** Hero image. Convention for code-seeded entries: /charities/{id}.jpg. */
   heroImage?: string;
+  /** Name of the debater who selected this charity ("Ben Shapiro", "AOC", etc.). */
+  backerName?: string;
+  /** Side color for the ribbon. A = red, B = blue. */
+  backerSide?: "A" | "B";
+  /** The upcoming/finished bout this backing maps to. */
+  backerDebateId?: string;
+  /** True when this charity is on the winning side of a finished bout. Gets a gold star. */
+  winner?: boolean;
 }
 
-/** Seeded entries — survive server restarts and deploys. */
+/** Seeded entries — survive server restarts and deploys.
+ *
+ * Order is intentional: paired by bout (debater A / debater B), so each
+ * bout's two charity picks sit next to each other on /charities. The
+ * "Israel" bout opens the list because Shapiro is the current winner
+ * (gold-star FIDF entry). Neutral / unaffiliated picks sit at the end.
+ */
 const CHARITY_SEED: Charity[] = [
+  // ─── Israel bout — Shapiro (FOR · won) vs. AOC (AGAINST) ─────────────
+  {
+    id: "fidf",
+    name: "Friends of the Israel Defense Forces",
+    url: "https://www.fidf.org/",
+    focus: "Israel · Military welfare",
+    mission:
+      "U.S.-based nonprofit funding wellbeing, education, and post-service support for Israeli soldiers and their families. Programs range from financial aid for lone soldiers to mental health services and veteran transition support.",
+    metric: "Est. 1981",
+    backerName: "Ben Shapiro",
+    backerSide: "A",
+    backerDebateId: "israel-001",
+    winner: true,
+  },
+  {
+    id: "unrwa-usa",
+    name: "UNRWA USA",
+    url: "https://www.unrwausa.org/",
+    focus: "Palestine · Humanitarian aid",
+    mission:
+      "American partner to the UN Relief and Works Agency providing food, education, primary healthcare, and emergency relief to Palestinian refugees across Gaza, the West Bank, Jordan, Lebanon, and Syria.",
+    metric: "Serves 5.9M refugees",
+    backerName: "AOC",
+    backerSide: "B",
+    backerDebateId: "israel-001",
+  },
+
+  // ─── UBI bout — Ramaswamy (AGAINST) vs. Yang (FOR) ───────────────────
+  {
+    id: "job-creators-network",
+    name: "Job Creators Network Foundation",
+    url: "https://www.jobcreatorsnetwork.com/",
+    focus: "Small business · Workforce",
+    mission:
+      "Advocacy + education nonprofit pushing back on policies that suppress small-business hiring. Programs train owners on tax / regulatory navigation and rally Main Street voices into national policy debates.",
+    metric: "Est. 2010",
+    backerName: "Vivek Ramaswamy",
+    backerSide: "A",
+    backerDebateId: "ubi-001",
+  },
+  {
+    id: "humanity-forward",
+    name: "Humanity Forward",
+    url: "https://movehumanityforward.com/",
+    focus: "UBI · Direct cash transfers",
+    mission:
+      "Andrew Yang's policy nonprofit advancing universal basic income, direct cash relief, and data-driven government. Funded the largest U.S. private cash-transfer pilot to date during the early pandemic and continues to lobby for permanent income guarantees.",
+    metric: "Founded 2020",
+    backerName: "Andrew Yang",
+    backerSide: "B",
+    backerDebateId: "ubi-001",
+  },
+
+  // ─── Women / X chromosomes bout — Walsh (FOR) vs. Butler (AGAINST) ──
+  {
+    id: "alliance-defending-freedom",
+    name: "Alliance Defending Freedom",
+    url: "https://adflegal.org/",
+    focus: "Religious liberty · Family",
+    mission:
+      "Conservative legal nonprofit litigating cases on religious freedom, parental rights, sex-based protections in sports and shelters, and free expression for traditional viewpoints. Represented multiple plaintiffs at the Supreme Court.",
+    metric: "Est. 1994",
+    backerName: "Matt Walsh",
+    backerSide: "A",
+    backerDebateId: "woman-001",
+  },
+  {
+    id: "trans-lifeline",
+    name: "Trans Lifeline",
+    url: "https://translifeline.org/",
+    focus: "Trans health · Crisis support",
+    mission:
+      "Peer-support hotline and microgrants program run by and for trans people. Provides judgment-free crisis calls 24/7 and emergency cash assistance to cover documents, medical care, and safety needs.",
+    metric: "100K+ calls answered",
+    backerName: "Judith Butler",
+    backerSide: "B",
+    backerDebateId: "woman-001",
+  },
+
+  // ─── Defund the Police bout — Omar (FOR) vs. Hegseth (AGAINST) ───────
+  {
+    id: "equal-justice-initiative",
+    name: "Equal Justice Initiative",
+    url: "https://eji.org/",
+    focus: "Mass incarceration · Reform",
+    mission:
+      "Montgomery-based legal nonprofit founded by Bryan Stevenson. Defends the wrongfully convicted, challenges excessive sentencing, and documents the racial history of American criminal justice through the Legacy Sites and reports on lynching, segregation, and the death penalty.",
+    metric: "Est. 1989",
+    backerName: "Ilhan Omar",
+    backerSide: "A",
+    backerDebateId: "defund-001",
+  },
+  {
+    id: "cops-survivors",
+    name: "Concerns of Police Survivors (C.O.P.S.)",
+    url: "https://concernsofpolicesurvivors.org/",
+    focus: "Police families · Survivor support",
+    mission:
+      "Provides resources, counseling, and peer programs to families and coworkers of law-enforcement officers killed in the line of duty. Runs camps for surviving children, retreats for spouses and parents, and trauma-response training nationwide.",
+    metric: "Est. 1984",
+    backerName: "Pete Hegseth",
+    backerSide: "B",
+    backerDebateId: "defund-001",
+  },
+
+  // ─── Neutral / unaffiliated ──────────────────────────────────────────
   {
     id: "allmep",
     name: "International Fund for Israeli-Palestinian Peace",

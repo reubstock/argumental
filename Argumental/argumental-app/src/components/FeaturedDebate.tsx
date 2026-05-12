@@ -212,13 +212,13 @@ export default function FeaturedDebate({ debate }: { debate: Debate }) {
                   <span className="text-brand-red text-xs font-bold uppercase tracking-widest leading-none mb-1">
                     {debate.debaterA.name.split(" ").pop()}
                   </span>
-                  <span className={`font-black text-2xl tabular-nums leading-none ${debateStarted ? "text-white" : "text-zinc-600"}`}>
+                  <span className="font-black text-2xl tabular-nums leading-none text-white">
                     {fmt(timeA)}
                   </span>
                 </div>
                 <div className="flex flex-col items-center">
                   <span className="text-white text-xs font-bold uppercase tracking-widest leading-none mb-1">Debate</span>
-                  <span className={`font-black text-3xl tabular-nums leading-none ${debateStarted ? "text-white" : "text-zinc-600"}`}>
+                  <span className="font-black text-3xl tabular-nums leading-none text-white">
                     {fmt(mainTime)}
                   </span>
                 </div>
@@ -226,7 +226,7 @@ export default function FeaturedDebate({ debate }: { debate: Debate }) {
                   <span className="text-brand-blue text-xs font-bold uppercase tracking-widest leading-none mb-1 text-right">
                     {debate.debaterB.name.split(" ").pop()}
                   </span>
-                  <span className="text-zinc-600 font-black text-2xl tabular-nums leading-none text-right">
+                  <span className="text-white font-black text-2xl tabular-nums leading-none text-right">
                     {fmt(timeB)}
                   </span>
                 </div>
