@@ -118,12 +118,12 @@ function DebaterHalf({
   photo: string;
   position: string;
 }) {
-  // Brand wash + name color per side. Gradients fade toward the center
-  // so the VS marker reads cleanly.
+  // Brand wash + name color per side. Lighter outer tint, smaller inner
+  // fade, so the photo reads cleanly and the VS marker still has contrast.
   const wash =
     side === "A"
-      ? "bg-gradient-to-r from-brand-red/55 via-brand-red/25 to-zinc-950/70"
-      : "bg-gradient-to-l from-brand-blue/55 via-brand-blue/25 to-zinc-950/70";
+      ? "bg-gradient-to-r from-brand-red/25 via-transparent to-zinc-950/45"
+      : "bg-gradient-to-l from-brand-blue/25 via-transparent to-zinc-950/45";
   const positionColor =
     side === "A" ? "text-brand-red" : "text-brand-blue";
 
@@ -134,7 +134,9 @@ function DebaterHalf({
         alt=""
         aria-hidden="true"
         fill
-        sizes="(max-width: 768px) 50vw, 33vw"
+        sizes="(max-width: 768px) 50vw, 600px"
+        quality={90}
+        priority
         className="object-cover object-top"
       />
       <div className={`absolute inset-0 ${wash}`} />
