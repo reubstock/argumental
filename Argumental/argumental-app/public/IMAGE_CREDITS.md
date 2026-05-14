@@ -6,9 +6,11 @@ for the bulk-fetch tool used to refresh them.
 
 ## Hero (homepage)
 
-- **shapiro.jpg** — Ben Shapiro, photo by Gage Skidmore (2016).
-  [CC BY-SA 2.0](https://creativecommons.org/licenses/by-sa/2.0/)
-  · [Commons file](https://commons.wikimedia.org/wiki/File:Ben_Shapiro_by_Gage_Skidmore.jpg)
+- **shapiro.jpg** — Ben Shapiro speaking at AmericaFest 2024.
+  Sourced from the Britannica biography
+  ([britannica.com/biography/Ben-Shapiro](https://www.britannica.com/biography/Ben-Shapiro))
+  via the article's `og:image` (cdn.britannica.com).
+  Center-cropped to 3:4 portrait and resized to 864×1200.
 
 - **aoc.jpg** — Alexandria Ocasio-Cortez, official Congressional portrait (2018).
   Public domain (U.S. federal work)
