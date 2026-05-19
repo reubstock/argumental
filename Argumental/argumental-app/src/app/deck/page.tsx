@@ -19,6 +19,9 @@ const AGGRESSIVE_CASE: DeckCase = {
   key: "aggressive",
   label: "Aggressive",
   totalRevenue: aggressiveModel.totalRevenue,
+  totalVariable: aggressiveModel.totalVariable,
+  ebitda: aggressiveModel.ebitda,
+  boutsPerYear: aggressiveModel.inputs.boutsPerYear,
   builtInLabel: "Built into the aggressive case",
   builtInItems: [
     "24 bouts Y1 (pre-seed launch), 48 Y2+ (Series A scale)",
@@ -41,6 +44,9 @@ const CONSERVATIVE_CASE: DeckCase = {
   key: "conservative",
   label: "Conservative",
   totalRevenue: conservativeModel.totalRevenue,
+  totalVariable: conservativeModel.totalVariable,
+  ebitda: conservativeModel.ebitda,
+  boutsPerYear: conservativeModel.inputs.boutsPerYear,
   builtInLabel: "Built into the conservative case",
   builtInItems: [
     "24 bouts Y1 (pre-seed launch), 48 Y2+ (Series A scale)",

@@ -7,6 +7,9 @@ export interface DeckCase {
   key: "aggressive" | "conservative";
   label: string;
   totalRevenue: number[]; // length 3
+  totalVariable: number[]; // length 3
+  ebitda: number[]; // length 3
+  boutsPerYear: number[]; // length 3
   builtInLabel: string;
   builtInItems: string[];
   altSummary: string;
@@ -34,6 +37,8 @@ const SUB_LABELS: Record<DeckCase["key"], string[]> = {
     "Voting · pre-sponsor",
   ],
 };
+
+const YEAR_LABELS = ["Y1 · 2026", "Y2 · 2027", "Y3 · 2028"];
 
 /**
  * FinancialModelSection — toggleable headline strip + built-in list for
@@ -92,13 +97,26 @@ export default function FinancialModelSection({
         </div>
       </div>
 
-      {/* Headline strip */}
+      {/* Unit economics — single-bout view sets up the operating-leverage
+          story before any cumulative numbers. Updates with the toggle. */}
+      <UnitEconomicsRow cur={cur} />
+
+      {/* Headline strip — drops cumulative-revenue cell; 4th cell now
+          surfaces Y3 EBITDA margin (the most investor-relevant single
+          summary number). */}
       <div className="grid grid-cols-2 md:grid-cols-4 border-y border-zinc-200 mb-4">
         {[
           { kicker: "Y1 Revenue", value: fmtUSD(cur.totalRevenue[0]), sub: subs[0] },
           { kicker: "Y2 Revenue", value: fmtUSD(cur.totalRevenue[1]), sub: subs[1] },
           { kicker: "Y3 Revenue", value: fmtUSD(cur.totalRevenue[2]), sub: subs[2] },
-          { kicker: "3-Yr Total", value: fmtUSD(sum3(cur.totalRevenue)), sub: subs[3] },
+          {
+            kicker: "Y3 EBITDA Margin",
+            value:
+              cur.totalRevenue[2] > 0
+                ? fmtPct(cur.ebitda[2] / cur.totalRevenue[2], 0)
+                : "—",
+            sub: subs[3],
+          },
         ].map((s) => (
           <div
             key={s.kicker}
@@ -203,6 +221,78 @@ export default function FinancialModelSection({
   );
 }
 
+/* ────────────────────────────────────────────────────────────────────── */
+/* UnitEconomicsRow — per-bout revenue / cost / contribution, one tile    */
+/* per year. Sits above the cumulative headline so the operating-leverage */
+/* story lands first.                                                     */
+/* ────────────────────────────────────────────────────────────────────── */
+
+function UnitEconomicsRow({ cur }: { cur: DeckCase }) {
+  const perBoutRev = [0, 1, 2].map(
+    (i) => cur.totalRevenue[i] / cur.boutsPerYear[i],
+  );
+  const perBoutCost = [0, 1, 2].map(
+    (i) => cur.totalVariable[i] / cur.boutsPerYear[i],
+  );
+  const contrib = [0, 1, 2].map((i) => perBoutRev[i] - perBoutCost[i]);
+
+  return (
+    <div className="mb-5 md:mb-6">
+      <p className="text-zinc-500 text-[10px] md:text-xs uppercase tracking-widest font-black mb-3">
+        Per-bout economics
+      </p>
+      <div className="grid grid-cols-3 gap-0 border-y border-zinc-200">
+        {[0, 1, 2].map((i) => {
+          const margin =
+            perBoutRev[i] > 0 ? contrib[i] / perBoutRev[i] : 0;
+          const profitable = contrib[i] >= 0;
+          return (
+            <div
+              key={i}
+              className="border-r last:border-r-0 border-zinc-200 px-3 md:px-4 py-4"
+            >
+              <p className="text-zinc-400 text-[10px] uppercase tracking-widest font-black">
+                {YEAR_LABELS[i]}
+              </p>
+              <div className="mt-2 space-y-0.5 text-xs md:text-sm">
+                <div className="flex justify-between gap-2">
+                  <span className="text-brand-red font-bold uppercase tracking-widest text-[10px]">
+                    Revenue
+                  </span>
+                  <span className="tabular-nums text-zinc-900 font-bold">
+                    {fmtUSD(perBoutRev[i])}
+                  </span>
+                </div>
+                <div className="flex justify-between gap-2">
+                  <span className="text-brand-blue font-bold uppercase tracking-widest text-[10px]">
+                    Cost
+                  </span>
+                  <span className="tabular-nums text-zinc-900 font-bold">
+                    {fmtUSD(perBoutCost[i])}
+                  </span>
+                </div>
+              </div>
+              <div className="mt-2 pt-2 border-t border-zinc-200">
+                <p
+                  className={`tabular-nums font-black text-lg md:text-2xl leading-none ${
+                    profitable ? "text-zinc-900" : "text-brand-red"
+                  }`}
+                >
+                  {profitable ? "+" : ""}
+                  {fmtUSD(contrib[i])}
+                </p>
+                <p className="text-zinc-500 text-[10px] uppercase tracking-widest font-black mt-1">
+                  {profitable ? `${fmtPct(margin, 0)} margin` : "loss per bout"}
+                </p>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
 /* ── Local format helpers (avoid pulling the whole lib into the client) ── */
 
 function fmtUSD(n: number): string {
@@ -220,6 +310,6 @@ function fmtNumCompact(n: number): string {
   return `${n}`;
 }
 
-function sum3(arr: readonly number[]): number {
-  return arr[0] + arr[1] + arr[2];
+function fmtPct(n: number, digits = 0): string {
+  return `${(n * 100).toFixed(digits)}%`;
 }
