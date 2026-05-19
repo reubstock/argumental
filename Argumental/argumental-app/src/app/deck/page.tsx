@@ -952,8 +952,8 @@ export default function DeckPage() {
             </p>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-6 mb-6">
               {[
-                { k: "Round size", v: "$2.5M" },
-                { k: "Structure", v: "SAFE @ $12M cap" },
+                { k: "Round size", v: "$500K" },
+                { k: "Structure", v: "SAFE @ $8M cap" },
                 { k: "Runway", v: "18 months" },
                 { k: "Use", v: "Production · talent · go-to-market" },
               ].map((row) => (
