@@ -10,7 +10,8 @@ import FinancialModelSection, {
   type DeckCase,
 } from "@/components/deck/FinancialModelSection";
 
-// Pre-compute both scenarios for the client-side toggle on slide 13.
+// Pre-compute both scenarios for the client-side toggle on the
+// Financial Model slide.
 const aggressiveModel = getModel("aggressive");
 const conservativeModel = getModel("conservative");
 
@@ -58,14 +59,14 @@ const CONSERVATIVE_CASE: DeckCase = {
 export const metadata = {
   title: "Argumental — Investor Deck",
   description:
-    "The Path to Peace Begins with an Argument. A 14-section investor brief on the world's first professional debate league.",
+    "The Path to Peace Begins with an Argument. A 15-section investor brief on the world's first professional debate league.",
 };
 
-const TOTAL = 14;
+const TOTAL = 15;
 
 /**
- * Editorial-style single-page deck. Numbered badges, HR dividers, whitespace-
- * driven rhythm — modeled after yes-movement.vercel.app/fund.html.
+ * Editorial-style single-page deck. Numbered badges, HR dividers,
+ * whitespace-driven rhythm — modeled after yes-movement.vercel.app/fund.html.
  */
 function Section({
   n,
@@ -106,12 +107,9 @@ function Section({
   );
 }
 
-
-
 /**
- * GlobeIcon — a classic desk globe: tilted blue-and-green sphere with a
- * gold meridian arc cradling it, on a brass stem and disc base. Conveys
- * "global league" without being a literal map.
+ * GlobeIcon — classic desk globe: tilted blue-and-green sphere with a
+ * gold meridian arc cradling it. Used on The League slide.
  */
 function GlobeIcon() {
   return (
@@ -135,51 +133,33 @@ function GlobeIcon() {
           <stop offset="0%" stopColor="#D4A017" />
           <stop offset="100%" stopColor="#5C3F01" />
         </radialGradient>
-        {/* Gloss highlight to suggest glass/sphere */}
         <radialGradient id="gloss" cx="32%" cy="22%" r="35%">
           <stop offset="0%" stopColor="white" stopOpacity="0.55" />
           <stop offset="100%" stopColor="white" stopOpacity="0" />
         </radialGradient>
       </defs>
-
-      {/* Base disc + stem */}
       <ellipse cx="60" cy="132" rx="26" ry="4.5" fill="url(#brassDark)" />
       <ellipse cx="60" cy="129" rx="26" ry="4.5" fill="url(#brass)" />
       <rect x="56" y="116" width="8" height="14" fill="url(#brass)" />
       <ellipse cx="60" cy="116" rx="6" ry="2" fill="#FCE38A" />
-
-      {/* Tilted globe + meridian arc */}
       <g transform="rotate(-18 60 60)">
-        {/* Meridian arc (C cradle behind the sphere on the right side) */}
         <path
           d="M60 18 A42 42 0 0 1 60 102 L66 108 A48 48 0 0 0 66 12 Z"
           fill="url(#brassDark)"
         />
-        {/* Front of meridian (covers the sphere edge) */}
         <path
           d="M60 18 L60 22 A38 38 0 0 1 60 98 L60 102 A42 42 0 0 0 60 18 Z"
           fill="url(#brass)"
           opacity="0.55"
         />
-
-        {/* Sphere — ocean */}
         <circle cx="60" cy="60" r="38" fill="url(#ocean)" />
-
-        {/* Continents — stylized blobs in the right rough places */}
         <g fill="#3F8B3F" opacity="0.95">
-          {/* North America */}
           <path d="M36 42 Q44 36 50 42 Q52 50 46 56 Q40 58 34 52 Q32 46 36 42 Z" />
-          {/* South America */}
           <path d="M44 66 Q50 66 50 74 Q48 84 42 86 Q38 80 40 72 Q42 68 44 66 Z" />
-          {/* Africa */}
           <path d="M62 50 Q70 50 70 60 Q72 70 64 78 Q58 78 58 70 Q56 60 62 50 Z" />
-          {/* Eurasia (sweeping right) */}
           <path d="M62 36 Q78 32 86 40 Q88 48 80 50 Q70 50 62 46 Q60 40 62 36 Z" />
-          {/* Australia */}
           <path d="M82 70 Q90 70 90 76 Q86 80 80 78 Q78 74 82 70 Z" />
         </g>
-
-        {/* Latitude / longitude grid (faint white) */}
         <g stroke="white" strokeWidth="0.5" fill="none" opacity="0.25">
           <ellipse cx="60" cy="60" rx="38" ry="10" />
           <ellipse cx="60" cy="60" rx="38" ry="20" />
@@ -188,11 +168,7 @@ function GlobeIcon() {
           <line x1="60" y1="22" x2="60" y2="98" />
           <line x1="22" y1="60" x2="98" y2="60" />
         </g>
-
-        {/* Glass gloss */}
         <circle cx="60" cy="60" r="38" fill="url(#gloss)" />
-
-        {/* Sphere outline */}
         <circle cx="60" cy="60" r="38" fill="none" stroke="#0B3A66" strokeWidth="0.8" opacity="0.7" />
       </g>
     </svg>
@@ -223,27 +199,30 @@ function Headshot({
   );
 }
 
-// (TOC array kept for future use — the Cover anchor list was removed earlier.)
-const TOC: { n: number; label: string }[] = [
-  { n: 1, label: "Cover" },
-  { n: 2, label: "Problem" },
-  { n: 3, label: "Insight" },
-  { n: 4, label: "Product" },
-  { n: 5, label: "Format" },
-  { n: 6, label: "Sample Bouts" },
-  { n: 7, label: "The League" },
-  { n: 8, label: "Comparables" },
-  { n: 9, label: "Why Now" },
-  { n: 10, label: "Model" },
-  { n: 11, label: "Plan" },
-  { n: 12, label: "Ask" },
-];
-void TOC;
+function StatusPill({ kind }: { kind: "aired" | "booked" | "pipeline" }) {
+  const styles: Record<typeof kind, string> = {
+    aired:
+      "bg-emerald-100 text-emerald-800 border border-emerald-300",
+    booked: "bg-zinc-900 text-white",
+    pipeline: "bg-white text-zinc-500 border border-zinc-300",
+  } as Record<"aired" | "booked" | "pipeline", string>;
+  return (
+    <span
+      className={`${styles[kind]} text-[9px] md:text-[10px] uppercase tracking-widest font-black px-2 py-0.5 rounded-full whitespace-nowrap`}
+    >
+      {kind === "aired"
+        ? "● Aired"
+        : kind === "booked"
+          ? "Booked"
+          : "Pipeline"}
+    </span>
+  );
+}
 
 export default function DeckPage() {
   return (
     <div className="bg-white text-zinc-900">
-      {/* 01 — Cover (full-bleed hero, no top border) */}
+      {/* 01 — Cover */}
       <section
         id="s1"
         className="px-4 md:px-12 py-12 md:py-28 min-h-[70vh] flex flex-col"
@@ -254,7 +233,6 @@ export default function DeckPage() {
               Investor Brief · 2026
             </span>
           </header>
-
           <div className="flex-1 flex flex-col justify-center gap-5 md:gap-8">
             <Image
               src="/logo.png"
@@ -276,27 +254,37 @@ export default function DeckPage() {
               </span>
             </div>
           </div>
-
         </div>
       </section>
 
-      {/* 02 — Problem */}
+      {/* 02 — Problem (with charity flywheel folded in) */}
       <Section
         n={2}
         kicker="The Problem"
         title="The world has never been more divided — and you only ever hear one side of it."
       >
         <p className="text-zinc-600 text-lg md:text-xl leading-relaxed mb-8">
-          Algorithms reward outrage. Hosts amplify their own politics. Counterpoints
-          are buried. Audiences are starved for the moment when two opposing ideas
-          actually meet — civilly, on the same stage, in real time.
+          Algorithms reward outrage. Hosts amplify their own politics.
+          Counterpoints are buried. Audiences are starved for the moment when
+          two opposing ideas actually meet — civilly, on the same stage, in
+          real time.
         </p>
-        <ul className="text-zinc-700 text-base md:text-lg leading-relaxed space-y-2">
+        <ul className="text-zinc-700 text-base md:text-lg leading-relaxed space-y-2 mb-10">
           <li>· Polarization at all-time highs across democracies.</li>
           <li>· Cable news and podcasts are mostly homogenous echo chambers.</li>
           <li>· Formal debate has no modern televised home.</li>
           <li>· No one is producing must-watch ideological combat at scale.</li>
         </ul>
+        <div className="border-t border-zinc-200 pt-6">
+          <p className="text-[10px] md:text-xs uppercase tracking-widest font-black text-zinc-900 mb-2">
+            Mission flywheel
+          </p>
+          <p className="text-zinc-700 text-base md:text-lg leading-relaxed max-w-3xl">
+            18% of every bout&apos;s proceeds goes to the winner&apos;s chosen
+            charity. Every vote is a contribution to civic life — entertainment
+            and learning that actually does something.
+          </p>
+        </div>
       </Section>
 
       {/* 03 — Insight */}
@@ -336,38 +324,17 @@ export default function DeckPage() {
         </div>
       </Section>
 
-      {/* 04 — Product */}
+      {/* 04 — The Product (Product + Format merged) */}
       <Section
         n={4}
         kicker="The Product"
         title="Weekly title bouts between opposing thinkers — judged by the audience."
       >
-        <p className="text-zinc-600 text-lg md:text-xl leading-relaxed mb-8 max-w-3xl">
+        <p className="text-zinc-600 text-lg md:text-xl leading-relaxed mb-10 max-w-3xl">
           Live one-on-one debates on the most charged questions of the day.
-          No moderator. No filter. The crowd decides who wins.
+          No moderator. No filter. The crowd decides who wins. 24 minutes,
+          four phases, one winner.
         </p>
-        <div className="border-t border-zinc-200 pt-6 grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 text-sm md:text-base">
-          {[
-            { k: "Cadence", v: "Every Sunday · 8 PM ET" },
-            { k: "Home", v: "argumental.com" },
-            { k: "Distribution", v: "YouTube · TikTok · Instagram" },
-          ].map((row) => (
-            <div key={row.k}>
-              <p className="text-[10px] uppercase tracking-widest font-black text-zinc-400">
-                {row.k}
-              </p>
-              <p className="text-zinc-900 font-bold mt-1">{row.v}</p>
-            </div>
-          ))}
-        </div>
-      </Section>
-
-      {/* 05 — Format */}
-      <Section
-        n={5}
-        kicker="The Format"
-        title="24 minutes. Four phases. One winner."
-      >
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-10">
           {[
             { n: "01", label: "Opening A", side: "red" },
@@ -375,10 +342,7 @@ export default function DeckPage() {
             { n: "03", label: "Rebuttal A", side: "red" },
             { n: "04", label: "Rebuttal B", side: "blue" },
           ].map((p) => (
-            <div
-              key={p.n}
-              className="border-t-2 border-zinc-900 pt-3"
-            >
+            <div key={p.n} className="border-t-2 border-zinc-900 pt-3">
               <span
                 className={`text-2xl md:text-3xl font-black tabular-nums ${p.side === "red" ? "text-brand-red" : "text-brand-blue"}`}
               >
@@ -393,8 +357,11 @@ export default function DeckPage() {
         </div>
         <div className="border-t border-zinc-200 pt-6 grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 text-sm md:text-base">
           {[
+            { k: "Cadence", v: "Every Sunday · 8 PM ET" },
+            { k: "Home", v: "argumental.com" },
+            { k: "Distribution", v: "YouTube · TikTok · Instagram" },
             { k: "Vote price", v: "$5 per vote · 1 vote per viewer" },
-            { k: "Charity cut", v: "18% of every dollar to winner's pick" },
+            { k: "Charity cut", v: "18% to winner's chosen charity" },
             { k: "Judging", v: "Audience-decided. The crowd is the judge." },
           ].map((row) => (
             <div key={row.k}>
@@ -407,9 +374,9 @@ export default function DeckPage() {
         </div>
       </Section>
 
-      {/* 06 — Sample Bouts */}
+      {/* 05 — Sample Bouts (with AIRED / BOOKED / PIPELINE status) */}
       <Section
-        n={6}
+        n={5}
         kicker="Sample Bouts"
         title="The most charged questions of the day."
       >
@@ -417,26 +384,43 @@ export default function DeckPage() {
           {[
             {
               topic: "Does Israel Have the Right to Exist?",
+              status: "aired" as const,
+              outcome: "Shapiro def. AOC · 58 / 42",
               a: { name: "Ben Shapiro", photo: "/shapiro.jpg" },
-              b: { name: "Mehdi Hasan", photo: "/debaters/hasan.jpg" },
+              b: { name: "Alexandria Ocasio-Cortez", photo: "/aoc.jpg" },
             },
             {
-              topic: "There Are Only Two Genders.",
+              topic: "The US Should Support Universal Basic Income.",
+              status: "booked" as const,
+              outcome: null,
+              a: { name: "Vivek Ramaswamy", photo: "/debaters/ramaswamy.jpg" },
+              b: { name: "Andrew Yang", photo: "/debaters/yang.jpg" },
+            },
+            {
+              topic: "A Woman is a Person with 2 X Chromosomes.",
+              status: "booked" as const,
+              outcome: null,
               a: { name: "Matt Walsh", photo: "/debaters/walsh.jpg" },
               b: { name: "Judith Butler", photo: "/debaters/butler.jpg" },
             },
             {
               topic: "The US Should Defund the Police.",
+              status: "booked" as const,
+              outcome: null,
               a: { name: "Ilhan Omar", photo: "/debaters/omar.jpg" },
               b: { name: "Pete Hegseth", photo: "/debaters/hegseth.jpg" },
             },
             {
               topic: "America Must Remain a Country of Immigrants.",
+              status: "pipeline" as const,
+              outcome: null,
               a: { name: "TBD", photo: null },
               b: { name: "TBD", photo: null },
             },
             {
               topic: "America Is Becoming an Authoritarian State.",
+              status: "pipeline" as const,
+              outcome: null,
               a: { name: "TBD", photo: null },
               b: { name: "TBD", photo: null },
             },
@@ -448,6 +432,14 @@ export default function DeckPage() {
                 <div className="w-11 h-11 md:w-14 md:h-14 rounded-full border-2 border-brand-red bg-zinc-50 shrink-0" />
               )}
               <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-2 flex-wrap mb-1">
+                  <StatusPill kind={bout.status} />
+                  {bout.outcome && (
+                    <span className="text-zinc-500 text-[10px] md:text-xs uppercase tracking-widest font-bold">
+                      {bout.outcome}
+                    </span>
+                  )}
+                </div>
                 <p className="text-zinc-900 font-bold text-base md:text-lg leading-snug">
                   {bout.topic}
                 </p>
@@ -471,9 +463,9 @@ export default function DeckPage() {
         </ul>
       </Section>
 
-      {/* 07 — The League */}
+      {/* 06 — The League */}
       <Section
-        n={7}
+        n={6}
         kicker="The League"
         title="Rankings. Titles. World-class champions."
       >
@@ -496,7 +488,6 @@ export default function DeckPage() {
             </figcaption>
           </figure>
         </div>
-
         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-10">
           <div>
             <p className="text-[10px] md:text-xs uppercase tracking-widest font-black text-zinc-900 border-b border-zinc-200 pb-2 mb-4">
@@ -530,9 +521,9 @@ export default function DeckPage() {
         </div>
       </Section>
 
-      {/* 08 — Comparables */}
+      {/* 07 — Comparables */}
       <Section
-        n={8}
+        n={7}
         kicker="Comparables"
         title="What purpose-built leagues prove."
       >
@@ -549,8 +540,7 @@ export default function DeckPage() {
             },
             {
               name: "Fortnite Champion Series",
-              note:
-                "Native-internet competition with audience-first economics.",
+              note: "Native-internet competition with audience-first economics.",
             },
           ].map((c) => (
             <li
@@ -575,111 +565,279 @@ export default function DeckPage() {
         </p>
       </Section>
 
-      {/* 09 — Why Now */}
-      <Section n={9} kicker="Why Now" title="The conditions have never been better.">
-        <ol className="space-y-6 max-w-3xl">
-          {[
-            {
-              h: "Polarization at all-time highs",
-              p: "The audience demand for cross-side conflict is unprecedented.",
-            },
-            {
-              h: "Algorithms reward conflict — but bad-faith conflict",
-              p: "We give the algorithm a high-quality, well-structured alternative.",
-            },
-            {
-              h: "Formal debate has no modern televised home",
-              p: "Lincoln–Douglas hasn't had a successor in 165 years.",
-            },
-            {
-              h: "Creator economy + algorithmic reach",
-              p: "A niche format can scale globally without owning a network.",
-            },
-          ].map((c, i) => (
-            <li key={i} className="flex gap-4 md:gap-6">
-              <span
-                className={`text-xl md:text-2xl font-black tabular-nums shrink-0 ${i % 2 === 0 ? "text-brand-red" : "text-brand-blue"}`}
-              >
-                {String(i + 1).padStart(2, "0")}
-              </span>
-              <div>
-                <p className="text-zinc-900 font-bold text-lg md:text-xl">
-                  {c.h}
-                </p>
-                <p className="text-zinc-600 text-base mt-1 leading-relaxed">
-                  {c.p}
-                </p>
-              </div>
-            </li>
-          ))}
-        </ol>
+      {/* 08 — Competitors */}
+      <Section
+        n={8}
+        kicker="Competitors"
+        title="Who's in the space — and why none of them is a league."
+      >
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-8 mb-8">
+          <div>
+            <p className="text-[10px] md:text-xs uppercase tracking-widest font-black text-zinc-900 border-b border-zinc-200 pb-2 mb-3">
+              Direct — structured debate
+            </p>
+            <ul className="text-zinc-700 text-sm md:text-base leading-relaxed space-y-1.5">
+              <li>· The Soho Forum (NYC · Oxford-style · monthly)</li>
+              <li>· Open to Debate (fmr. Intelligence Squared US)</li>
+              <li>· Munk Debates (Canada · podcast scale)</li>
+              <li>· Cambridge &amp; Oxford Unions</li>
+            </ul>
+          </div>
+          <div>
+            <p className="text-[10px] md:text-xs uppercase tracking-widest font-black text-zinc-900 border-b border-zinc-200 pb-2 mb-3">
+              Adjacent — long-form interview
+            </p>
+            <ul className="text-zinc-700 text-sm md:text-base leading-relaxed space-y-1.5">
+              <li>· Joe Rogan · Lex Fridman</li>
+              <li>· Honestly with Bari Weiss</li>
+              <li>· Triggernometry · Modern Wisdom</li>
+              <li>· Sam Harris · Making Sense</li>
+            </ul>
+          </div>
+          <div>
+            <p className="text-[10px] md:text-xs uppercase tracking-widest font-black text-zinc-900 border-b border-zinc-200 pb-2 mb-3">
+              Web-native debate-ish
+            </p>
+            <ul className="text-zinc-700 text-sm md:text-base leading-relaxed space-y-1.5">
+              <li>· Jubilee Media · Surrounded / Middle Ground</li>
+              <li>· Whatever podcast · multi-guest livestreams</li>
+              <li>· Twitch streams (Hasan, Destiny)</li>
+            </ul>
+          </div>
+          <div>
+            <p className="text-[10px] md:text-xs uppercase tracking-widest font-black text-zinc-900 border-b border-zinc-200 pb-2 mb-3">
+              Where Argumental wins
+            </p>
+            <ul className="text-zinc-700 text-sm md:text-base leading-relaxed space-y-1.5">
+              <li>· Format-first <span className="text-zinc-500">league with rankings &amp; titles</span></li>
+              <li>· Pay-per-vote <span className="text-zinc-500">zero CAC at unit level</span></li>
+              <li>· Social-native <span className="text-zinc-500">from day one, not retrofitted</span></li>
+              <li>· Charity-aligned <span className="text-zinc-500">civic mission, not just entertainment</span></li>
+            </ul>
+          </div>
+        </div>
+        <p className="text-zinc-700 text-base md:text-lg leading-relaxed max-w-3xl">
+          Every entry above is a show. Argumental is the league that hosts the
+          shows — durable IP via rankings, defended titles, and an archive that
+          compounds.
+        </p>
       </Section>
 
-      {/* 10 — Business Model */}
+      {/* 09 — Possible Acquirers */}
+      <Section
+        n={9}
+        kicker="Possible Acquirers"
+        title="Exit paths through every category of buyer."
+      >
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-8 mb-8">
+          <div>
+            <p className="text-[10px] md:text-xs uppercase tracking-widest font-black text-brand-red border-b border-zinc-200 pb-2 mb-3">
+              Sports &amp; entertainment leagues
+            </p>
+            <ul className="text-zinc-700 text-sm md:text-base leading-relaxed space-y-1.5">
+              <li>· TKO Group <span className="text-zinc-500">(UFC + WWE)</span></li>
+              <li>· Endeavor</li>
+              <li>· Wasserman</li>
+              <li>· MLP / PPA Pickleball</li>
+            </ul>
+          </div>
+          <div>
+            <p className="text-[10px] md:text-xs uppercase tracking-widest font-black text-brand-blue border-b border-zinc-200 pb-2 mb-3">
+              Streamers
+            </p>
+            <ul className="text-zinc-700 text-sm md:text-base leading-relaxed space-y-1.5">
+              <li>· Netflix <span className="text-zinc-500">(Drive-to-Survive playbook)</span></li>
+              <li>· Amazon Prime Video</li>
+              <li>· Apple TV+ · YouTube · Spotify</li>
+              <li>· SiriusXM <span className="text-zinc-500">(Stern, Stitcher precedents)</span></li>
+            </ul>
+          </div>
+          <div>
+            <p className="text-[10px] md:text-xs uppercase tracking-widest font-black text-zinc-900 border-b border-zinc-200 pb-2 mb-3">
+              News &amp; media
+            </p>
+            <ul className="text-zinc-700 text-sm md:text-base leading-relaxed space-y-1.5">
+              <li>· Fox Corp · News Corp</li>
+              <li>· Comcast / NBCUniversal</li>
+              <li>· Warner Bros Discovery <span className="text-zinc-500">(CNN, Max)</span></li>
+              <li>· NYT · Substack · The Free Press</li>
+            </ul>
+          </div>
+          <div>
+            <p className="text-[10px] md:text-xs uppercase tracking-widest font-black text-zinc-900 border-b border-zinc-200 pb-2 mb-3">
+              Strategic
+            </p>
+            <ul className="text-zinc-700 text-sm md:text-base leading-relaxed space-y-1.5">
+              <li>· X / xAI <span className="text-zinc-500">(long-form public discourse)</span></li>
+              <li>· LinkedIn / Microsoft</li>
+              <li>· Mission-aligned foundations <span className="text-zinc-500">(Knight, Charles Koch Institute)</span></li>
+            </ul>
+          </div>
+        </div>
+        <div className="border-t border-zinc-200 pt-5">
+          <p className="text-[10px] md:text-xs uppercase tracking-widest font-black text-zinc-900 mb-2">
+            Precedent transactions
+          </p>
+          <ul className="text-zinc-700 text-sm md:text-base leading-relaxed space-y-1">
+            <li>· Endeavor + UFC merger → <span className="font-bold text-zinc-900">~$21B</span> combined</li>
+            <li>· Netflix / WWE Raw → <span className="font-bold text-zinc-900">$5B / 10 yr</span></li>
+            <li>· Spotify / Joe Rogan exclusivity → <span className="font-bold text-zinc-900">~$200M</span></li>
+            <li>· Pickleball MLP / PPA rounds → <span className="font-bold text-zinc-900">$50–100M valuations</span> (2022–24)</li>
+          </ul>
+        </div>
+      </Section>
+
+      {/* 10 — Why Now (compressed to stats) */}
       <Section
         n={10}
-        kicker="Model"
-        title="Two lines of revenue. One civic license."
+        kicker="Why Now"
+        title="The conditions have never been better."
       >
-        <ul className="divide-y divide-zinc-200 border-y border-zinc-200 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-6">
           {[
             {
-              h: "Pay-per-vote",
-              p: "$5 per vote · scales with audience · zero CAC at the unit level.",
+              stat: "60-year high",
+              label: "Polarization",
+              note: "Cross-party affective polarization (Pew · ANES) at a peak unmatched since the modern survey era.",
             },
             {
-              h: "Media rights & licensing",
-              p: "Bouts, clips, the format itself — international territories, longform.",
+              stat: "165 years",
+              label: "Since Lincoln–Douglas",
+              note: "No televised, format-first debate league has succeeded it. The vacuum is real.",
+            },
+            {
+              stat: "30M+ /week",
+              label: "Long-form audio listeners",
+              note: "Rogan + Fridman + Tucker + adjacent — proof of mass appetite for hours-long ideological content.",
+            },
+            {
+              stat: "$250B / yr",
+              label: "Creator economy by 2028",
+              note: "Niche formats can scale globally without owning a network — the algorithm does the distribution.",
             },
           ].map((c, i) => (
-            <li key={i} className="py-5 grid grid-cols-1 md:grid-cols-3 gap-2 md:gap-6">
-              <p className="text-zinc-900 font-bold text-base md:text-lg">
-                {String(i + 1).padStart(2, "0")} · {c.h}
+            <div key={i}>
+              <p
+                className={`text-3xl md:text-5xl font-black tabular-nums leading-none ${i % 2 === 0 ? "text-brand-red" : "text-brand-blue"}`}
+              >
+                {c.stat}
               </p>
+              <p className="text-zinc-900 font-bold text-base md:text-lg mt-2">
+                {c.label}
+              </p>
+              <p className="text-zinc-600 text-sm md:text-base mt-1 leading-relaxed">
+                {c.note}
+              </p>
+            </div>
+          ))}
+        </div>
+      </Section>
+
+      {/* 11 — Team (placeholders for user to fill) */}
+      <Section
+        n={11}
+        kicker="Team"
+        title="The people building it."
+      >
+        <ul className="divide-y divide-zinc-200 border-y border-zinc-200 mb-6">
+          {[
+            {
+              name: "Reuben Steiger",
+              role: "Founder · CEO",
+              bio: "[Add 3–5 line bio: prior companies, exits, domain credibility, and why this person · this market · now.]",
+            },
+            {
+              name: "[Co-founder / CTO]",
+              role: "Co-founder · Engineering",
+              bio: "[Add technical lead — Mux / LiveKit / Stripe stack already built. This is the person who shipped it.]",
+            },
+            {
+              name: "[Head of Production]",
+              role: "Production · Live ops",
+              bio: "[Add media production credibility — live TV, sports production, or studio operations background.]",
+            },
+            {
+              name: "[Debate-world advisor]",
+              role: "Advisor",
+              bio: "[Add a Soho Forum / Open to Debate / Munk / Union president — credentializes the format with the institutional debate world.]",
+            },
+            {
+              name: "[Civic / charity advisor]",
+              role: "Advisor",
+              bio: "[Add credibility on the 18%-to-charity mission — foundation board member or civic-tech leader.]",
+            },
+          ].map((p, i) => (
+            <li key={i} className="py-5 grid grid-cols-1 md:grid-cols-3 gap-2 md:gap-6">
+              <div>
+                <p className="text-zinc-900 font-bold text-base md:text-lg">
+                  {p.name}
+                </p>
+                <p className="text-zinc-500 text-xs md:text-sm uppercase tracking-widest font-bold mt-0.5">
+                  {p.role}
+                </p>
+              </div>
               <p className="text-zinc-600 text-sm md:text-base md:col-span-2 leading-relaxed">
-                {c.p}
+                {p.bio}
               </p>
             </li>
           ))}
         </ul>
-        <div>
-          <p className="text-[10px] uppercase tracking-widest font-black text-zinc-900 mb-2">
-            Mission flywheel
-          </p>
-          <p className="text-zinc-700 text-base md:text-lg leading-relaxed max-w-3xl">
-            We&apos;re a learning company. A large share of profits is donated
-            to the winner&apos;s charity each week — every vote is a
-            contribution to civic life.
-          </p>
-        </div>
+        <p className="text-zinc-500 text-xs md:text-sm italic">
+          Placeholders above — replace with actual founder / advisor bios
+          before sharing externally.
+        </p>
       </Section>
 
-      {/* 11 — Plan */}
+      {/* 12 — Traction & Validation */}
       <Section
-        n={11}
-        kicker="The Plan"
-        title="Six months of programming. Multi-platform from day one."
+        n={12}
+        kicker="Traction"
+        title="The league is already live."
       >
-        <ul className="divide-y divide-zinc-200 border-y border-zinc-200 mb-8">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 mb-8">
+          {[
+            { stat: "1", label: "Bout settled", sub: "Israel · Shapiro def. AOC" },
+            { stat: "$107K", label: "Pot Y1 first bout", sub: "$19K to FIDF" },
+            { stat: "10", label: "Charities surfaced", sub: "Backers wired through" },
+            { stat: "100%", label: "Stack shipped", sub: "Mux · Stripe · LiveKit" },
+          ].map((s, i) => (
+            <div key={i} className="border-t-2 border-zinc-900 pt-3">
+              <p
+                className={`text-2xl md:text-3xl font-black tabular-nums ${i % 2 === 0 ? "text-brand-red" : "text-brand-blue"}`}
+              >
+                {s.stat}
+              </p>
+              <p className="text-zinc-900 font-bold text-sm md:text-base mt-1">
+                {s.label}
+              </p>
+              <p className="text-zinc-500 text-xs mt-0.5">{s.sub}</p>
+            </div>
+          ))}
+        </div>
+        <ul className="divide-y divide-zinc-200 border-y border-zinc-200 mb-6">
           {[
             {
-              h: "24+ debates",
-              p: "One headline bout every Sunday for 6 months.",
+              h: "Live product",
+              p: "argumental.vercel.app — homepage, voting, wallet, charities, rankings, outcomes archive, and the deck itself.",
             },
             {
-              h: "Founding knowledge classes",
-              p: "First champions across 4–6 categories.",
+              h: "First bout in the archive",
+              p: "Israel — Shapiro defeated Ocasio-Cortez, 58 / 42, on a $107,320 pot. $19,318 routed to Friends of the IDF.",
             },
             {
-              h: "Argumental.com",
-              p: "Voting, charity payouts, archive, leaderboards.",
+              h: "Production stack live",
+              p: "Dual-stream Mux player with auto-phase switching, Stripe Checkout wallet, LiveKit studio room — all shipped.",
             },
             {
-              h: "Distribution machine",
-              p: "Native clipping into YouTube, TikTok, Instagram for every bout.",
+              h: "Investor-grade model published",
+              p: "Two scenarios (aggressive / conservative), downloadable .xlsx with editable assumption cells. argumental.vercel.app/model.",
+            },
+            {
+              h: "Charity partners surfaced",
+              p: "10 backed charity profiles live — FIDF, UNRWA USA, Humanity Forward, Job Creators, ADF, Trans Lifeline, EJI, COPS, AllMEP, FMEP.",
             },
           ].map((c, i) => (
-            <li key={i} className="py-5 grid grid-cols-1 md:grid-cols-3 gap-2 md:gap-6">
+            <li key={i} className="py-4 grid grid-cols-1 md:grid-cols-3 gap-2 md:gap-6">
               <p className="text-zinc-900 font-bold text-base md:text-lg">
                 {c.h}
               </p>
@@ -689,23 +847,15 @@ export default function DeckPage() {
             </li>
           ))}
         </ul>
-        <p className="text-zinc-700 text-base md:text-lg leading-relaxed max-w-3xl">
-          During this window we test{" "}
-          <span className="text-zinc-900 font-bold">
-            scale and monetization
-          </span>
-          . Proving the format compounds — across audience, votes, sponsor
-          demand.
-        </p>
       </Section>
 
-      {/* 12 — Growth Plan */}
+      {/* 13 — The Plan (Plan + Growth merged) */}
       <Section
-        n={12}
-        kicker="Growth Plan"
-        title="Hand-picked debaters with audiences. Paid search to amplify."
+        n={13}
+        kicker="The Plan"
+        title="Six months of programming. Audiences who bring their own."
       >
-        {/* Hero stat — the EOY1 goal (sourced from lib/financialModel) */}
+        {/* Year 1 hero stat */}
         <div className="border-y-2 border-zinc-900 mb-8 py-6 md:py-8">
           <p className="text-zinc-500 text-[10px] md:text-xs uppercase tracking-widest font-black mb-2">
             Year 1 Goal
@@ -723,46 +873,41 @@ export default function DeckPage() {
           </p>
         </div>
 
-        <ul className="divide-y divide-zinc-200 border-y border-zinc-200 mb-8">
-          {[
-            {
-              h: "Pay top-of-class debaters",
-              p: "Per-bout honorariums tied to category seniority — the league pays its talent. Signals seriousness, attracts the names that move ratings, and lets us book them across multiple bouts to compound momentum.",
-            },
-            {
-              h: "$10K / month paid search",
-              p: "Google + Meta acquisition aimed at the topical demand that already exists for every bout — \"is Israel justified\", \"defund the police\", \"UBI\". We meet that intent with the bout, not a think-piece.",
-            },
-            {
-              h: "High-profile recruits with audiences",
-              p: "Each debater brings 100K–10M followers on day one. They promote their own bouts to their own audiences — every booking is a built-in distribution event. Net new viewers without traditional media spend.",
-            },
-            {
-              h: "The flywheel",
-              p: "Bigger names → bigger audiences → bigger sponsor packages → bigger honorariums → bigger names. Paid search and creator marketing seed the loop until it spins on its own.",
-            },
-          ].map((c, i) => (
-            <li key={i} className="py-5 grid grid-cols-1 md:grid-cols-3 gap-2 md:gap-6">
-              <p className="text-zinc-900 font-bold text-base md:text-lg">
-                {c.h}
-              </p>
-              <p className="text-zinc-600 text-sm md:text-base md:col-span-2 leading-relaxed">
-                {c.p}
-              </p>
-            </li>
-          ))}
-        </ul>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-8 mb-8">
+          <div>
+            <p className="text-[10px] md:text-xs uppercase tracking-widest font-black text-zinc-900 border-b border-zinc-200 pb-2 mb-3">
+              What we ship
+            </p>
+            <ul className="text-zinc-700 text-sm md:text-base leading-relaxed space-y-2">
+              <li>· <span className="font-bold text-zinc-900">24+ bouts</span> — one headline match every Sunday for six months</li>
+              <li>· <span className="font-bold text-zinc-900">4–6 knowledge classes</span> launched with founding champions</li>
+              <li>· <span className="font-bold text-zinc-900">Argumental.com</span> — voting, charity payouts, archive, leaderboards</li>
+              <li>· <span className="font-bold text-zinc-900">Distribution machine</span> — native clipping into YouTube, TikTok, Instagram for every bout</li>
+            </ul>
+          </div>
+          <div>
+            <p className="text-[10px] md:text-xs uppercase tracking-widest font-black text-zinc-900 border-b border-zinc-200 pb-2 mb-3">
+              How audiences arrive
+            </p>
+            <ul className="text-zinc-700 text-sm md:text-base leading-relaxed space-y-2">
+              <li>· <span className="font-bold text-zinc-900">Paid top-of-class debaters</span> — per-bout honorariums; the league pays its talent</li>
+              <li>· <span className="font-bold text-zinc-900">$10K / month paid search</span> — Google + Meta against the demand that already exists</li>
+              <li>· <span className="font-bold text-zinc-900">Recruits with audiences</span> — each debater brings 100K–10M followers and promotes their own bout</li>
+              <li>· <span className="font-bold text-zinc-900">Flywheel</span> — bigger names → bigger audiences → bigger sponsor packages → bigger names</li>
+            </ul>
+          </div>
+        </div>
         <p className="text-zinc-700 text-base md:text-lg leading-relaxed max-w-3xl">
-          Acquisition cost falls to{" "}
+          Acquisition cost falls toward{" "}
           <span className="text-zinc-900 font-bold">near zero per viewer</span>{" "}
           once the format compounds — debaters do the work of an unpaid sales
           team, in public, every Sunday.
         </p>
       </Section>
 
-      {/* 13 — Financial Model */}
+      {/* 14 — Financial Model */}
       <Section
-        n={13}
+        n={14}
         kicker="The Numbers"
         title="Three-year model. Investor-grade."
       >
@@ -775,18 +920,18 @@ export default function DeckPage() {
         />
       </Section>
 
-      {/* 14 — Ask */}
+      {/* 15 — The Ask + Use of Funds */}
       <section
-        id="s14"
+        id="s15"
         className="border-t border-zinc-200 px-4 md:px-12 py-12 md:py-28"
       >
         <div className="max-w-4xl mx-auto">
           <header className="flex items-baseline gap-3 md:gap-6 mb-5 md:mb-10">
             <span className="text-zinc-400 text-base md:text-lg font-black tabular-nums">
-              14
+              15
             </span>
             <span className="text-zinc-400 text-[10px] md:text-xs uppercase tracking-widest font-black">
-              14 / {String(TOTAL).padStart(2, "0")}
+              15 / {String(TOTAL).padStart(2, "0")}
             </span>
           </header>
           <p className="text-black text-[11px] md:text-xs uppercase tracking-widest font-black mb-3">
@@ -795,11 +940,43 @@ export default function DeckPage() {
           <h2 className="text-3xl sm:text-4xl md:text-6xl font-black leading-tight tracking-tight mb-6 md:mb-8 max-w-4xl">
             The world doesn&apos;t need fewer arguments. It needs better ones.
           </h2>
-          <p className="text-zinc-700 text-base sm:text-lg md:text-2xl leading-snug mb-8 md:mb-10 max-w-3xl">
+          <p className="text-zinc-700 text-base sm:text-lg md:text-2xl leading-snug mb-10 md:mb-12 max-w-3xl">
             Argumental is the league where that happens — civilly,
             professionally, in front of millions. Join the seed round.
           </p>
-          <div className="flex flex-col sm:flex-row gap-3">
+
+          {/* Use of Funds */}
+          <div className="border-t-2 border-zinc-900 pt-6 md:pt-8 mb-8 md:mb-10">
+            <p className="text-[10px] md:text-xs uppercase tracking-widest font-black text-zinc-900 mb-4">
+              Use of funds (placeholder — confirm before sharing)
+            </p>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-6 mb-6">
+              {[
+                { k: "Round size", v: "$2.5M" },
+                { k: "Structure", v: "SAFE @ $12M cap" },
+                { k: "Runway", v: "18 months" },
+                { k: "Use", v: "Production · talent · go-to-market" },
+              ].map((row) => (
+                <div key={row.k}>
+                  <p className="text-[10px] uppercase tracking-widest font-black text-zinc-400">
+                    {row.k}
+                  </p>
+                  <p className="text-zinc-900 font-bold text-sm md:text-base mt-1">
+                    {row.v}
+                  </p>
+                </div>
+              ))}
+            </div>
+            <ul className="text-zinc-700 text-sm md:text-base leading-relaxed space-y-1.5">
+              <li>· <span className="font-bold text-zinc-900">30%</span> — Production (studio, crew, livestream ops)</li>
+              <li>· <span className="font-bold text-zinc-900">25%</span> — Debater honoraria (24+ bouts at $10K)</li>
+              <li>· <span className="font-bold text-zinc-900">20%</span> — Engineering &amp; product</li>
+              <li>· <span className="font-bold text-zinc-900">15%</span> — Paid acquisition ($10K/mo + creator marketing)</li>
+              <li>· <span className="font-bold text-zinc-900">10%</span> — G&amp;A, legal, insurance</li>
+            </ul>
+          </div>
+
+          <div className="flex flex-col sm:flex-row gap-3 mb-10 md:mb-12">
             <a
               href="mailto:reubstock@gmail.com?subject=Argumental%20seed%20round"
               className="bg-black hover:bg-zinc-800 text-white font-black uppercase tracking-widest text-xs md:text-sm px-5 py-3 rounded-md transition text-center"
@@ -813,7 +990,7 @@ export default function DeckPage() {
               See the live product
             </a>
           </div>
-          <p className="text-zinc-400 text-[10px] uppercase tracking-widest font-black mt-10 md:mt-12">
+          <p className="text-zinc-400 text-[10px] uppercase tracking-widest font-black">
             The Path to Peace Begins with an Argument.
           </p>
         </div>
