@@ -16,8 +16,7 @@ interface Props {
   aggressive: DeckCase;
   conservative: DeckCase;
   /** Static — same in both cases. */
-  liveViewersY1Avg: number;
-  liveViewersEOY1Target: number;
+  liveViewersByYear: number[]; // length 3 — Y1, Y2, Y3 averages
   replayMultiplier: number;
 }
 
@@ -50,8 +49,7 @@ const SUB_LABELS: Record<DeckCase["key"], string[]> = {
 export default function FinancialModelSection({
   aggressive,
   conservative,
-  liveViewersY1Avg,
-  liveViewersEOY1Target,
+  liveViewersByYear,
   replayMultiplier,
 }: Props) {
   const [active, setActive] = useState<DeckCase["key"]>("aggressive");
@@ -121,10 +119,11 @@ export default function FinancialModelSection({
       <p className="text-zinc-500 text-xs md:text-sm leading-relaxed mb-6 md:mb-8">
         Driven by{" "}
         <span className="text-zinc-900 font-bold">
-          {fmtNumCompact(liveViewersY1Avg)} →{" "}
-          {fmtNumCompact(liveViewersEOY1Target)} live viewers / bout
+          {fmtNumCompact(liveViewersByYear[0])} →{" "}
+          {fmtNumCompact(liveViewersByYear[1])} →{" "}
+          {fmtNumCompact(liveViewersByYear[2])} live viewers / bout
         </span>{" "}
-        across Y1, with a{" "}
+        across Y1 → Y3, with a{" "}
         <span className="text-zinc-900 font-bold">
           {replayMultiplier}× replay multiplier
         </span>

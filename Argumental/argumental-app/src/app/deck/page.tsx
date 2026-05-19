@@ -916,8 +916,7 @@ export default function DeckPage() {
         <FinancialModelSection
           aggressive={AGGRESSIVE_CASE}
           conservative={CONSERVATIVE_CASE}
-          liveViewersY1Avg={INPUTS.liveViewers[0]}
-          liveViewersEOY1Target={TARGETS.liveViewersEOY1}
+          liveViewersByYear={INPUTS.liveViewers}
           replayMultiplier={INPUTS.replayMultiplier[0]}
         />
       </Section>
