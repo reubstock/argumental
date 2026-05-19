@@ -423,21 +423,17 @@ function UnitEconomicsHero({ model }: { model: ModelSeries }) {
         <div className="p-4 md:p-6">
           <p className="text-zinc-600 text-sm md:text-base mb-5 md:mb-6 leading-relaxed">
             What a single bout earns and costs at each year&apos;s
-            audience scale. Y1 runs at a loss per bout while we build
-            audience; Y3 contribution margin lands at{" "}
+            audience scale. Y1 loses money per bout while we build
+            audience; by Y3 each bout earns{" "}
             <span className="text-zinc-900 font-bold">
-              {perBoutRev[2] > 0
-                ? fmtPct(perBoutContrib[2] / perBoutRev[2], 0)
-                : "—"}
-            </span>
-            .
+              {fmtUSDExact(perBoutContrib[2])}
+            </span>{" "}
+            in profit.
           </p>
           <div className="space-y-5 md:space-y-6">
             {Y.map((i) => {
               const revPct = (perBoutRev[i] / maxValue) * 100;
               const costPct = (perBoutCost[i] / maxValue) * 100;
-              const margin =
-                perBoutRev[i] > 0 ? perBoutContrib[i] / perBoutRev[i] : 0;
               const profitable = perBoutContrib[i] >= 0;
               return (
                 <div key={i}>
@@ -453,7 +449,7 @@ function UnitEconomicsHero({ model }: { model: ModelSeries }) {
                       {profitable ? "+" : ""}
                       {fmtUSDExact(perBoutContrib[i])}{" "}
                       <span className="text-zinc-400 text-xs font-bold uppercase tracking-widest">
-                        {profitable ? fmtPct(margin, 0) + " margin" : "loss"}
+                        {profitable ? "profit / bout" : "loss / bout"}
                       </span>
                     </p>
                   </div>

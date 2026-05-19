@@ -243,8 +243,6 @@ function UnitEconomicsRow({ cur }: { cur: DeckCase }) {
       </p>
       <div className="grid grid-cols-3 gap-0 border-y border-zinc-200">
         {[0, 1, 2].map((i) => {
-          const margin =
-            perBoutRev[i] > 0 ? contrib[i] / perBoutRev[i] : 0;
           const profitable = contrib[i] >= 0;
           return (
             <div
@@ -282,7 +280,7 @@ function UnitEconomicsRow({ cur }: { cur: DeckCase }) {
                   {fmtUSD(contrib[i])}
                 </p>
                 <p className="text-zinc-500 text-[10px] uppercase tracking-widest font-black mt-1">
-                  {profitable ? `${fmtPct(margin, 0)} margin` : "loss per bout"}
+                  {profitable ? "Profit per bout" : "Loss per bout"}
                 </p>
               </div>
             </div>
