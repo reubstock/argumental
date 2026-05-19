@@ -45,9 +45,10 @@
         "stripePerVote": [0.3, 0.3, 0.3],
         "charityPct": [0.18, 0.18, 0.18],
         "honorarium": {
+          "_comment": "Y1 = flat $10K per bout (covers both debaters combined). Y2 onwards = 5% per debater = 10% per bout total, against the per-bout voting purse. Aligns debater incentives with audience scale.",
           "y1FlatUSD": 10000,
-          "y2PctOfBoutPurse": 0.05,
-          "y3PctOfBoutPurse": 0.03
+          "y2PctOfBoutPurse": 0.10,
+          "y3PctOfBoutPurse": 0.10
         },
         "productionPerBout": [10000, 10000, 10000]
       },
@@ -107,9 +108,10 @@
         "stripePerVote": [0.3, 0.3, 0.3],
         "charityPct": [0.18, 0.18, 0.18],
         "honorarium": {
+          "_comment": "Y1 = flat $10K per bout (covers both debaters combined). Y2 onwards = 5% per debater = 10% per bout total, against the per-bout voting purse. Aligns debater incentives with audience scale.",
           "y1FlatUSD": 10000,
-          "y2PctOfBoutPurse": 0.05,
-          "y3PctOfBoutPurse": 0.03
+          "y2PctOfBoutPurse": 0.10,
+          "y3PctOfBoutPurse": 0.10
         },
         "productionPerBout": [10000, 10000, 10000]
       },
