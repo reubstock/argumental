@@ -21,6 +21,7 @@ const AGGRESSIVE_CASE: DeckCase = {
   totalRevenue: aggressiveModel.totalRevenue,
   builtInLabel: "Built into the aggressive case",
   builtInItems: [
+    "24 bouts Y1 (pre-seed launch), 48 Y2+ (Series A scale)",
     "Voting revenue gated by live viewer reach",
     "Sponsorship — title slots, category exclusives",
     "Premium tier — $7/mo archive + AMAs",
@@ -29,11 +30,11 @@ const AGGRESSIVE_CASE: DeckCase = {
     "80% off-platform replay (FB · TikTok · YouTube)",
     "YouTube ad share at $1.50 CPM",
     "Honoraria: $10K Y1, then 5%/3% of purse",
-    "Lean headcount: 4 → 7 → 10 FTE",
+    "Lean headcount: 1 → 5 → 9 FTE",
     "Mux enterprise rate by Y3",
   ],
   altSummary:
-    "Voting revenue only. No sponsorship, no platform extensions, no off-platform distribution. Headcount runs full at 14 FTE by Y3. Shows the league's economics before any growth lever is pulled.",
+    "Pre-seed funded Y1, but no growth levers pulled in Y2/Y3. Voting revenue only. No sponsorship, no platform extensions, no off-platform distribution. Headcount stays heavier (1 → 6 → 12 FTE).",
 };
 
 const CONSERVATIVE_CASE: DeckCase = {
@@ -42,18 +43,19 @@ const CONSERVATIVE_CASE: DeckCase = {
   totalRevenue: conservativeModel.totalRevenue,
   builtInLabel: "Built into the conservative case",
   builtInItems: [
+    "24 bouts Y1 (pre-seed launch), 48 Y2+ (Series A scale)",
     "Voting revenue gated by live viewer reach",
     "18% charity payout as COGS",
     "Honoraria: $10K Y1, then 5%/3% of purse",
     "Mux delivers 100% of viewing (live + replay)",
-    "Headcount runs full: 4 → 8 → 14 FTE",
-    "$10K/mo paid search Y1, ramping",
+    "Headcount: 1 → 6 → 12 FTE (heavier than aggressive)",
+    "$4K/mo paid search Y1 → $20K/mo by Y3",
     "No sponsorship modeled",
     "No premium subs · ticketing · merch · licensing",
     "No off-platform distribution or ad share",
   ],
   altSummary:
-    "All Tier 1+2+3 levers active: sponsorship, premium tier, ticketing, merch, licensing, 80% off-platform replay, YouTube ad share, lean headcount, Mux enterprise rate by Y3. Closes the EBITDA gap.",
+    "Pre-seed funded Y1, Series A unlocks Tier 1+2+3 levers: sponsorship, premium tier, ticketing, merch, licensing, 80% off-platform replay, YouTube ad share, leaner headcount (1 → 5 → 9 FTE), Mux enterprise rate by Y3. Closes the EBITDA gap.",
 };
 
 export const metadata = {

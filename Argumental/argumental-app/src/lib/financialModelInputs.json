@@ -8,9 +8,9 @@
   "scenarios": {
     "aggressive": {
       "label": "Aggressive",
-      "description": "All Tier 1+2+3 levers active: sponsorship, off-platform replay distribution, premium tier, ticketing, merch, licensing, YouTube ad share, lean headcount, Mux enterprise rate by Y3.",
+      "description": "Pre-seed funded Y1 (24 bouts, lean ops) → Series A funds Y2/Y3 scale. All Tier 1+2+3 levers active: sponsorship, off-platform replay distribution, premium tier, ticketing, merch, licensing, YouTube ad share, lean headcount, Mux enterprise rate by Y3.",
       "audience": {
-        "boutsPerYear": [48, 48, 48],
+        "boutsPerYear": [24, 48, 48],
         "liveViewers": [60000, 100000, 125000],
         "voterConversion": [0.06, 0.10, 0.12],
         "votePrice": [5, 5, 5]
@@ -52,12 +52,12 @@
         "productionPerBout": [10000, 10000, 10000]
       },
       "fixedCosts": {
-        "headcount": [4, 7, 10],
+        "headcount": [1, 5, 9],
         "loadedCostPerFTE": [180000, 185000, 190000],
-        "paidSearch": [120000, 240000, 360000],
-        "brandMarketing": [60000, 240000, 480000],
-        "gAndA": [60000, 120000, 200000],
-        "legalAccounting": [50000, 90000, 140000]
+        "paidSearch": [48000, 240000, 360000],
+        "brandMarketing": [20000, 240000, 480000],
+        "gAndA": [30000, 120000, 200000],
+        "legalAccounting": [25000, 90000, 140000]
       },
       "audienceBehavior": {
         "avgLiveMins": [16, 18, 20],
@@ -70,9 +70,9 @@
     },
     "conservative": {
       "label": "Conservative",
-      "description": "Voting only. All platform extensions, sponsorship, and licensing treated as upside. Mux delivers 100% of viewing.",
+      "description": "Pre-seed funded Y1 (24 bouts) → Series A funds Y2/Y3, but no growth levers pulled. Voting only. All platform extensions, sponsorship, and licensing treated as upside. Mux delivers 100% of viewing. Headcount stays heavier than the aggressive case.",
       "audience": {
-        "boutsPerYear": [48, 48, 48],
+        "boutsPerYear": [24, 48, 48],
         "liveViewers": [60000, 100000, 125000],
         "voterConversion": [0.06, 0.08, 0.09],
         "votePrice": [5, 5, 5]
@@ -114,12 +114,12 @@
         "productionPerBout": [10000, 10000, 10000]
       },
       "fixedCosts": {
-        "headcount": [4, 8, 14],
+        "headcount": [1, 6, 12],
         "loadedCostPerFTE": [180000, 180000, 195000],
-        "paidSearch": [120000, 240000, 360000],
-        "brandMarketing": [60000, 240000, 480000],
-        "gAndA": [60000, 120000, 200000],
-        "legalAccounting": [50000, 90000, 140000]
+        "paidSearch": [48000, 240000, 360000],
+        "brandMarketing": [20000, 240000, 480000],
+        "gAndA": [30000, 120000, 200000],
+        "legalAccounting": [25000, 90000, 140000]
       },
       "audienceBehavior": {
         "avgLiveMins": [16, 18, 20],
