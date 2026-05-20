@@ -3,7 +3,7 @@ import OutcomesView from "@/components/OutcomesView";
 export const metadata = {
   title: "Argumental — Outcomes",
   description:
-    "How Argumental bouts have resolved — current verdicts and the historical debates that set the template.",
+    "Argumental's inaugural matchup and the historical debates that set the template.",
 };
 
 export default function OutcomesPage() {
@@ -14,7 +14,7 @@ export default function OutcomesPage() {
           Outcomes
         </h1>
         <p className="text-zinc-500 text-xs md:text-sm">
-          How bouts resolved · what they settled.
+          The inaugural matchup · and the debates that set the template.
         </p>
       </div>
 

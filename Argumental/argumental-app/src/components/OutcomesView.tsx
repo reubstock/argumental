@@ -36,47 +36,39 @@ export default function OutcomesView() {
 }
 
 /* ────────────────────────────────────────────────────────────────────── */
-/* CURRENT — Israel debate, concluded May 10 2026, Shapiro the winner.     */
+/* CURRENT — Inaugural Israel bout, scheduled. Vote opens at bout start.   */
 /* ────────────────────────────────────────────────────────────────────── */
 
 function CurrentVerdicts() {
-  const VOTES_A = 12_438; // Shapiro
-  const VOTES_B = 9_026;  // AOC
-  const TOTAL = VOTES_A + VOTES_B;
-  const PCT_A = Math.round((VOTES_A / TOTAL) * 100);
-  const PCT_B = 100 - PCT_A;
-  const RAISED = (TOTAL * 5).toLocaleString("en-US");
-  const CHARITY_PAYOUT = Math.round(TOTAL * 5 * 0.18).toLocaleString("en-US");
-
   return (
     <Panel className="overflow-hidden">
       {/* Status strip */}
       <div className="bg-zinc-50 border-b border-zinc-200 px-4 md:px-5 py-2.5 flex items-center gap-3 flex-wrap">
-        <span className="bg-brand-red text-white text-[10px] font-black uppercase tracking-widest px-2 py-1 rounded-full">
-          ● Verdict
+        <span className="bg-zinc-900 text-white text-[10px] font-black uppercase tracking-widest px-2 py-1 rounded-full">
+          ● Inaugural · Coming up
         </span>
-        <span className="text-zinc-500 text-[10px] uppercase tracking-widest font-black tabular-nums">
-          Sun, May 10 · 2026
+        <span className="text-zinc-500 text-[10px] uppercase tracking-widest font-black">
+          Foreign Policy
         </span>
         <span className="text-zinc-300">·</span>
         <span className="text-zinc-500 text-[10px] uppercase tracking-widest font-black">
-          Foreign Policy
+          Vote opens at bout start
         </span>
       </div>
 
       <div className="p-5 md:p-6 flex flex-col gap-6">
         <div>
           <p className="text-zinc-500 text-xs uppercase tracking-widest font-black mb-1">
-            Bout 01
+            Bout 01 · the inaugural matchup
           </p>
           <h2 className="text-zinc-900 font-black text-xl md:text-3xl leading-tight">
             Does Israel Have the Right to Exist?
           </h2>
         </div>
 
-        {/* Watch + scoreboard: half-size replay player on the left
-            (uses the same Shapiro/AOC cover graphic as the homepage),
-            stacked debater cards on the right. Stacks on mobile. */}
+        {/* Watch + matchup: half-size player on the left (homepage cover),
+            stacked debater cards on the right. No vote counts — bout
+            hasn't run. */}
         <div className="grid grid-cols-1 md:grid-cols-5 gap-4 md:gap-5 items-start">
           <div className="md:col-span-2 max-w-xs md:max-w-none">
             <VideoPlayer
@@ -90,96 +82,76 @@ function CurrentVerdicts() {
             />
           </div>
           <div className="md:col-span-3 flex flex-col gap-3">
-            <DebaterPanel
+            <MatchupPanel
               side="A"
               name="Ben Shapiro"
               position="FOR"
               photo="/shapiro.jpg"
-              votes={VOTES_A}
-              pct={PCT_A}
-              isWinner
+              charity="Friends of the IDF"
             />
-            <DebaterPanel
+            <MatchupPanel
               side="B"
               name="Alexandria Ocasio-Cortez"
               position="AGAINST"
               photo="/aoc.jpg"
-              votes={VOTES_B}
-              pct={PCT_B}
+              charity="UNRWA USA"
             />
           </div>
         </div>
 
-        {/* Tally bar */}
-        <div className="flex flex-col gap-1.5">
-          <div className="flex justify-between text-xs font-black tabular-nums">
-            <span className="text-brand-red">{PCT_A}%</span>
-            <span className="text-zinc-500">{TOTAL.toLocaleString("en-US")} votes cast</span>
-            <span className="text-brand-blue">{PCT_B}%</span>
-          </div>
-          <div className="flex h-2.5 rounded-full overflow-hidden bg-zinc-100">
-            <div className="bg-brand-red" style={{ width: `${PCT_A}%` }} />
-            <div className="bg-brand-blue" style={{ width: `${PCT_B}%` }} />
-          </div>
-        </div>
-
-        {/* Stats row */}
+        {/* Format facts row */}
         <div className="grid grid-cols-2 md:grid-cols-3 gap-3 border-t border-zinc-200 pt-5">
-          <Stat
-            kicker="Pot raised"
-            value={`$${RAISED}`}
-            sub="$5 / vote"
-          />
-          <Stat
-            kicker="Charity payout"
-            value={`$${CHARITY_PAYOUT}`}
-            sub="18% to FIDF · winner's pick"
-          />
           <Stat
             kicker="Format"
             value="4 phases · 24 min"
             sub="No moderator"
           />
+          <Stat
+            kicker="Vote"
+            value="$5 / vote"
+            sub="1 vote per viewer · $10 wk cap"
+          />
+          <Stat
+            kicker="Charity payout"
+            value="18% of pot"
+            sub="To the winner's chosen org"
+          />
         </div>
 
-        {/* What was at stake */}
+        {/* What's at stake — forward-looking */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 border-t border-zinc-200 pt-6">
           <div>
             <p className="text-black text-[10px] md:text-xs uppercase tracking-widest font-black mb-2">
-              What was at stake
+              What&apos;s at stake
             </p>
             <p className="text-zinc-700 text-sm md:text-base leading-relaxed">
-              Argumental&apos;s opening bout put one of the most contested
-              questions of the era — the legitimacy of the State of Israel —
-              in front of an unmoderated, audience-judged crowd. A win for
-              Shapiro meant 18 % of the pot ($
-              {CHARITY_PAYOUT}) routed to{" "}
+              Argumental&apos;s inaugural bout puts one of the most
+              contested questions of the era — the legitimacy of the
+              State of Israel — in front of an unmoderated,
+              audience-judged crowd. A Shapiro win routes 18% of the
+              pot to{" "}
               <span className="text-zinc-900 font-bold">
                 Friends of the Israel Defense Forces
               </span>
-              . A win for Ocasio-Cortez would have sent the same share to
-              UNRWA USA. Beyond the charity flow, the bout set the league&apos;s
-              first Foreign Policy ranking — Shapiro now anchors the
-              top-ten contender list as the inaugural No.&nbsp;1 challenger
-              to the Tier-1 belt.
+              ; an Ocasio-Cortez win sends it to{" "}
+              <span className="text-zinc-900 font-bold">UNRWA USA</span>.
+              Beyond the charity flow, this bout sets the league&apos;s
+              first Foreign Policy ranking and the inaugural No.&nbsp;1
+              challenger to the Tier-1 belt.
             </p>
           </div>
           <div>
             <p className="text-black text-[10px] md:text-xs uppercase tracking-widest font-black mb-2">
-              How Shapiro won
+              How voting works
             </p>
             <p className="text-zinc-700 text-sm md:text-base leading-relaxed">
-              Critics afterwards converged on the same read: Shapiro built
-              his case from first principles, anchoring on the 1947 UN
-              partition vote and walking the audience through three
-              consecutive defensive wars before Ocasio-Cortez had introduced
-              her counter-frame. Her rebuttal landed cleanly — clearer than
-              expected on settler dynamics — but came too late to slow his
-              lead in the live tally. By the third phase the bar had passed
-              57 % red and stayed there. Final split: {PCT_A}% / {PCT_B}%, a
-              {' '}
-              {PCT_A - PCT_B}-point margin on a question that polls split
-              the country roughly down the middle.
+              Once the bout opens, viewers load $5+ into a Stripe wallet
+              and cast votes during the live broadcast. Each viewer gets
+              one $5 vote per bout, capped at $10 per week across the
+              league. The live tally drives the side bars on screen, so
+              every speaker sees the room move (or not) in real time —
+              and 18% of every dollar routes to the winner&apos;s
+              chosen org the moment the verdict lands.
             </p>
           </div>
         </div>
@@ -189,13 +161,13 @@ function CurrentVerdicts() {
             href="/debates/israel-001"
             className="bg-black hover:bg-zinc-800 text-white font-black uppercase tracking-widest text-[11px] px-3 py-2 rounded-md transition"
           >
-            Watch the bout →
+            See the bout page →
           </a>
           <a
-            href="/rankings"
+            href="/upcoming"
             className="bg-white hover:bg-zinc-50 border border-zinc-300 hover:border-black text-zinc-800 font-black uppercase tracking-widest text-[11px] px-3 py-2 rounded-md transition"
           >
-            See rankings
+            See all upcoming bouts
           </a>
         </div>
       </div>
@@ -203,36 +175,28 @@ function CurrentVerdicts() {
   );
 }
 
-function DebaterPanel({
+function MatchupPanel({
   side,
   name,
   position,
   photo,
-  votes,
-  pct,
-  isWinner,
+  charity,
 }: {
   side: "A" | "B";
   name: string;
   position: string;
   photo: string;
-  votes: number;
-  pct: number;
-  isWinner?: boolean;
+  charity: string;
 }) {
-  const accentText =
-    side === "A" ? "text-brand-red" : "text-brand-blue";
+  const accentText = side === "A" ? "text-brand-red" : "text-brand-blue";
   const accentBorder =
     side === "A" ? "border-brand-red" : "border-brand-blue";
-  const winnerCls = isWinner
-    ? side === "A"
-      ? "bg-brand-red/5 border-brand-red"
-      : "bg-brand-blue/5 border-brand-blue"
-    : "border-zinc-200 bg-white";
 
   return (
-    <div className={`border ${winnerCls} rounded-md p-4 flex items-center gap-3 md:gap-4 relative`}>
-      <div className={`w-12 h-12 md:w-16 md:h-16 rounded-full overflow-hidden border-2 ${accentBorder} shrink-0`}>
+    <div className="border border-zinc-200 bg-white rounded-md p-4 flex items-center gap-3 md:gap-4">
+      <div
+        className={`w-12 h-12 md:w-16 md:h-16 rounded-full overflow-hidden border-2 ${accentBorder} shrink-0`}
+      >
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={photo}
@@ -241,21 +205,18 @@ function DebaterPanel({
         />
       </div>
       <div className="flex-1 min-w-0">
-        <p className={`${accentText} text-[10px] uppercase tracking-widest font-black`}>
+        <p
+          className={`${accentText} text-[10px] uppercase tracking-widest font-black`}
+        >
           {position}
         </p>
         <p className="text-zinc-900 font-bold text-sm md:text-base leading-tight">
           {name}
         </p>
-        <p className="text-zinc-500 text-xs md:text-sm tabular-nums mt-0.5">
-          {votes.toLocaleString("en-US")} · {pct}%
+        <p className="text-zinc-500 text-xs md:text-sm mt-0.5">
+          Charity: <span className="text-zinc-700 font-bold">{charity}</span>
         </p>
       </div>
-      {isWinner && (
-        <span className="absolute -top-2 right-3 bg-brand-red text-white text-[9px] font-black uppercase tracking-widest px-2 py-0.5 rounded-full">
-          Winner
-        </span>
-      )}
     </div>
   );
 }

@@ -88,7 +88,6 @@ const CHARITY_SEED: Charity[] = [
     backerName: "Ben Shapiro",
     backerSide: "A",
     backerDebateId: "israel-001",
-    winner: true,
   },
   {
     id: "unrwa-usa",

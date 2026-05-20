@@ -53,8 +53,8 @@ export default function OnePagerPage() {
         {/* ── PRODUCT HERO ─────────────────────────────────────── */}
         {/* Recreates the argumental.vercel.app homepage cover: split frame,
             brand-red wash on debater A, brand-blue on debater B, VS marker
-            centered. Shows the actual aired bout (Israel · Shapiro vs AOC)
-            as proof of product. */}
+            centered. Shows the inaugural bout (Israel · Shapiro vs AOC)
+            as the headlining first matchup. */}
         <ProductHero />
 
         {/* ── PROBLEM + SOLUTION (side-by-side) ────────────────── */}
@@ -129,26 +129,28 @@ export default function OnePagerPage() {
         {/* ── TRACTION ─────────────────────────────────────────── */}
         <section className="mb-5 md:mb-6">
           <p className="text-zinc-900 text-[10px] uppercase tracking-widest font-black mb-2">
-            Traction — already live
+            Traction — already built
           </p>
           <ul className="text-zinc-800 text-sm md:text-base leading-snug space-y-1">
             <li>
               ·{" "}
-              <span className="font-bold">First bout settled</span> —
-              Shapiro defeated AOC, 58 / 42, on a $107K pot. $19K
-              routed to Friends of the IDF.
+              <span className="font-bold">Full stack shipped</span> —
+              dual-stream Mux player, Stripe wallet, LiveKit studio,
+              voting, archive, leaderboards — all running at
+              argumental.vercel.app.
             </li>
             <li>
               ·{" "}
-              <span className="font-bold">Full stack shipped</span> —
-              dual-stream Mux player, Stripe wallet, LiveKit studio,
-              voting, archive, leaderboards.
+              <span className="font-bold">4 inaugural bouts booked</span> —
+              Israel (Shapiro vs AOC) · UBI (Yang vs Ramaswamy) ·
+              Women / X-chromosomes (Walsh vs Butler) · Defund
+              (Omar vs Hegseth).
             </li>
             <li>
               ·{" "}
               <span className="font-bold">10 charity partners</span>{" "}
-              surfaced; FIDF, UNRWA USA, Humanity Forward, EJI, ADF,
-              Trans Lifeline, and more.
+              surfaced and wired through; FIDF, UNRWA USA, Humanity
+              Forward, EJI, ADF, Trans Lifeline, and more.
             </li>
             <li>
               ·{" "}
@@ -302,23 +304,21 @@ function ProductHero() {
       <div className="relative rounded-md overflow-hidden bg-zinc-950 aspect-[16/6] md:aspect-[16/5] print:aspect-[16/6]">
         {/* Topic strip — top-left */}
         <div className="absolute top-2 md:top-3 left-3 md:left-4 z-30">
-          <span className="bg-brand-red text-white text-[9px] md:text-[10px] font-black uppercase tracking-widest px-2 py-0.5 rounded-full">
-            ● Aired
+          <span className="bg-zinc-900 border border-white/40 text-white text-[9px] md:text-[10px] font-black uppercase tracking-widest px-2 py-0.5 rounded-full">
+            Inaugural Bout
           </span>
           <p className="text-white font-black text-xs md:text-sm mt-1 drop-shadow leading-tight max-w-md">
             Does Israel Have the Right to Exist?
           </p>
         </div>
 
-        {/* Final score — top-right */}
+        {/* Format pill — top-right */}
         <div className="absolute top-2 md:top-3 right-3 md:right-4 z-30 text-right">
           <p className="text-zinc-300 text-[9px] md:text-[10px] uppercase tracking-widest font-black">
-            Final
+            Format
           </p>
           <p className="text-white font-black text-xs md:text-sm tabular-nums drop-shadow">
-            <span className="text-brand-red">58</span>
-            <span className="text-zinc-400"> / </span>
-            <span className="text-brand-blue">42</span>
+            24 min · 4 phases
           </p>
         </div>
 
@@ -346,7 +346,7 @@ function ProductHero() {
         </div>
       </div>
       <figcaption className="text-zinc-500 text-[10px] md:text-xs uppercase tracking-widest font-bold mt-2 text-center">
-        Live at argumental.vercel.app — first bout settled
+        Live at argumental.vercel.app — first bout queued
       </figcaption>
     </figure>
   );

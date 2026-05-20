@@ -392,8 +392,8 @@ export default function DeckPage() {
           {[
             {
               topic: "Does Israel Have the Right to Exist?",
-              status: "aired" as const,
-              outcome: "Shapiro def. AOC · 58 / 42",
+              status: "booked" as const,
+              outcome: "Inaugural bout · headlining the launch",
               a: { name: "Ben Shapiro", photo: "/shapiro.jpg" },
               b: { name: "Alexandria Ocasio-Cortez", photo: "/aoc.jpg" },
             },
@@ -800,14 +800,14 @@ export default function DeckPage() {
       <Section
         n={12}
         kicker="Traction"
-        title="The league is already live."
+        title="The product is already built."
       >
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 mb-8">
           {[
-            { stat: "1", label: "Bout settled", sub: "Israel · Shapiro def. AOC" },
-            { stat: "$107K", label: "Pot Y1 first bout", sub: "$19K to FIDF" },
-            { stat: "10", label: "Charities surfaced", sub: "Backers wired through" },
             { stat: "100%", label: "Stack shipped", sub: "Mux · Stripe · LiveKit" },
+            { stat: "4", label: "Bouts booked", sub: "Israel · UBI · Women · Defund" },
+            { stat: "10", label: "Charity partners", sub: "Wired through, ready to receive" },
+            { stat: "6", label: "Knowledge classes", sub: "Foreign · Econ · Culture · Sci · Faith · Tech" },
           ].map((s, i) => (
             <div key={i} className="border-t-2 border-zinc-900 pt-3">
               <p
@@ -829,8 +829,8 @@ export default function DeckPage() {
               p: "argumental.vercel.app — homepage, voting, wallet, charities, rankings, outcomes archive, and the deck itself.",
             },
             {
-              h: "First bout in the archive",
-              p: "Israel — Shapiro defeated Ocasio-Cortez, 58 / 42, on a $107,320 pot. $19,318 routed to Friends of the IDF.",
+              h: "Inaugural bout queued",
+              p: "Israel — Shapiro vs. Ocasio-Cortez. Charity rails primed to route 18% of the pot to the winner's chosen org (FIDF if Shapiro wins, UNRWA USA if AOC wins).",
             },
             {
               h: "Production stack live",
