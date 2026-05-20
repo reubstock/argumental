@@ -20,7 +20,7 @@ export default function OnePagerPage() {
     <div className="bg-white text-zinc-900 print:bg-white">
       <article className="max-w-4xl mx-auto px-6 md:px-10 py-8 md:py-12 print:px-6 print:py-6">
         {/* ── HEADER ───────────────────────────────────────────── */}
-        <header className="flex items-center gap-4 md:gap-5 pb-5 md:pb-6 mb-5 md:mb-6 border-b-2 border-zinc-900">
+        <header className="flex items-center gap-4 md:gap-5 pb-4 md:pb-5 mb-4 md:mb-5 border-b-2 border-zinc-900">
           <Image
             src="/logo.png"
             alt="Argumental"
@@ -49,6 +49,13 @@ export default function OnePagerPage() {
             </p>
           </div>
         </header>
+
+        {/* ── PRODUCT HERO ─────────────────────────────────────── */}
+        {/* Recreates the argumental.vercel.app homepage cover: split frame,
+            brand-red wash on debater A, brand-blue on debater B, VS marker
+            centered. Shows the actual aired bout (Israel · Shapiro vs AOC)
+            as proof of product. */}
+        <ProductHero />
 
         {/* ── PROBLEM + SOLUTION (side-by-side) ────────────────── */}
         <section className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 mb-5 md:mb-6">
@@ -279,6 +286,122 @@ function Stat({
         {value}
       </p>
       <p className="text-zinc-600 text-xs mt-1 leading-snug">{note}</p>
+    </div>
+  );
+}
+
+/* ────────────────────────────────────────────────────────────────────── */
+/* ProductHero — inline recreation of the argumental.vercel.app homepage  */
+/* cover composition. Split frame, debater photos with brand washes,      */
+/* VS marker in the middle. Used as product visual on the one-pager.      */
+/* ────────────────────────────────────────────────────────────────────── */
+
+function ProductHero() {
+  return (
+    <figure className="mb-5 md:mb-6">
+      <div className="relative rounded-md overflow-hidden bg-zinc-950 aspect-[16/6] md:aspect-[16/5] print:aspect-[16/6]">
+        {/* Topic strip — top-left */}
+        <div className="absolute top-2 md:top-3 left-3 md:left-4 z-30">
+          <span className="bg-brand-red text-white text-[9px] md:text-[10px] font-black uppercase tracking-widest px-2 py-0.5 rounded-full">
+            ● Aired
+          </span>
+          <p className="text-white font-black text-xs md:text-sm mt-1 drop-shadow leading-tight max-w-md">
+            Does Israel Have the Right to Exist?
+          </p>
+        </div>
+
+        {/* Final score — top-right */}
+        <div className="absolute top-2 md:top-3 right-3 md:right-4 z-30 text-right">
+          <p className="text-zinc-300 text-[9px] md:text-[10px] uppercase tracking-widest font-black">
+            Final
+          </p>
+          <p className="text-white font-black text-xs md:text-sm tabular-nums drop-shadow">
+            <span className="text-brand-red">58</span>
+            <span className="text-zinc-400"> / </span>
+            <span className="text-brand-blue">42</span>
+          </p>
+        </div>
+
+        {/* Two-half composition */}
+        <div className="absolute inset-0 flex">
+          <DebaterHalf
+            side="A"
+            name="Ben Shapiro"
+            position="FOR"
+            photo="/shapiro.jpg"
+          />
+          <DebaterHalf
+            side="B"
+            name="Alexandria Ocasio-Cortez"
+            position="AGAINST"
+            photo="/aoc.jpg"
+          />
+        </div>
+
+        {/* VS marker — center */}
+        <div className="absolute inset-y-0 left-1/2 -translate-x-1/2 flex items-center justify-center pointer-events-none z-20">
+          <span className="bg-black border-2 border-white/80 text-white font-black text-sm md:text-lg px-2.5 md:px-3 py-0.5 md:py-1 rounded-md tracking-widest">
+            VS
+          </span>
+        </div>
+      </div>
+      <figcaption className="text-zinc-500 text-[10px] md:text-xs uppercase tracking-widest font-bold mt-2 text-center">
+        Live at argumental.vercel.app — first bout settled
+      </figcaption>
+    </figure>
+  );
+}
+
+function DebaterHalf({
+  side,
+  name,
+  position,
+  photo,
+}: {
+  side: "A" | "B";
+  name: string;
+  position: string;
+  photo: string;
+}) {
+  const wash =
+    side === "A"
+      ? "bg-gradient-to-r from-brand-red/25 via-transparent to-zinc-950/45"
+      : "bg-gradient-to-l from-brand-blue/25 via-transparent to-zinc-950/45";
+  const positionColor =
+    side === "A" ? "text-brand-red" : "text-brand-blue";
+
+  return (
+    <div className="relative w-1/2 overflow-hidden">
+      <Image
+        src={photo}
+        alt=""
+        aria-hidden="true"
+        fill
+        sizes="(max-width: 768px) 50vw, 400px"
+        quality={90}
+        className="object-cover object-top"
+      />
+      <div className={`absolute inset-0 ${wash}`} />
+      <div
+        className={`absolute bottom-2 md:bottom-3 ${
+          side === "A" ? "left-3 right-1/3" : "right-3 left-1/3"
+        } text-white`}
+      >
+        <p
+          className={`${positionColor} text-[9px] md:text-[10px] uppercase tracking-widest font-black ${
+            side === "B" ? "text-right" : ""
+          }`}
+        >
+          {position}
+        </p>
+        <p
+          className={`font-black text-xs md:text-base leading-tight drop-shadow ${
+            side === "B" ? "text-right" : ""
+          }`}
+        >
+          {name}
+        </p>
+      </div>
     </div>
   );
 }
